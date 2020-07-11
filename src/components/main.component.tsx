@@ -2,8 +2,12 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { FeedContainerComponent } from './pages/feed-components/feed-container.component';
 import { ForumContainerComponent } from './pages/forum-components/forum-container.component';
+<<<<<<< HEAD
 import PostQuestionComponent from './pages/PostQuestionComponent';
 import PostAnswerComponent from './pages/PostAnswerComponent';
+=======
+import { LoginComponent } from './pages/login.component/login.component';
+>>>>>>> b719dc5f84e2dc48e691bbd36957afba5a9c460b
 
 
 export const MainComponent: React.FC = () => {
@@ -12,7 +16,7 @@ export const MainComponent: React.FC = () => {
             <main>
                 <Switch>
                     <Route exact path="/">
-                        {/* <LoginComponent /> */}
+                        <LoginComponent />
                     </Route>
                     <div>
                         {/* <NavBarComponent></NavBarComponent> */}
