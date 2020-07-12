@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { FeedContainerComponent } from './pages/feed-components/feed-container.component';
 import { ForumContainerComponent } from './pages/forum-components/forum-container.component';
+import { LoginComponent } from './pages/login.component/login.component';
+import { NavbarComponent } from './navbar.component';
 
 
 export const MainComponent: React.FC = () => {
@@ -10,10 +12,10 @@ export const MainComponent: React.FC = () => {
             <main>
                 <Switch>
                     <Route exact path="/">
-                        {/* <LoginComponent /> */}
+                        <LoginComponent />
                     </Route>
                     <div>
-                        {/* <NavBarComponent></NavBarComponent> */}
+                         <NavbarComponent />
                         {/* <SideMenuComponent></SideMenuComponent> */}
                         <Route exact path="/feed">
                             <FeedContainerComponent />
