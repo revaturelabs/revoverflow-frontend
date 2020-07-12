@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button,Modal,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
-import { connect } from 'http2';
+
 
 
 export interface PostAnswerComponentProps {
         title: string;
         body: string;
         userID:number; 
-        saveAnswer: (body:string, userID:number) => a:Answer;
+        saveAnswer: (body:string, userID:number) => void;
     }
 
 export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =>{
@@ -36,7 +36,7 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
 // Functionally the 'clicks' prop will reflect the state of the clickerState.clicks
 const mapStateToProps = (state: IState) => {
     return {
-        //clicks: state.clickerState.clicks
+        userID: state.userState.userID
     }
 }
 // connect will connect the component to the store, suppling all requested props
