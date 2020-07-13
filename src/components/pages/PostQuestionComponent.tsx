@@ -33,7 +33,7 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
         const question=[title,body,currDateTime,false,1];
         props.postQuestion(question);
         //props.postQuestion(title,body,props.userID);
-        this.close;
+        this.close();
     }
     return(//modal automatically opens and must be closed using the "cancel" button
         <Modal aria-labelledby="Post Question" open={true} disableBackdropClick={true}>
