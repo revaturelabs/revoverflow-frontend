@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Button,Modal,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { QuestionState } from '../../reducers';
+import { Question } from '../../models/question';
+import {postQuestion } from '../../actions/question.actions'
 
 export interface PostQuestionComponentProps {
         title?: string;
         body?: string;
-        userID?:number//going to get mapped
-        saveQuestion?: (title:string, body:string, userID:number) => void;//going to get mapped
+        question?:Question;
+        //userID:number;//going to get mapped
+        //postQuestion: (title:string, body:string, userID:number) => void;//going to get mapped
+        postQuestion?: (question) => void;//going to get mapped
     }
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{
@@ -24,7 +29,10 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
     function handleProjectChange(e: { target: { value: React.SetStateAction<string | undefined>; }; }) 
     {    setProject(e.target.value);  }*/
     const createQuestion = async () => {
-        props.saveQuestion(title,body,props.userID);
+        let currDateTime = new Date();
+        const question=[title,body,currDateTime,false,1];
+        props.postQuestion(question);
+        //props.postQuestion(title,body,props.userID);
         this.close;
     }
     return(//modal automatically opens and must be closed using the "cancel" button
@@ -42,13 +50,17 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
             </form>
         </Modal>
     );
-/*}
+}
 // This will map a state value to a property that this component will get access to
 // Functionally the 'clicks' prop will reflect the state of the clickerState.clicks
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: QuestionState) => {
     return {
-        userID: state.userState.userID
+        //userID: state.userID
     }
 }
+// This will map actions defined in action files to props that can be used by this component
+const mapDispatchToProps = {
+    postQuestion
+}
 // connect will connect the component to the store, suppling all requested props
-export default connect(mapStateToProps, mapDispatchToProps)(PostQuestionComponent);*/}
+export default connect(mapStateToProps, mapDispatchToProps)(PostQuestionComponent);

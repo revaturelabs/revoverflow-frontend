@@ -6,6 +6,8 @@ import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { PostQuestionComponent } from './pages/PostQuestionComponent';
 import { PostAnswerComponent } from './pages/PostAnswerComponent';
+import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
+
 
 
 export const MainComponent: React.FC = () => {
@@ -28,7 +30,9 @@ export const MainComponent: React.FC = () => {
                             { <PostQuestionComponent /> }
                         </Route>
                         <Route exact path="/answer">
-                            { <PostAnswerComponent />}
+                            { <PostAnswerComponent /> }
+                            {/* displaying the text editor here for testing purposes until the question or answer page can be rendered with it. */}
+                            <RichTextEditorComponent />
                         </Route>
                     </div>
                 </Switch>
