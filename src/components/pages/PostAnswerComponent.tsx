@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button,Modal,TextareaAutosize,InputLabel } from '@material-ui/core';
+//import { connect } from 'react-redux';
 
 
 
 export interface PostAnswerComponentProps {
-        title: string;
-        body: string;
-        userID:number; 
-        saveAnswer: (body:string, userID:number) => void;
+        body?: string;
+        userID?:number;//mapped
+        saveAnswer?: (body:string, userID:number) => void;//mapped
     }
 
 export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =>{
@@ -34,10 +34,10 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
 }
 // This will map a state value to a property that this component will get access to
 // Functionally the 'clicks' prop will reflect the state of the clickerState.clicks
-const mapStateToProps = (state: IState) => {
+/*const mapStateToProps = (state: IState) => {
     return {
         userID: state.userState.userID
     }
 }
 // connect will connect the component to the store, suppling all requested props
-export default connect(mapStateToProps, mapDispatchToProps)(PostAnswerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(PostAnswerComponent);*/

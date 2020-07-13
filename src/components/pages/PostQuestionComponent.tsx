@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button,Modal,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
+//import { connect } from 'react-redux';
 
 export interface PostQuestionComponentProps {
-        title: string;
-        body: string;
-        userID:number
-        saveQuestion: (title:string, body:string, userID:number) => void;
+        title?: string;
+        body?: string;
+        userID?:number//going to get mapped
+        saveQuestion?: (title:string, body:string, userID:number) => void;//going to get mapped
     }
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{
@@ -29,7 +30,7 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
     return(//modal automatically opens and must be closed using the "cancel" button
         <Modal aria-labelledby="Post Question" open={true} disableBackdropClick={true}>
             <form>
-                <TextField id="title" label="Title" variant="filled" onChange={() => handleTitleChange}/>
+                <TextField id="title" label="Title" variant="filled" required={true} onChange={() => handleTitleChange}/>
                 {/*<TextField id="dueDate" label="Due Date" variant="filled" onChange={() => handledueDateChange}/>
                 <TextField id="project" label="Project" variant="filled" onChange={() => handleProjectChange}/>*/}
                 <InputLabel>Type Question Here</InputLabel>
@@ -41,7 +42,7 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
             </form>
         </Modal>
     );
-}
+/*}
 // This will map a state value to a property that this component will get access to
 // Functionally the 'clicks' prop will reflect the state of the clickerState.clicks
 const mapStateToProps = (state: IState) => {
@@ -50,4 +51,4 @@ const mapStateToProps = (state: IState) => {
     }
 }
 // connect will connect the component to the store, suppling all requested props
-export default connect(mapStateToProps, mapDispatchToProps)(PostQuestionComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(PostQuestionComponent);*/}
