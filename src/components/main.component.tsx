@@ -4,7 +4,7 @@ import { FeedContainerComponent } from './pages/feed-components/feed-container.c
 import { ForumContainerComponent } from './pages/forum-components/forum-container.component';
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
-import SideMenuComponent from './side-menu.component';
+import { SideMenuComponent } from './side-menu.component';
 
 
 export const MainComponent: React.FC = () => {
@@ -17,7 +17,7 @@ export const MainComponent: React.FC = () => {
                     </Route>
                     <div>
                          <NavbarComponent />
-                         <SideMenuComponent></SideMenuComponent>
+                         <SideMenuComponent/>
                         <Route exact path="/feed">
                             <FeedContainerComponent />
                         </Route>
