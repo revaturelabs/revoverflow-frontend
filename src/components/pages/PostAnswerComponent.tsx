@@ -23,7 +23,7 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
         let currDateTime = new Date();
         const answer=[body,currDateTime,0,2];//question & user IDs hardcoded respectively
         props.postAnswer(answer);
-        this.close;
+        this.close();
     }
     return(//modal automatically opens and must be closed using the "cancel" button
         <Modal aria-labelledby="Post Answer" open={true} disableBackdropClick={true} >

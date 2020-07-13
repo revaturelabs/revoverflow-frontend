@@ -45,7 +45,7 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
                 <TextareaAutosize id="body" rowsMin={10} onChange={() => handleBodyChange}/>
                 <span>
                     <Button onClick={() => createQuestion()}>Submit</Button>
-                    <Button onClick={() => this.close}>Cancel</Button>
+                    <Button onClick={() => this.close()}>Cancel</Button>
                 </span>
             </form>
         </Modal>
