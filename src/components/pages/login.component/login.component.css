@@ -1,11 +1,17 @@
+/**
+ * @file Manage styling for the login component for the web application
+ * @author Michel Charles <mcharl05@nyit.edu>
+ */
+
 .wrapper {
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fbfcfd;
+    position: fixed;
+
 }
 
 .form-wrapper {
@@ -14,8 +20,8 @@
     flex-direction: column;
     padding: 20px 40px;
     border-radius: 10px;
-    
-    
+
+
 }
 
 form {
@@ -41,7 +47,7 @@ h3 {
 }
 
 .logIn button {
-    background-color: orange;
+    background-color: #f26925;
     color: #fff;
     border: 2px solid #fff;
     width: 100%;
@@ -54,7 +60,11 @@ h3 {
 }
 
 .logIn button:hover {
-    color:orange;
+    color: #f26925;
     background-color: #fff;
-    border: 2px solid orange;
+    border: 2px solid #f26925;
+}
+
+#logo {
+    height: auto;
 }

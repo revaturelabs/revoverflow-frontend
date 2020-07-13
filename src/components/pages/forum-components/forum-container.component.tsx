@@ -1,17 +1,24 @@
-import React from 'react';
-import { Grid, makeStyles, Box, Container } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Container, makeStyles } from '@material-ui/core';
 import { ForumAnswerComponent } from './forum-answer.component';
 import { ForumQuestionComponent } from './forum-question.component';
+import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
 
 
+const drawerWidth = 100;
 const useStyles = makeStyles({
-    answerRoot: {
-        flexGrow: 1,
-        position: "absolute",
-        width: "240vw",
-        top: "5vh",
-        left: "15vw",
+    boxInternal: {
+        color: "#f26925"
     },
+    containerInternal: {
+        marginTop: 20,
+        marginLeft: 80,
+        width: `calc(100% - ${drawerWidth}px)`,
+    },
+    breadcrumbBar: {
+        marginTop: 60,
+        marginLeft: 20
+    }
 });
 
 const dataQ = ['Yuri', 'What is the Formula for Concentrated Dark matter?', 'I have been wondering for the longest time, does anyone know the formula for concentrated dark matter?']
@@ -21,13 +28,12 @@ const dataA = ['Michel', 'If you are a Zigerion do not read beyond this point', 
 
 export const ForumContainerComponent: React.FC = () => {
     const classes = useStyles();
+    const [selected, setSelected] = useState(false);
 
     const renderForumAnswerComponents = () => {
         return PostsA.map(post => {
             return (
-                <Grid item xs={3}>
-                    <ForumAnswerComponent username={dataA[0]} title={dataA[1]} body={dataA[2]} />
-                </Grid>
+                <ForumAnswerComponent username={dataA[0]} title={dataA[1]} body={dataA[2]} selected={selected} setSelected={setSelected} />
             )
         })
     }
@@ -35,20 +41,23 @@ export const ForumContainerComponent: React.FC = () => {
     const renderForumQuestionComponents = () => {
         return PostsQ.map(post => {
             return (
-                <Grid item xs={3}>
-                    <ForumQuestionComponent username={dataQ[0]} title={dataQ[1]} body={dataQ[2]} />
-                </Grid>
+                <ForumQuestionComponent username={dataQ[0]} title={dataQ[1]} body={dataQ[2]} />
             )
         })
     }
 
     return (
-        <Container >
-            <Box className={classes.answerRoot}>
+        <div className={classes.breadcrumbBar}>
+            <BreadcrumbBarComponent />
+        <Container className={classes.containerInternal} >
+            <div style={{ width: '100%' }}>
+                <Box justifyContent="center" display="flex" flexDirection="column">
                     {renderForumQuestionComponents()}
                     {renderForumAnswerComponents()}
-            </Box>
+                </Box>
+            </div>
         </Container>
+        </div>
     )
 }
 
