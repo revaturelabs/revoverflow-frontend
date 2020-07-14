@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button,Modal,TextareaAutosize,InputLabel } from '@material-ui/core';
-/*import { connect } from 'react-redux';
-import { Answer } from '../../models/Answer';
-import {postAnswer } from '../../actions/Answer.actions'*/
+//import { connect } from 'react-redux';
+import { Answer } from '../../models/answer';
+//import {postAnswer } from '../../actions/Answer.actions';
 
 
 
@@ -21,7 +21,7 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
     const createAnswer = async () => {
         //props.postAnswer(body,props.userID);
         let currDateTime = new Date();
-        const answer=[body,currDateTime,0,2];//question & user IDs hardcoded respectively
+        const answer:Answer={content:body,creationDate:currDateTime,questionId:0,userId:2};//question & user IDs hardcoded respectively
         props.postAnswer(answer);
         this.close();
     }

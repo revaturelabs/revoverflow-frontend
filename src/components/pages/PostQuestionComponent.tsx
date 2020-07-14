@@ -11,7 +11,7 @@ export interface PostQuestionComponentProps {
         question?:Question;
         //userID:number;//going to get mapped
         //postQuestion: (title:string, body:string, userID:number) => void;//going to get mapped
-        postQuestion?: (question) => void;//going to get mapped
+        postQuestion?: (question:Question) => void;//going to get mapped
     }
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{
@@ -30,7 +30,7 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
     {    setProject(e.target.value);  }*/
     const createQuestion = async () => {
         let currDateTime = new Date();
-        const question=[title,body,currDateTime,false,1];
+        const question:Question={title:title,content:body,creationDate:currDateTime,status:false,userId:1};
         props.postQuestion(question);
         //props.postQuestion(title,body,props.userID);
         this.close();
