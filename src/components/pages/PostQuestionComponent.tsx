@@ -14,8 +14,8 @@ export interface PostQuestionComponentProps {
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{
     const history = useHistory();
-    const [title, setTitle] = useState<string>();
-    const [body, setBody] = useState<string>();
+    const [title='', setTitle] = useState<string>();
+    const [body='', setBody] = useState<string>();
     //const [dueDate, setDueDate] = useState<string>();
     //const [project, setProject] = useState<string>();//stretch goal?
     function handleTitleChange(e: { target: { value: React.SetStateAction<string | undefined>; }; }) 

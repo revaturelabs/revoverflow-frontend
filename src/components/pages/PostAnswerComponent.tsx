@@ -13,7 +13,7 @@ export interface PostAnswerComponentProps {
 
 export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =>{
     const history = useHistory();
-    const [body, setBody] = useState<string>();
+    const [body='', setBody] = useState<string>();
     function handleBodyChange(e: { target: { value: React.SetStateAction<string | undefined>; }; }) 
     {   let qBody = '<pre>' + e.target.value + '</pre>';//the "pre" tag maintains spacing and formatting
         setBody(qBody);  }
