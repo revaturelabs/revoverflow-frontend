@@ -4,7 +4,7 @@ import { FeedContainerComponent } from './pages/feed-components/feed-container.c
 import { ForumContainerComponent } from './pages/forum-components/forum-container.component';
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
-import { PostQuestionComponent } from './pages/PostQuestionComponent';
+import  PostQuestionComponent  from './pages/PostQuestionComponent';
 import { PostAnswerComponent } from './pages/PostAnswerComponent';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
 

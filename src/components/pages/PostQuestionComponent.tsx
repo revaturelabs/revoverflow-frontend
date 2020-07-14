@@ -3,15 +3,12 @@ import { Button,Modal,TextareaAutosize,TextField, InputLabel } from '@material-u
 import { connect } from 'react-redux';
 import { QuestionState } from '../../reducers';
 import { Question } from '../../models/question';
-import {postQuestion } from '../../actions/question.actions'
+import {postQuestion } from '../../actions/question.actions';
 
 export interface PostQuestionComponentProps {
-        //title?: string;
-        //body?: string;
-        //question?:Question;
         //userID:number;//going to get mapped
         //postQuestion: (title:string, body:string, userID:number) => void;//going to get mapped
-        postQuestion?: (question:Question) => void;//going to get mapped
+        postQuestion: (question:Question) => void;//going to get mapped
     }
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{

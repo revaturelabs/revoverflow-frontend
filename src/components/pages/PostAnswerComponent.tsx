@@ -4,14 +4,10 @@ import { Button,Modal,TextareaAutosize,InputLabel } from '@material-ui/core';
 import { Answer } from '../../models/answer';
 //import {postAnswer } from '../../actions/Answer.actions';
 
-
-
 export interface PostAnswerComponentProps {
-        //body: string;
        // userID?:number;//mapped
-        //answer?:Answer;
         //saveAnswer?: (body:string, userID:number) => void;//mapped
-        postAnswer?: (answer:Answer) => void;//going to get mapped
+        //postAnswer: (answer:Answer) => void;//going to get mapped
     }
 
 export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =>{
@@ -23,7 +19,7 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
         //props.postAnswer(body,props.userID);
         let currDateTime = new Date();
         const answer:Answer={content:body,creationDate:currDateTime,questionId:0,userId:2};//question & user IDs hardcoded respectively
-        props.postAnswer(answer);
+        //props.postAnswer(answer);
         this.close();
     }
     return(//modal automatically opens and must be closed using the "cancel" button
