@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button,Modal,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
+import { Button,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { QuestionState } from '../../reducers';
 import { Question } from '../../models/question';

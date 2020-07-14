@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button,Modal,TextareaAutosize,InputLabel } from '@material-ui/core';
+import { Button,TextareaAutosize,InputLabel } from '@material-ui/core';
 //import { connect } from 'react-redux';
 import { Answer } from '../../models/answer';
 import { useHistory } from 'react-router';
@@ -20,7 +20,7 @@ export const PostAnswerComponent: React.FC<PostAnswerComponentProps> = (props) =
     const createAnswer = async () => {
         //props.postAnswer(body,props.userID);
         let currDateTime = new Date();
-        //const answer:Answer={content:body,creationDate:currDateTime,questionId:0,userId:2};//question & user IDs hardcoded respectively
+        const answer:Answer={content:body,creationDate:currDateTime,questionId:0,userId:2};//question & user IDs hardcoded respectively
         //props.postAnswer(answer);
         history.push('/forum');
     }
