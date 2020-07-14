@@ -6,9 +6,9 @@ import { Question } from '../../models/question';
 import {postQuestion } from '../../actions/question.actions'
 
 export interface PostQuestionComponentProps {
-        title?: string;
-        body?: string;
-        question?:Question;
+        //title?: string;
+        //body?: string;
+        //question?:Question;
         //userID:number;//going to get mapped
         //postQuestion: (title:string, body:string, userID:number) => void;//going to get mapped
         postQuestion?: (question:Question) => void;//going to get mapped

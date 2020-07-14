@@ -7,9 +7,9 @@ import { Answer } from '../../models/answer';
 
 
 export interface PostAnswerComponentProps {
-        body?: string;
-        userID?:number;//mapped
-        answer?:Answer;
+        //body: string;
+       // userID?:number;//mapped
+        //answer?:Answer;
         //saveAnswer?: (body:string, userID:number) => void;//mapped
         postAnswer?: (answer:Answer) => void;//going to get mapped
     }
