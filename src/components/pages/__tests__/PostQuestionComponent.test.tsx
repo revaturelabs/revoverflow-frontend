@@ -1,16 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import {PostQuestionComponent,PostQuestionComponentProps} from '../PostQuestionComponent';
+import { Question } from '../../../models/question';
 
 
 describe('PostQuestionComponent', () => {
     
     test('should render', () => {
         const props: PostQuestionComponentProps = {
-            title: "Title",
-            body: "Body",
-            userID:1,
-            saveQuestion: (title:string, body:string, userID:number) => {},
+            //userID:1,
+            postQuestion: (question:Question) => {},
         }
         const wrapper = shallow(<PostQuestionComponent {...props} />);
         expect(wrapper).toBeDefined();
