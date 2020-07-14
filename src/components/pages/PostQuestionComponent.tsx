@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { QuestionState } from '../../reducers';
 import { Question } from '../../models/question';
 import {postQuestion } from '../../actions/question.actions';
+import { useHistory } from 'react-router';
 
 export interface PostQuestionComponentProps {
         //userID:number;//going to get mapped
@@ -12,6 +13,7 @@ export interface PostQuestionComponentProps {
     }
 
 export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props)=>{
+    const history = useHistory();
     const [title, setTitle] = useState<string>();
     const [body, setBody] = useState<string>();
     //const [dueDate, setDueDate] = useState<string>();
@@ -30,11 +32,11 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
         const question:Question={title:title,content:body,creationDate:currDateTime,status:false,userId:1};
         props.postQuestion(question);
         //props.postQuestion(title,body,props.userID);
-        close();
+        history.push('/feed');
     }
-    return(//modal automatically opens and must be closed using the "cancel" button
-        <Modal aria-labelledby="Post Question" open={true} disableBackdropClick={true}>
-            <form>
+    return(
+        <React.Fragment>
+           <form>
                 <TextField id="title" label="Title" variant="filled" required={true} onChange={() => handleTitleChange}/>
                 {/*<TextField id="dueDate" label="Due Date" variant="filled" onChange={() => handledueDateChange}/>
                 <TextField id="project" label="Project" variant="filled" onChange={() => handleProjectChange}/>*/}
@@ -42,10 +44,9 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
                 <TextareaAutosize id="body" rowsMin={10} onChange={() => handleBodyChange}/>
                 <span>
                     <Button onClick={() => createQuestion()}>Submit</Button>
-                    <Button onClick={() => this.close()}>Cancel</Button>
                 </span>
-            </form>
-        </Modal>
+            </form> 
+        </React.Fragment>
     );
 }
 // This will map a state value to a property that this component will get access to
