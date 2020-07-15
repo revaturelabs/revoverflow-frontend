@@ -1,3 +1,8 @@
+/*
+    @author Ezan M. Kodjo
+    7/9/2020
+    Revature 
+*/
 import React, { useState } from 'react';
 import { Button,TextareaAutosize,TextField, InputLabel } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -8,7 +13,6 @@ import { useHistory } from 'react-router';
 
 export interface PostQuestionComponentProps {
         //userID:number;//going to get mapped
-        //postQuestion: (title:string, body:string, userID:number) => void;//going to get mapped
         postQuestion: (question:Question) => void;//going to get mapped
     }
 
@@ -16,8 +20,8 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
     const history = useHistory();
     const [title='', setTitle] = useState<string>();
     const [body='', setBody] = useState<string>();
-    //const [dueDate, setDueDate] = useState<string>();
-    //const [project, setProject] = useState<string>();//stretch goal?
+    //const [dueDate, setDueDate] = useState<string>();//stretch goal
+    //const [project, setProject] = useState<string>();//stretch goal
     function handleTitleChange(e: { target: { value: React.SetStateAction<string | undefined>; }; }) 
     {    setTitle(e.target.value);  }
     function handleBodyChange(e: { target: { value: React.SetStateAction<string | undefined>; }; }) 
@@ -31,7 +35,6 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
         let currDateTime = new Date();
         const question:Question={title:title,content:body,creationDate:currDateTime,status:false,userId:1};
         props.postQuestion(question);
-        //props.postQuestion(title,body,props.userID);
         history.push('/feed');
     }
     return(
@@ -50,7 +53,6 @@ export const PostQuestionComponent:React.FC<PostQuestionComponentProps> = (props
     );
 }
 // This will map a state value to a property that this component will get access to
-// Functionally the 'clicks' prop will reflect the state of the clickerState.clicks
 const mapStateToProps = (state: QuestionState) => {
     return {
         //userID: state.userID

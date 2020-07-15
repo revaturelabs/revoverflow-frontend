@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import {PostQuestionComponent,PostQuestionComponentProps} from '../PostQuestionComponent';
-import { Question } from '../../../models/question';
+import {PostQuestionComponent,PostQuestionComponentProps} from '../../components/pages/PostQuestionComponent';
+import { Question } from '../../models/question';
 
 
 describe('PostQuestionComponent', () => {
