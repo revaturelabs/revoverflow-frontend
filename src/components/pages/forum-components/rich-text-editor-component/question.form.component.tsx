@@ -68,7 +68,7 @@ export const QuestionFormComponent: React.FC = () => {
     }
     const blockbuttonVariant = (name: string) => {
         const currentInLineStyle = RichUtils.getCurrentBlockType(editorState);
-        if (currentInLineStyle == name) {
+        if (currentInLineStyle === name) {
             return true;
         } else {
             return false;
