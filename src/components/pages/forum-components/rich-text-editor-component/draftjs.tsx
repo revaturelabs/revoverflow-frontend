@@ -137,42 +137,7 @@ export const RichTextEditorComponent: React.FC = () => {
     //BLOCK STYLES may go here, unless you work how to put them in their own file and maintain functionality
 
     return (
-        <ThemeProvider theme={theme} >
-            <Container className={classes.containerTool}>
-                <Typography variant="h4">
-                    Ask a Public Question:
-            </Typography>
-                <Box>
-                    <Box justifyContent="center" display="flex" flexDirection="column">
-                        <Box justifyContent="center" display="flex" >
-                            {buttons.map(b =>
-                                buttonVariant(b.style) ?
-                                    <span className={classes.buttonInternal}>
-                                        <Button onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                    </span>
-                                    :
-                                    <span className={classes.buttonInternal}>
-                                        <Button onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
-                                    </span>)}
-                        </Box>
-                        <Box justifyContent="center" display="flex"  >
-                            {blockbuttons.map(b =>
-                                blockbuttonVariant(b.block) ?
-                                    <span className={classes.buttonInternal}>
-                                        <Button onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                    </span>
-                                    :
-                                    <span className={classes.buttonInternal}>
-                                        <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                    </span>)}
-                        </Box>
-                    </Box >
-                    <Typography variant="h4" >
-                        Title:
-                    </Typography>
-                    <Typography variant="h4">
-                        Content:
-                    </Typography>
+        
                     <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
                         <Editor
                             editorState={editorState}
@@ -180,9 +145,6 @@ export const RichTextEditorComponent: React.FC = () => {
                             onChange={onChange}
                         />
                     </Box>
-                </Box>
-            </Container>
-        </ThemeProvider>
         // <div className='rte-root'>
         //     <div className='toolbar'>
         //         <div className='inline-buttons'>
