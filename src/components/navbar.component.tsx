@@ -37,6 +37,7 @@ import { Badge, Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MailIcon from "@material-ui/icons/Mail";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -177,6 +178,8 @@ export const NavbarComponent: React.FC = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    localStorage.removeItem("accessToken");
+    console.log("logged out");
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -189,7 +192,9 @@ export const NavbarComponent: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+      <Link to="/">
+        <MenuItem onClick={() => handleMenuClose()}>Log Out</MenuItem>
+      </Link>
     </Menu>
   );
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -231,6 +236,7 @@ export const NavbarComponent: React.FC = () => {
         <p>Profile</p>
       </MenuItem>
     </Menu>
+
   );
   return (
     <div className={classes.root}>
@@ -277,7 +283,7 @@ export const NavbarComponent: React.FC = () => {
               </Badge>
             </IconButton>
             <Typography className={classes.orange} variant="h4">
-              RSS Points:
+              Points:
             </Typography>
           </Box>
         </Toolbar>

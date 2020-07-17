@@ -38,10 +38,12 @@ const confirmAnswer = () => {
     //! attributes points to question owner's user account 
 }
 
-    //! logic that conditionally renders the confirm button 
 
 export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (props) => {
     const classes = useStyles();
+    //! logic that conditionally renders the confirm button 
+    // const admin = (localStorage.getItem("userId")) && acceptedAnswerId;
+    const admin = true;
 
     return (
         <ThemeProvider theme={theme} >
@@ -49,14 +51,17 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
                 <Card className={classes.boxInternal}>
                     <Box justifyContent="space-between" display="flex" flexDirection="row" color="primary">
                         <Box textAlign="left" >
-                            <h2>{props.title}</h2>
+                            <h3>{props.title}</h3>
                             <p>{props.body}</p>
                             <footer>{props.username} <br />01/01/2020</footer>
                         </Box>
-                        <Box  >
+                        <Box>
+                            {admin ?
                             <Button variant="contained" color="secondary" onClick={() => confirmAnswer()}>
                                 Confirm
                             </Button>
+                            :
+                            ""}
                         </Box>
                     </Box>
                 </Card>

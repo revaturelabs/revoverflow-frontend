@@ -11,8 +11,7 @@ const useStyles = makeStyles({
         color: "#f26925"
     },
     containerInternal: {
-        marginTop: 20,
-        marginLeft: 80,
+        paddingTop: 10,
         width: `calc(100% - ${drawerWidth}px)`,
     },
     breadcrumbBar: {
@@ -29,6 +28,7 @@ const dataA = ['Michel', 'If you are a Zigerion do not read beyond this point', 
 export const ForumContainerComponent: React.FC = () => {
     const classes = useStyles();
     const [selected, setSelected] = useState(false);
+
 
     const renderForumAnswerComponents = () => {
         return PostsA.map(post => {

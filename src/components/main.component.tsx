@@ -32,7 +32,9 @@ export const MainComponent: React.FC = () => {
                         </Route>
                         <Route exact path="/answer">
                             {/* <PostAnswerComponent /> */}
-                            {/* displaying the text editor here for testing purposes until the question or answer page can be rendered with it. */}
+                            <RichTextEditorComponent />
+                        </Route>
+                        <Route exact path="/texteditor">
                             <RichTextEditorComponent />
                         </Route>
                     </div>

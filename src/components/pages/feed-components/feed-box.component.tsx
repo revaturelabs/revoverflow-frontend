@@ -27,7 +27,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
 
     return (
         <Card className={classes.boxInternal}>
-            <Box  onClick={() => handleRedirect()} >
+            <Box onClick={() => handleRedirect()} >
                 <h2>{props.title}</h2>
                 <p>{props.body}</p>
                 <h3>{props.username}</h3>

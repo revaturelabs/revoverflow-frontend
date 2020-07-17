@@ -9,6 +9,7 @@ import HelpOutlinedIcon from '@material-ui/icons/HelpOutlined';
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined';
 import Pagination from '@material-ui/lab/Pagination';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
+import { useHistory } from 'react-router';
 
 const drawerWidth = 100;
 const theme = createMuiTheme({
@@ -27,8 +28,7 @@ const useStyles = makeStyles({
         color: "#f26925"
     },
     containerInternal: {
-        marginTop: 20,
-        marginLeft: 80,
+        paddingTop: 10,
         width: `calc(100% - ${drawerWidth}px)`,
     },
     breadcrumbBar: {
@@ -39,7 +39,10 @@ const useStyles = makeStyles({
 
 export const FeedContainerComponent: React.FC = () => {
     const classes = useStyles();
+    const history = useHistory();
     const [value, setValue] = React.useState(2);
+    // const admin = (localStorage.getItem("userId"))
+    const admin = true;
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
@@ -56,20 +59,27 @@ export const FeedContainerComponent: React.FC = () => {
         })
     }
 
+    const load = (e: string) => {
+        console.log(e)
+    }
+
+    const handleRedirect = () => {
+        history.push('/texteditor');
+    }
+
     return (
         <div className={classes.breadcrumbBar}>
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <Box justifyContent="flex-end" display="flex" >
                     <ThemeProvider theme={theme} >
-                        <Button variant="contained" color="secondary" >
+                        <Button variant="contained" color="secondary" onClick={() => handleRedirect()}>
                             Ask a Question
                     </Button>
                     </ThemeProvider>
                 </Box>
                 <ThemeProvider theme={theme} >
                     <Box justifyContent="flex-end" display="flex" >
-
                         <Tabs
                             value={value}
                             indicatorColor="secondary"
@@ -77,10 +87,13 @@ export const FeedContainerComponent: React.FC = () => {
                             variant="fullWidth"
                             onChange={handleChange}
                         >
-                            <Tab icon={<DynamicFeedOutlinedIcon fontSize="large" />} label="RECENT" className={classes.boxInternal} />
-                            <Tab icon={<HelpOutlinedIcon fontSize="large" />} label="MY QUESTIONS" className={classes.boxInternal} />
-                            <Tab icon={<QuestionAnswerIcon fontSize="large" />} label="MY ANSWERS" className={classes.boxInternal} />
-                            <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" />} label="CONFIRM" className={classes.boxInternal} />  //!Appears on isAdmin true
+                            <Tab icon={<DynamicFeedOutlinedIcon fontSize="large" />} label="RECENT" className={classes.boxInternal}
+                                        onClick={(e) => load("recent")} />
+                            <Tab icon={<HelpOutlinedIcon fontSize="large" />} label="MY QUESTIONS" className={classes.boxInternal}
+                                        onClick={(e) => load("questions")} />
+                            <Tab icon={<QuestionAnswerIcon fontSize="large" />} label="MY ANSWERS" className={classes.boxInternal}
+                                        onClick={(e) => load("answers")}/>
+                            {admin ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm")} />} label="CONFIRM" className={classes.boxInternal} /> : ""}
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>
