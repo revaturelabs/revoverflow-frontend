@@ -4,11 +4,7 @@ import { FeedContainerComponent } from './pages/feed-components/feed-container.c
 import { ForumContainerComponent } from './pages/forum-components/forum-container.component';
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
-<<<<<<< HEAD
-import { SideMenuComponent } from './side-menu.component';
-=======
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
->>>>>>> 789bc044a5d8e64dfc9b293a7bc79411a35156c4
 
 
 export const MainComponent: React.FC = () => {
@@ -32,9 +28,7 @@ export const MainComponent: React.FC = () => {
                         </Route>
                         <Route exact path="/answer">
                             {/* <PostAnswerComponent /> */}
-                            <RichTextEditorComponent />
-                        </Route>
-                        <Route exact path="/texteditor">
+                            {/* displaying the text editor here for testing purposes until the question or answer page can be rendered with it. */}
                             <RichTextEditorComponent />
                         </Route>
                     </div>
