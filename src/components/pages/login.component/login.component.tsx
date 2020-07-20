@@ -35,19 +35,17 @@ let response: any;
 const setInformation = async()=>{
   setInputEmail('');
   setInputPassword('');
-  console.log(response)
-  const authToken=response.data.token;
   //const decodeValue= JSON.parse(window.atob(authToken.split('.')[1]))
-  localStorage.setItem('accessToken', authToken);
-  localStorage.setItem('admin', authToken);
-  localStorage.setItem('email', authToken)
-  localStorage.setItem('firstName', authToken);
-  localStorage.setItem('lastName', authToken);
-  localStorage.setItem('jwt', authToken);
-  localStorage.setItem('points', authToken);
-  localStorage.setItem('profilePicture', authToken);
-  localStorage.setItem('rssaccountId', authToken);
-  localStorage.setItem('userID', authToken);
+  localStorage.setItem('jwt', response.data.jwt);
+  localStorage.setItem('admin', response.data.admin);
+  localStorage.setItem('email', response.data.email)
+  localStorage.setItem('firstName', response.data.firstName);
+  localStorage.setItem('lastName', response.data.lastName);
+  localStorage.setItem('points', response.data.points);
+  localStorage.setItem('profilePicture', response.data.profilePicture);
+  localStorage.setItem('rssaccountId', response.data.rssaccountId);
+  localStorage.setItem('userId', response.data.userID);
+  console.log(response.data.admin);
   history.push('/feed')
 }
 

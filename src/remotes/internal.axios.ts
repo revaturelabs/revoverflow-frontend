@@ -5,10 +5,7 @@
 
 import Axios from "axios";
 
-const server =
-    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-        ? "http://localhost:8080"
-        : "http://localhost:8080";
+const server = "http://localhost:8080";
 
 export const internalAxios = Axios.create({
     baseURL: server,

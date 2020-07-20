@@ -1,78 +1,61 @@
-import Axios from 'axios';
-import { Question} from '../models/question';
+/**
+@author
+Jordon Hill
+*/
 
-interface ServerQuestion {
-    title: string;
-    content: string;
-    creation_date: Date;
-    status: boolean;
-    user_id: number
+import Axios from 'axios';
+import { internalAxios } from './internal.axios'
+import { Question} from '../models/question';
+// import draftToHtml from 'draftjs-to-html';
+
+export const getAllRecentQuestions = async () => {
+    const response = await Axios.get<Question[]>(`/questions`);
+    return response.data.map((q) => {
+        q.creationDate = new Date(q.creationDate);
+        return q;
+    });
 }
+// different get questionsByUserId function, converts the text content.
+// text content would have to be parsed before being displayed on the page still
+
+// export const  getQuestionsByUserId = async (id: number) => {
+//     const response = await Axios.get<Question[]>(`/questions/user/${id}`);
+//     return response.data.map(questions => {
+//         questions.content = draftToHtml(JSON.parse(questions.content));
+//         return questions;
+//     });
+// }
 
 export const getAllQuestionsByUserId = async (id: number) => {
-    const response = await Axios.get<ServerQuestion[]>(`/questions/user/${id}`);
-    let questions: Question[] = [];
-    for (let i = 0; i < response.data.length; i++) {
-        const question: Question = {
-            title: response.data[i].title,
-            content: response.data[i].content,
-            creationDate: response.data[i].creation_date,
-            status: response.data[i].status,
-            userId: response.data[i].user_id
-        }
-        questions.push(question);
-    }
-    return questions;
+    const response = await Axios.get<Question[]>(`/questions/${id}`);
+    return response.data.map((q) => {
+        q.creationDate = new Date(q.creationDate);
+        return q;
+    });
 }
 
 export const getAllUnconfirmedQuestions = async () => {
-    const response = await Axios.get<ServerQuestion[]>(`/questions/unconfirmed`);
-    let questions: Question[] = [];
-    for (let i = 0; i < response.data.length; i++) {
-        const question: Question = {
-            title: response.data[i].title,
-            content: response.data[i].content,
-            creationDate: response.data[i].creation_date,
-            status: response.data[i].status,
-            userId: response.data[i].user_id
-        }
-        questions.push(question);
-    }
-    return questions;
+    const response = await Axios.get<Question[]>(`/questions/unconfirmed`);
+    return response.data.map((q) => {
+        q.creationDate = new Date(q.creationDate);
+        return q;
+    });
 }
 
 export const getQuestionByQuestionId = async (id: number) => {
-    const response = await Axios.get<ServerQuestion>(`/questions/${id}`);
-    const question: Question = {
-        title: response.data.title,
-        content: response.data.content,
-        creationDate: response.data.creation_date,
-        status: response.data.status,
-        userId: response.data.user_id
-    }
-    return question;
+    const response = await Axios.get<Question>(`/question?questionId=1`);
+    response.data.creationDate = new Date(response.data.creationDate);
+    return response.data;
 }
 
 export const postQuestion = async (question: Question) => {
-    const response = await Axios.post<ServerQuestion>(`/questions`, question);
-    const serverQuestion: Question = {
-        title: response.data.title,
-        content: response.data.content,
-        creationDate: response.data.creation_date,
-        status: response.data.status,
-        userId: response.data.user_id
-    }
-    return serverQuestion;
+    const response = await internalAxios.post<Question>(`/questions`, question);
+    response.data.creationDate = new Date(response.data.creationDate);
+    return response.data;
 }
 
 export const updateStatus = async (question: Question) => {
-    const response = await Axios.post<ServerQuestion>(`/questions`, question);
-    const serverQuestion: Question = {
-        title: response.data.title,
-        content: response.data.content,
-        creationDate: response.data.creation_date,
-        status: response.data.status,
-        userId: response.data.user_id
-    }
-    return serverQuestion;
+    const response = await Axios.post<Question>(`/questions`, question);
+    response.data.creationDate = new Date(response.data.creationDate);
+    return response.data;
 }

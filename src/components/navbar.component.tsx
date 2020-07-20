@@ -332,7 +332,7 @@ export const NavbarComponent: React.FC = () => {
           {["Post A Question"].map((text, index) => (
             <ListItem
               onClick={() => {
-                history.push("/question");
+                history.push("/texteditor");
               }}
               style={{ color: "#F26925" }}
               button
