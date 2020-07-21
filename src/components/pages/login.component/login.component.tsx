@@ -35,7 +35,6 @@ let response: any;
 const setInformation = async()=>{
   setInputEmail('');
   setInputPassword('');
-  //const decodeValue= JSON.parse(window.atob(authToken.split('.')[1]))
   localStorage.setItem('jwt', response.data.jwt);
   localStorage.setItem('admin', response.data.admin);
   localStorage.setItem('email', response.data.email)
@@ -45,8 +44,8 @@ const setInformation = async()=>{
   localStorage.setItem('profilePicture', response.data.profilePicture);
   localStorage.setItem('rssaccountId', response.data.rssaccountId);
   localStorage.setItem('userId', response.data.userID);
-  console.log(response.data.admin);
   history.push('/feed')
+  window.location.reload(false);
 }
 
 const addLoginCredentials = async () => {

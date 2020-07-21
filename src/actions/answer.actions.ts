@@ -13,6 +13,13 @@ export interface AnswerActionPayload {
     }
 }
 
+export interface AcceptedAnswerActionPayload {
+    payload: {
+        answer: Answer,
+        accepted: boolean
+    }
+}
+
 export const postAnswer = (answer: Answer) => (dispatch: Dispatch<AnswerActionPayload & Action>) => {
     dispatch({
         type: answerActionTypes.POST_ANSWER,
@@ -22,11 +29,12 @@ export const postAnswer = (answer: Answer) => (dispatch: Dispatch<AnswerActionPa
     });
 }
 
-export const acceptAnswer = (answer: Answer) => (dispatch: Dispatch<AnswerActionPayload & Action>) => {
+export const acceptAnswer = (answer: Answer, accepted: boolean) => (dispatch: Dispatch<AcceptedAnswerActionPayload & Action>) => {
     dispatch({
         type: answerActionTypes.ACCEPT_ANSWER,
         payload: {
-            answer
+            answer,
+            accepted
         }
     });
 }

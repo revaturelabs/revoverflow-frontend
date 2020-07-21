@@ -48,7 +48,6 @@ import { Answer } from '../models/answer';
 
 export const getAllQuestions = async (size: number, page: number) => {
     const response = await internalAxios.get<any>(`/questions?size=${size}&page=${page}`);
-    // console.log(parse(draftToHtml(response.data.content[2].content)));
     return response.data;
 }
 

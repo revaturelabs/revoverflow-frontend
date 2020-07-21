@@ -1,14 +1,15 @@
 import { AnswerState } from '.';
-import { AnswerActionPayload, answerActionTypes } from '../actions/answer.actions';
+import { AnswerActionPayload, answerActionTypes, AcceptedAnswerActionPayload } from '../actions/answer.actions';
 import { Action } from 'redux';
 
 const initialState: AnswerState = {
     collectedAnswers: JSON.parse((localStorage.getItem('answers')) || '{}'),
-    storeAnswer: JSON.parse((localStorage.getItem('selectedAnswer')) || '{}')
+    storeAnswer: JSON.parse((localStorage.getItem('selectedAnswer')) || '{}'),
+    accepted: false,
 }
 
 export const answerReducer = (state: AnswerState = initialState,
-    action: AnswerActionPayload & Action) => {
+    action: AcceptedAnswerActionPayload & AnswerActionPayload & Action) => {
 
     switch (action.type) {
         case answerActionTypes.POST_ANSWER: {
@@ -23,7 +24,8 @@ export const answerReducer = (state: AnswerState = initialState,
         case answerActionTypes.ACCEPT_ANSWER: {
             return {
                 ...state,
-                storeAnswer: action.payload.answer
+                storeAnswer: action.payload.answer,
+                accepted: action.payload.accepted
             }
         }
         default: {

@@ -8,7 +8,7 @@
  * @author Yurrian Pierre-Boyer
  */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -178,7 +178,7 @@ export const NavbarComponent: React.FC = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("jwt");
     console.log("logged out");
   };
   const menuId = "primary-search-account-menu";
@@ -236,8 +236,21 @@ export const NavbarComponent: React.FC = () => {
         <p>Profile</p>
       </MenuItem>
     </Menu>
-
   );
+
+  const [points, setPoints] = useState<any>();
+  const gettingPoints = localStorage.getItem("points");
+
+  useEffect(() => {
+    displayPoints();
+  });
+
+  const displayPoints = () => {
+    if (gettingPoints) {
+      setPoints(localStorage.getItem("points"));
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -269,7 +282,7 @@ export const NavbarComponent: React.FC = () => {
 
           <Box className={classes.arrangementInternal}>
             <IconButton
-              edge="end"
+              edge="start"
               aria-label="account of current user"
               // aria-controls={menuId}
               aria-haspopup="true"
@@ -277,13 +290,9 @@ export const NavbarComponent: React.FC = () => {
             >
               <AccountCircle className={classes.orange} />
             </IconButton>
-            <IconButton aria-label="show 17 new notifications">
-              <Badge>
-                <NotificationsIcon className={classes.orange} />
-              </Badge>
-            </IconButton>
+
             <Typography className={classes.orange} variant="h4">
-              Points:
+              Points: {points}
             </Typography>
           </Box>
         </Toolbar>

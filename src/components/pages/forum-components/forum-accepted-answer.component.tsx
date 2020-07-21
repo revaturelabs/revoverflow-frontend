@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles, Box, FormControlLabel, Container, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import { green } from '@material-ui/core/colors';
-import { Question } from '../../../models/question';
-import * as fallbackRemote from '../../../remotes/fallback.remote';
 import { Answer } from '../../../models/answer';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
@@ -57,46 +55,26 @@ interface ForumAcceptedAnswerComponentProps {
     answer: Answer;
     storeAnswer: any;
     selected: boolean;
+    storeQuestion: any;
 }
 
 export const ForumAcceptedAnswerComponent: React.FC<ForumAcceptedAnswerComponentProps> = (props) => {
     const classes = useStyles();
-    const [currentQuestion, setCurrentQuestion] = useState<Question>({
-        id: 0,
-        acceptedId: 0,
-        title: "",
-        content: "",
-        creationDate: new Date(),
-        status: false,
-        userId: 0
-    })
 
-    useEffect(() => {
-        const getCurrentQuestion = async () => {
-            const retrievedQuestion = await fallbackRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))));
-            setCurrentQuestion(retrievedQuestion);
-        }
-        getCurrentQuestion();
-    }, [])
-
-    if (!(props.answer.id === currentQuestion.acceptedId)) {
+    if (!(props.answer.id === props.storeQuestion.acceptedId)) {
         return <div></div>;
     } else {
         return (
             <ThemeProvider theme={theme}>
                 <Container>
                     <Box justifyContent="flex-start" display="flex" flexDirection="row" className={classes.boxInternal}>
-                        <Box>
-                            <Box>
-                                <Box justifyContent="flex-start" display="flex">
-                                    <FormControlLabel
-                                        control={<DoneIcon className={classes.checkSize} />} label=""
-                                        style={{ color: green[500] }} />
-                                    <Box textAlign="left">
-                                        <p>{props.answer.content}</p>
-                                        <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
-                                    </Box>
-                                </Box>
+                        <Box justifyContent="flex-start" display="flex">
+                            <FormControlLabel
+                                control={<DoneIcon className={classes.checkSize} />} label=""
+                                style={{ color: green[500] }} />
+                            <Box textAlign="left">
+                                <p>{props.answer.content}</p>
+                                <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                             </Box>
                         </Box>
                     </Box>
@@ -109,6 +87,7 @@ export const ForumAcceptedAnswerComponent: React.FC<ForumAcceptedAnswerComponent
 const mapStateToProps = (state: IState) => {
     return {
         storeAnswer: state.answerState.storeAnswer,
+        storeQuestion: state.questionState.storeQuestion,
     }
 }
 

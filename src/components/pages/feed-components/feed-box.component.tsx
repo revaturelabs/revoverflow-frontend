@@ -3,6 +3,9 @@ import { makeStyles, Box, Card } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Question } from '../../../models/question';
 import * as fallbackRemote from '../../../remotes/fallback.remote';
+import { IState } from '../../../reducers';
+import { connect } from 'react-redux';
+import { clickQuestion } from '../../../actions/question.actions';
 
 
 const useStyles = makeStyles({
@@ -15,7 +18,9 @@ const useStyles = makeStyles({
 });
 
 interface FeedBoxComponentProps {
+    storeQuestions: Question[]
     question: any;
+    storeQuestion: any;
     clickQuestion: (question: Question) => void;
 }
 
@@ -61,3 +66,16 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         </Card>
     )
 }
+
+const mapStateToProps = (state: IState) => {
+    return {
+        storeQuestions: state.questionState.collectedQuestions,
+        storeQuestion: state.questionState.storeQuestion,
+    }
+}
+
+const mapDispatchToProps = {
+    clickQuestion,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedBoxComponent);

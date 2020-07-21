@@ -111,7 +111,7 @@ export const ForumContainerComponent: React.FC<ForumContainerComponentProps> = (
     }
 
     const renderForumAnswerComponents = () => {
-        //! Right no reducer only grabs first page, need to account for other pages to make this change
+        //! Right now reducer only grabs first page, need to account for other pages to make this change
         // return props.storeAnswers.content.map((answer: Answer) => { 
         return answers.map(answer => {
             return (
@@ -159,3 +159,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ForumContainerCompon
     // } else if (!props.storeQuestion && (answers.length === 0)) {
     //     load(0);
     // }
+
+    // .sort(function(x, y) {
+    //     return (x. === y)? 0 : x? -1 : 1;
+    // })

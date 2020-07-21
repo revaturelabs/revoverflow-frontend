@@ -15,6 +15,8 @@ import CodeIcon from '@material-ui/icons/Code';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
+import { useHistory } from 'react-router';
+import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
 
 
 const theme = createMuiTheme({
@@ -33,7 +35,7 @@ const useStyles = makeStyles({
         color: "#f26925"
     },
     containerTool: {
-        paddingTop: 100,
+        paddingTop: 50,
         width: "70%",
         display: "flex",
         flexDirection: "column",
@@ -54,6 +56,10 @@ const useStyles = makeStyles({
     buttonInternal: {
         padding: 2,
         marginBottom: 3
+    },
+    breadcrumbBar: {
+        marginTop: 60,
+        marginLeft: 20
     }
 });
 
@@ -66,6 +72,7 @@ const styleMap = {
 
 export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
+    const history = useHistory();
     const [title, setTitle] = useState('');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
@@ -94,10 +101,11 @@ export const RichTextEditorComponent: React.FC = () => {
             title: title,
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
-            status: true,
+            status: false,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         }
         await questionRemote.postQuestion(payload);
+        history.push("/feed")
     }
 
     // testing the console logged content via the submit button to make sure it's working correctly
@@ -224,6 +232,8 @@ export const RichTextEditorComponent: React.FC = () => {
     const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
 
     return (
+        <div className={classes.breadcrumbBar}>
+            <BreadcrumbBarComponent />
         <ThemeProvider theme={theme} >
             <Container className={classes.containerTool}>
                 <Box justifyContent="flex-start" display="flex" padding={3} >
@@ -256,12 +266,12 @@ export const RichTextEditorComponent: React.FC = () => {
                         <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
                             {buttons.map(b =>
                                 buttonVariant(b.style) ?
-                                    <span className={classes.buttonInternal}>
+                                    <span key={b.style} className={classes.buttonInternal}>
                                         <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
 
                                     </span>
                                     :
-                                    <span className={classes.buttonInternal}>
+                                    <span key={b.style} className={classes.buttonInternal}>
                                         <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
                                     </span>)}
                             {blockbuttons.map(b =>
@@ -270,11 +280,11 @@ export const RichTextEditorComponent: React.FC = () => {
                                         <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
                                     </span>
                                     :
-                                    <span className={classes.buttonInternal}>
+                                    <span  key={b.block} className={classes.buttonInternal}>
                                         <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
                                     </span>)}
                             {linkbutton.map(b =>
-                                <span className={classes.buttonInternal}>
+                                <span  className={classes.buttonInternal}>
                                     <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
                                 </span>
                             )}
@@ -297,5 +307,6 @@ export const RichTextEditorComponent: React.FC = () => {
                 </div>
             </Container>
         </ThemeProvider>
+        </div>
     )
 }
