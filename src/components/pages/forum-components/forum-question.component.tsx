@@ -6,6 +6,8 @@ import { Question } from '../../../models/question';
 import * as fallbackRemote from '../../../remotes/fallback.remote';
 import { clickQuestion } from '../../../actions/question.actions';
 import { clickConfirm } from '../../../actions/question.actions';
+import { useHistory } from 'react-router';
+import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
 
 const useStyles = makeStyles({
@@ -15,11 +17,12 @@ const useStyles = makeStyles({
         borderBottomStyle: "solid",
         borderLeftStyle: "solid",
         borderColor: "#f26925",
-        padding: 10
+        padding: 10,
+        minWidth: 480
     },
     buttonInternal: {
-        color: '#ffffff',
-        backgroundColor: '#3498db'
+        maxWidth: 110,
+        maxHeight: 35
     }
 });
 
@@ -44,6 +47,7 @@ interface ForumQuestionComponentProps {
 
 export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     const admin = (localStorage.getItem("admin"));
 
     const confirmAnswer = async () => {
@@ -76,23 +80,37 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
         }
     }
 
+    const handleRedirect = () => {
+        history.push('/postanswer');
+    }
+
+    const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.storeQuestion.content)));
+    const onChange = () => { }
+
     return (
         <ThemeProvider theme={theme} >
             <Container >
                 <Card className={classes.boxInternal}>
-                    <Box justifyContent="space-between" display="flex" flexDirection="row" color="primary">
+                    <Box justifyContent="space-between" display="flex" flexDirection="column" color="primary">
                         <Box textAlign="left" >
                             <h2>{props.storeQuestion.title}</h2>
-                            <p>{props.storeQuestion.content}</p>
+                            <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                             <footer>{props.storeQuestion.userId} <br />{props.storeQuestion.creationDate}</footer>
                         </Box>
-                        <Box>
-                            {((admin === 'true') && (props.storeQuestion.status === false) && (props.storeQuestion.acceptedId !== null) && !props.storeConfirm) ?
-                                <Button variant="contained" color="secondary" onClick={() => confirmAnswer()}>
-                                    Confirm
+                        <Box display="flex" flexDirection="row">
+                            <Box paddingTop={2} display="flex"  >
+                                <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={() => handleRedirect()}>
+                                    Answer
                             </Button>
-                                :
-                                ""}
+                                <Box display="flex" paddingLeft={2} >
+                                    {((admin === 'true') && (props.storeQuestion.status === false) && (props.storeQuestion.acceptedId !== null) && !props.storeConfirm) ?
+                                        <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={() => confirmAnswer()}>
+                                            Confirm
+                            </Button>
+                                        :
+                                        ""}
+                                </Box>
+                            </Box>
                         </Box>
                     </Box>
                 </Card>

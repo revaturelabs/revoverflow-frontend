@@ -6,7 +6,9 @@ import * as fallbackRemote from '../../../remotes/fallback.remote';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
+import { convertFromRaw, EditorState, Editor } from 'draft-js';
 
+const drawerWidth = 100;
 
 const useStyles = makeStyles({
     boxInternal: {
@@ -14,12 +16,19 @@ const useStyles = makeStyles({
         marginTop: 10,
         borderStyle: "solid",
         borderColor: "#f26925",
+        maxWidth: 1000,
+        width: `calc(100% - ${drawerWidth}px)`
+
     },
+    divInternal: {
+        paddingTop: 20
+    }
 });
 
 interface FeedBoxComponentProps {
     storeQuestions: Question[]
     question: any;
+    questionContent: string;
     storeQuestion: any;
     clickQuestion: (question: Question) => void;
 }
@@ -47,23 +56,32 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         history.push('/forum');
     }
 
+    const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.question.content)));
+    const onChange = () => { }
+
     //!First box here contains answers not questions, so does its handler deal with answer not questions
     return (
-        <Card className={classes.boxInternal}>
-            {props.question.questionId ?
-                <Box onClick={() => handleRedirectA()} >
-                    <p>{props.question.content}</p>
-                    <h3>{props.question.userId}</h3>
-                    <p>{props.question.creationDate}</p>
-                </Box>
-                :
-                <Box onClick={() => handleRedirectQ()} >
-                    <h2>{props.question.title}</h2>
-                    <p>{(props.question.content)}</p>
-                    <h3>{props.question.userId}</h3>
-                    <p>{props.question.creationDate}</p>
-            </Box> }
-        </Card>
+        <Box display="flex" justifyContent="center" >
+            <Card className={classes.boxInternal}>
+                {props.question.questionId ?
+                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}  >
+                        <Box paddingLeft={2} paddingRight={2} >
+                            <div className={classes.divInternal}><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
+                            <h3>{props.question.userId}</h3>
+                            <p>{props.question.creationDate}</p>
+                        </Box>
+                    </Box>
+                    :
+                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()} >
+                        <Box paddingLeft={2} paddingRight={2}>
+                            <h2>{props.question.title}</h2>
+                            <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
+                            <h3>{props.question.userId}</h3>
+                            <p>{props.question.creationDate}</p>
+                        </Box>
+                    </Box>}
+            </Card>
+        </Box>
     )
 }
 

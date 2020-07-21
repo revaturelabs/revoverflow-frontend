@@ -5,6 +5,8 @@ import  ForumContainerComponent  from './pages/forum-components/forum-container.
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
+import { AnswerRichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/answer-draftjs';
+
 
 
 export const MainComponent: React.FC = () => {
@@ -23,6 +25,7 @@ export const MainComponent: React.FC = () => {
                         <Route exact path="/forum">
                             <ForumContainerComponent />
                         </Route>
+<<<<<<< HEAD
                         <Route exact path="/question">
                             {/* <PostQuestionComponent /> */}
                         </Route>
@@ -30,6 +33,13 @@ export const MainComponent: React.FC = () => {
                             {/* <PostAnswerComponent /> */}
                             {/* displaying the text editor here for testing purposes until the question or answer page can be rendered with it. */}
                             <RichTextEditorComponent />
+=======
+                        <Route exact path="/postquestion">
+                            <RichTextEditorComponent />
+                        </Route>
+                        <Route exact path="/postanswer">
+                            <AnswerRichTextEditorComponent />
+>>>>>>> 8a9f153f775a4c47b9d2746562e32c492288a56b
                         </Route>
                     </Fragment>
                 </Switch>

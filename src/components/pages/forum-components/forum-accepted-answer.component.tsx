@@ -5,6 +5,7 @@ import { green } from '@material-ui/core/colors';
 import { Answer } from '../../../models/answer';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
+import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
 
 const useStyles = makeStyles({
@@ -60,6 +61,8 @@ interface ForumAcceptedAnswerComponentProps {
 
 export const ForumAcceptedAnswerComponent: React.FC<ForumAcceptedAnswerComponentProps> = (props) => {
     const classes = useStyles();
+    const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.answer.content)));
+    const onChange = () => { }
 
     if (!(props.answer.id === props.storeQuestion.acceptedId)) {
         return <div></div>;
@@ -73,7 +76,7 @@ export const ForumAcceptedAnswerComponent: React.FC<ForumAcceptedAnswerComponent
                                 control={<DoneIcon className={classes.checkSize} />} label=""
                                 style={{ color: green[500] }} />
                             <Box textAlign="left">
-                                <p>{props.answer.content}</p>
+                                <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                             </Box>
                         </Box>

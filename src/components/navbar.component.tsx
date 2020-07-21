@@ -37,7 +37,6 @@ import { Badge, Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MailIcon from "@material-ui/icons/Mail";
-import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -179,7 +178,6 @@ export const NavbarComponent: React.FC = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
     localStorage.removeItem("jwt");
-    console.log("logged out");
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -192,9 +190,7 @@ export const NavbarComponent: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/">
-        <MenuItem onClick={() => handleMenuClose()}>Log Out</MenuItem>
-      </Link>
+      <MenuItem onClick={() => handleMenuClose()}> <Typography onClick={() => history.push("/")}> Log Out </Typography></MenuItem>
     </Menu>
   );
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -315,8 +311,8 @@ export const NavbarComponent: React.FC = () => {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
@@ -341,7 +337,7 @@ export const NavbarComponent: React.FC = () => {
           {["Post A Question"].map((text, index) => (
             <ListItem
               onClick={() => {
-                history.push("/texteditor");
+                history.push("/postquestion");
               }}
               style={{ color: "#F26925" }}
               button

@@ -9,6 +9,7 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { acceptAnswer } from '../../../actions/answer.actions';
 import { clickQuestion } from '../../../actions/question.actions';
+import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
 
 const useStyles = makeStyles({
@@ -134,6 +135,9 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
         setOpen(false);
     };
 
+    const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.answer.content)));
+    const onChange = () => { }
+
     if ((props.storeQuestion.acceptedId === props.answer.id)) {
         return <div />;
     } else {
@@ -155,7 +159,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
                                     }
                                 </Box>
                                 <Box textAlign="left">
-                                    <p>{props.answer.content}</p>
+                                    <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                     <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                                 </Box>
                             </Box>
@@ -167,7 +171,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
                                     />
                                 </Box>
                                 <Box textAlign="left">
-                                    <p>{props.answer.content}</p>
+                                <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                     <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                                 </Box>
                             </Box>

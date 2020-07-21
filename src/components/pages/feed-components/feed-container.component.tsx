@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles } from '@material-ui/core';
-import  FeedBoxComponent  from './feed-box.component';
+import FeedBoxComponent from './feed-box.component';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
-import HelpOutlinedIcon from '@material-ui/icons/HelpOutlined';
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined';
 import Pagination from '@material-ui/lab/Pagination';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
@@ -16,10 +15,10 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
 import { clickTab } from '../../../actions/question.actions';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 
 
-
-const drawerWidth = 100;
+// const drawerWidth = 100;
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -32,12 +31,15 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles({
+    boxExternal: {
+        // width: `calc(100% - ${drawerWidth}px)`,
+        minWidth: 500
+    },
     boxInternal: {
-        color: "#f26925"
+        color: "#f26925",
     },
     containerInternal: {
         paddingTop: 10,
-        width: `calc(100% - ${drawerWidth}px)`,
     },
     breadcrumbBar: {
         marginTop: 60,
@@ -60,8 +62,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
-    // const [totalPages, setTotalPages] = useState(0);
-    // const [page, setPage] = useState(props.storePage);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -81,6 +81,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             retrievedPageable = await fallbackRemote.getAllQuestions(size, page);
             tab = 0;
             setView(view);
+            if (retrievedPageable.numberOfElements === 0) {
+                return;
+            }
         } else if (view === 'question') {
             retrievedPageable = await fallbackRemote.getQuestionsByUserId(userId, size, page);
             tab = 1;
@@ -104,13 +107,13 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const renderFeedBoxComponents = () => {
         return props.storeQuestions.map(question => {
             return (
-                <FeedBoxComponent key={question.id} question={question} />
+                <FeedBoxComponent key={question.id} question={question} questionContent={question.content} />
             )
         })
     }
 
     const handleRedirect = () => {
-        history.push('/texteditor');
+        history.push('/postquestion');
     }
 
     return (
@@ -125,17 +128,18 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     </ThemeProvider>
                 </Box>
                 <ThemeProvider theme={theme} >
-                    <Box justifyContent="flex-end" display="flex" >
+                    <Box justifyContent="center" display="flex" className={classes.boxExternal}>
                         <Tabs
                             value={value}
                             indicatorColor="secondary"
                             textColor="primary"
                             variant="fullWidth"
+                            scrollButtons="auto"
                             onChange={handleChange}
                         >
                             <Tab icon={<DynamicFeedOutlinedIcon fontSize="large" />} label="RECENT" className={classes.boxInternal}
                                 onClick={(e) => load("recent", 0)} />
-                            <Tab icon={<HelpOutlinedIcon fontSize="large" />} label="MY QUESTIONS" className={classes.boxInternal}
+                            <Tab icon={<LiveHelpIcon fontSize="large" />} label="MY QUESTIONS" className={classes.boxInternal}
                                 onClick={(e) => load("question", 0)} />
                             <Tab icon={<QuestionAnswerIcon fontSize="large" />} label="MY ANSWERS" className={classes.boxInternal}
                                 onClick={(e) => load("answer", 0)} />
