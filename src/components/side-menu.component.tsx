@@ -1,4 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+/**
+ * @file Manage the side menu component for the web application
+ * @author Yurrian Pierre-Boyer
+ */
+
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
@@ -79,8 +85,12 @@ export function SideMenuComponent(props: Props) {
             <Typography variant="h6" noWrap>
                 Menu
         </Typography>
-            {/* <Divider /> */}
             <List>
+            {/**  
+             * This lists clickable icon areas that leads you to a new page.
+             * 
+             */
+             }
                 {["Feed"].map((text, index) => (
                     <ListItem
                         onClick={() => history.push("/feed")}

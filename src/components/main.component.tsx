@@ -25,21 +25,11 @@ export const MainComponent: React.FC = () => {
                         <Route exact path="/forum">
                             <ForumContainerComponent />
                         </Route>
-<<<<<<< HEAD
-                        <Route exact path="/question">
-                            {/* <PostQuestionComponent /> */}
-                        </Route>
-                        <Route exact path="/answer">
-                            {/* <PostAnswerComponent /> */}
-                            {/* displaying the text editor here for testing purposes until the question or answer page can be rendered with it. */}
-                            <RichTextEditorComponent />
-=======
                         <Route exact path="/postquestion">
                             <RichTextEditorComponent />
                         </Route>
                         <Route exact path="/postanswer">
                             <AnswerRichTextEditorComponent />
->>>>>>> 8a9f153f775a4c47b9d2746562e32c492288a56b
                         </Route>
                     </Fragment>
                 </Switch>
