@@ -9,7 +9,8 @@ import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumbe
 import Pagination from '@material-ui/lab/Pagination';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
 import { useHistory } from 'react-router';
-import * as fallbackRemote from '../../../remotes/fallback.remote';
+import * as answerRemote from '../../../remotes/answer.remote';
+import * as questionRemote from '../../../remotes/question.remote';
 import { Question } from '../../../models/question';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
@@ -17,8 +18,11 @@ import { clickQuestion } from '../../../actions/question.actions';
 import { clickTab } from '../../../actions/question.actions';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 
+/**
+ * @file Contains and manages the questions and answer boxes populated into the feed
+ * @author Keith Salzman 
+ */
 
-// const drawerWidth = 100;
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -32,7 +36,6 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
     boxExternal: {
-        // width: `calc(100% - ${drawerWidth}px)`,
         minWidth: 500
     },
     boxInternal: {
@@ -43,7 +46,7 @@ const useStyles = makeStyles({
     },
     breadcrumbBar: {
         marginTop: 60,
-        marginLeft: 20
+        marginLeft: 20,
     }
 });
 
@@ -78,22 +81,22 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let retrievedPageable: any;
         let tab: any;
         if (view === 'recent') {
-            retrievedPageable = await fallbackRemote.getAllQuestions(size, page);
+            retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
         } else if (view === 'question') {
-            retrievedPageable = await fallbackRemote.getQuestionsByUserId(userId, size, page);
+            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
             tab = 1;
             setView(view)
         } else if (view === 'answer') {
-            retrievedPageable = await fallbackRemote.getAnswersByUserId(userId, size, page);
+            retrievedPageable = await answerRemote.getAnswersByUserId(userId, size, page);
             tab = 2;
             setView(view)
         } else if (view === 'confirm') {
-            retrievedPageable = await fallbackRemote.getUnconfirmedQuestions(size, page);
+            retrievedPageable = await questionRemote.getUnconfirmedQuestions(size, page);
             tab = 3;
             setView(view)
         }
@@ -107,17 +110,17 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const renderFeedBoxComponents = () => {
         return props.storeQuestions.map(question => {
             return (
-                <FeedBoxComponent key={question.id} question={question} questionContent={question.content} />
+                <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
             )
         })
     }
 
     const handleRedirect = () => {
-        history.push('/postquestion');
+        history.push('/question');
     }
 
     return (
-        <div className={classes.breadcrumbBar}>
+        <div>
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <Box justifyContent="flex-end" display="flex" >

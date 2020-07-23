@@ -2,6 +2,11 @@ import { Dispatch } from 'react';
 import { Action } from 'redux';
 import { Question } from '../models/question';
 
+/**
+ * @file question actions to be dispatched by events relating to questions
+ * @author Evan Liebhauser
+ */
+
 export const questionActionTypes = {
     POST_QUESTION: 'POST_QUESTION',
     CLICK_QUESTION: 'CLICK_QUESTION',

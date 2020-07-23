@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Typography } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -13,8 +12,6 @@ import CodeIcon from '@material-ui/icons/Code';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
-import { useHistory } from 'react-router';
-import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
 
 
 const theme = createMuiTheme({
@@ -68,9 +65,13 @@ const styleMap = {
     }
 };
 
-export const AnswerRichTextEditorComponent: React.FC = () => {
+interface AnswerRichTextEditorComponentProps {
+    answerFields: boolean;
+    setAnswerFields: (answerFields: boolean) => void;
+}
+
+export const AnswerRichTextEditorComponent: React.FC<AnswerRichTextEditorComponentProps> = (props) => {
     const classes = useStyles();
-    const history = useHistory();
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
@@ -83,21 +84,21 @@ export const AnswerRichTextEditorComponent: React.FC = () => {
         }
     }
 
-    console.log(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))));
     const saveAnswer = async () => {
         const contentState = editorState.getCurrentContent();
+        // console.log(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))));
+        // console.log(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))));
         const payload: any = {
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
             questionId: +JSON.parse(JSON.stringify(localStorage.getItem('questionId'))),
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userId: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         }
         await questionRemote.postAnswer(payload);
-        history.push("/forum")
+        window.location.reload(false);
     }
 
     //INLINE and BLOCK LEVEL styles, consists of these functions and an array of buttons to map to span button elements
-
     const buttonVariant = (name: string) => {
         const currentInLineStyle = editorState.getCurrentInlineStyle();
         if (currentInLineStyle.has(name)) {
@@ -206,63 +207,55 @@ export const AnswerRichTextEditorComponent: React.FC = () => {
     const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
 
     return (
-        <div className={classes.breadcrumbBar}>
-            <BreadcrumbBarComponent />
-            <ThemeProvider theme={theme} >
-                <Container className={classes.containerTool}>
-                    <Box justifyContent="flex-start" display="flex" padding={3} >
-                        <Typography variant="h4" >
-                            Post an Answer:
+        <ThemeProvider theme={theme} >
+            <Box justifyContent="flex-start" display="flex" padding={3} >
+                <Typography variant="h6" >
+                    Post an Answer:
                     </Typography>
+            </Box>
+            <Box>
+                <Box justifyContent="center" display="flex" flexDirection="column">
+                    <Box justifyContent="flex-start" display="flex" >
                     </Box>
-                    <Box>
-                        <Box justifyContent="center" display="flex" flexDirection="column">
-                            <Box justifyContent="flex-start" display="flex" >
-                                <Typography variant="h5">
-                                    Content:
-                            </Typography>
-                            </Box>
-                            <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
-                                {buttons.map(b =>
-                                    buttonVariant(b.style) ?
-                                        <span key={b.style} className={classes.buttonInternal}>
-                                            <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                    <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+                        {buttons.map(b =>
+                            buttonVariant(b.style) ?
+                                <span key={b.style} className={classes.buttonInternal}>
+                                    <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
 
-                                        </span>
-                                        :
-                                        <span key={b.style} className={classes.buttonInternal}>
-                                            <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
-                                        </span>)}
-                                {blockbuttons.map(b =>
-                                    blockbuttonVariant(b.block) ?
-                                        <span className={classes.buttonInternal}>
-                                            <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                        </span>
-                                        :
-                                        <span key={b.block} className={classes.buttonInternal}>
-                                            <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                        </span>)}
-                                {linkbutton.map(b =>
-                                    <span className={classes.buttonInternal}>
-                                        <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                    </span>
-                                )}
-                            </Box>
-                        </Box >
-                        <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
-                            <Editor
-                                customStyleMap={styleMap}
-                                editorState={editorState}
-                                handleKeyCommand={handleKeyCommand}
-                                onChange={onChange}
-                            />
-                        </Box>
-                        <Box justifyContent="flex-end" display="flex" padding={2}>
-                            <Button onClick={saveAnswer} variant='contained' color='secondary' size='large' >Submit</Button>
-                        </Box>
+                                </span>
+                                :
+                                <span key={b.style} className={classes.buttonInternal}>
+                                    <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
+                                </span>)}
+                        {blockbuttons.map(b =>
+                            blockbuttonVariant(b.block) ?
+                                <span className={classes.buttonInternal}>
+                                    <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                </span>
+                                :
+                                <span key={b.block} className={classes.buttonInternal}>
+                                    <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
+                                </span>)}
+                        {linkbutton.map(b =>
+                            <span className={classes.buttonInternal}>
+                                <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
+                            </span>
+                        )}
                     </Box>
-                </Container>
-            </ThemeProvider>
-        </div>
+                </Box >
+                <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
+                    <Editor
+                        customStyleMap={styleMap}
+                        editorState={editorState}
+                        handleKeyCommand={handleKeyCommand}
+                        onChange={onChange}
+                    />
+                </Box>
+                <Box justifyContent="flex-end" display="flex" padding={2}>
+                    <Button onClick={saveAnswer} variant='contained' color='secondary' size='large' >Submit</Button>
+                </Box>
+            </Box>
+        </ThemeProvider>
     )
 }

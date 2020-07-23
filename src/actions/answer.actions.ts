@@ -2,6 +2,11 @@ import { Dispatch } from 'react';
 import { Action } from 'redux';
 import { Answer } from '../models/answer';
 
+/**
+ * @file answer actions to be dispatched by events relating to answers
+ * @author Evan Liebhauser
+ */
+
 export const answerActionTypes = {
     POST_ANSWER: 'POST_ANSWER',
     ACCEPT_ANSWER: "ACCEPT_ANSWER"

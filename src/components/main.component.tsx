@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import  FeedContainerComponent  from './pages/feed-components/feed-container.component';
-import  ForumContainerComponent  from './pages/forum-components/forum-container.component';
+import FeedContainerComponent from './pages/feed-components/feed-container.component';
+import ForumContainerComponent from './pages/forum-components/forum-container.component';
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
-import { AnswerRichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/answer-draftjs';
-
 
 
 export const MainComponent: React.FC = () => {
@@ -25,11 +23,8 @@ export const MainComponent: React.FC = () => {
                         <Route exact path="/forum">
                             <ForumContainerComponent />
                         </Route>
-                        <Route exact path="/postquestion">
+                        <Route exact path="/question">
                             <RichTextEditorComponent />
-                        </Route>
-                        <Route exact path="/postanswer">
-                            <AnswerRichTextEditorComponent />
                         </Route>
                     </Fragment>
                 </Switch>

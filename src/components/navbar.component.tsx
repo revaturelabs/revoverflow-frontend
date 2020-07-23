@@ -35,6 +35,8 @@ import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { useHistory } from "react-router";
 import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import * as loginRemote from '../remotes/login.remote'
+
 
 
 const drawerWidth = 240;
@@ -102,6 +104,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     orange: {
       color: "#F26925",
+      fontSize: 40,
+    },
+    pointsDisplay: {
+      color: "#F26925",
+      fontSize: 40,
+      paddingTop: 7
+    },
+    imageDoor: {
+      paddingBottom: 10
     },
     arrangement: {
       display: "flex",
@@ -213,8 +224,15 @@ export const NavbarComponent: React.FC = () => {
     displayPoints();
   });
 
-  const displayPoints = () => {
+  const displayPoints = async () => {
+
     if (gettingPoints) {
+      try {
+      const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+      localStorage.setItem('points', JSON.stringify(response.data.points));
+      } catch {
+        alert('Couldnt retrieve points')
+      }
       setPoints(localStorage.getItem("points"));
     }
   };
@@ -240,12 +258,14 @@ export const NavbarComponent: React.FC = () => {
             >
               <MenuIcon fontSize="large" />
             </IconButton>
-            <img
-              src={require("../logo/image.png")}
-              height={40}
-              width={100}
-              alt="pop"
-            />
+            <Box className={classes.imageDoor}>
+              <img 
+                src={require("../logo/image.png")}
+                height={40}
+                width={100}
+                alt="pop"
+              />
+            </Box>
           </Box>
 
           <Box className={classes.arrangementInternal}>
@@ -259,7 +279,7 @@ export const NavbarComponent: React.FC = () => {
               <AccountCircle className={classes.orange} />
             </IconButton>
 
-            <Typography className={classes.orange} variant="h4">
+            <Typography className={classes.pointsDisplay} variant="h4" >
               Points: {points}
             </Typography>
           </Box>
@@ -309,7 +329,7 @@ export const NavbarComponent: React.FC = () => {
           {["Post A Question"].map((text, index) => (
             <ListItem
               onClick={() => {
-                history.push("/postquestion");
+                history.push("/question");
               }}
               style={{ color: "#F26925" }}
               button

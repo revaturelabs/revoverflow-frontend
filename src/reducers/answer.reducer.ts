@@ -2,6 +2,11 @@ import { AnswerState } from '.';
 import { AnswerActionPayload, answerActionTypes, AcceptedAnswerActionPayload } from '../actions/answer.actions';
 import { Action } from 'redux';
 
+/**
+ * @file answer reducer defines logic applied when answer actions are dispatched
+ * @author Evan Liebhauser
+ */
+
 const initialState: AnswerState = {
     collectedAnswers: JSON.parse((localStorage.getItem('answers')) || '{}'),
     storeAnswer: JSON.parse((localStorage.getItem('selectedAnswer')) || '{}'),

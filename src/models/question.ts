@@ -5,5 +5,5 @@ export interface Question {
     content: string;
     creationDate: Date;
     status: boolean;
-    userId: number;
+    userID: number;
 }

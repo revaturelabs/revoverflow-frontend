@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputLabel, OutlinedInput } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -39,9 +38,10 @@ const useStyles = makeStyles({
         flexDirection: "column",
     },
     titleTool: {
-        borderStyle: "dashed",
-        height: "10vh",
-        overflowY: "auto"
+        borderStyle: "solid",
+        borderColor: "#f26925",
+        height: "7vh",
+        overflowY: "auto",
     },
     editorTool: {
         borderStyle: "solid",
@@ -58,6 +58,10 @@ const useStyles = makeStyles({
     breadcrumbBar: {
         marginTop: 60,
         marginLeft: 20
+    },
+    font: {
+        fontSize: 30,
+        paddingLeft: 10
     }
 });
 
@@ -184,7 +188,6 @@ export const RichTextEditorComponent: React.FC = () => {
                 newEditorState.getSelection(),
                 entityKey
             ));
-            console.log(url);
 
         } else {
             alert('No text selected')
@@ -209,75 +212,74 @@ export const RichTextEditorComponent: React.FC = () => {
     return (
         <div className={classes.breadcrumbBar}>
             <BreadcrumbBarComponent />
-        <ThemeProvider theme={theme} >
-            <Container className={classes.containerTool}>
-                <Box justifyContent="flex-start" display="flex" padding={3} >
-                    <Typography variant="h4" >
-                        Ask a Question:
-                    </Typography>
-                </Box>
-                <Box display="flex" flexDirection="column">
-                    <Box display="flex">
-                        <Typography variant="h5" >
-                            Title:
+            <ThemeProvider theme={theme} >
+                <Container className={classes.containerTool}>
+                    <Box justifyContent="flex-start" display="flex" padding={3} >
+                        <Typography variant="h4" >
+                            Ask a Question:
                     </Typography>
                     </Box>
-                    <Box display="flex" flexGrow={1} paddingBottom={3} >
-                        <FormControl fullWidth variant="outlined"   >
-                            <InputLabel htmlFor="outlined-adornment-title">Title</InputLabel>
-                            <OutlinedInput
-                                labelWidth={60} value={title} onChange={(e) => setTitle(e.target.value)}
-                            />
-                        </FormControl>
+                    <Box display="flex" flexDirection="column" paddingBottom={3}>
+                        <Box display="flex">
+                            <Typography variant="h5" >
+                                Title:
+                    </Typography>
+                        </Box>
+                        <Box display="flex" className={classes.titleTool}>
+                            <FormControl fullWidth variant="outlined"   >
+                                <InputBase className={classes.font}
+                                    value={title} onChange={(e) => setTitle(e.target.value)}
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
-                </Box>
-                <Box>
-                    <Box justifyContent="center" display="flex" flexDirection="column">
-                        <Box justifyContent="flex-start" display="flex" >
-                            <Typography variant="h5">
-                                Content:
+                    <Box>
+                        <Box justifyContent="center" display="flex" flexDirection="column">
+                            <Box justifyContent="flex-start" display="flex" >
+                                <Typography variant="h5">
+                                    Content:
                             </Typography>
-                        </Box>
-                        <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
-                            {buttons.map(b =>
-                                buttonVariant(b.style) ?
-                                    <span key={b.style} className={classes.buttonInternal}>
-                                        <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                    </span>
-                                    :
-                                    <span key={b.style} className={classes.buttonInternal}>
-                                        <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
-                                    </span>)}
-                            {blockbuttons.map(b =>
-                                blockbuttonVariant (b.block) ?
+                            </Box>
+                            <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+                                {buttons.map(b =>
+                                    buttonVariant(b.style) ?
+                                        <span key={b.style} className={classes.buttonInternal}>
+                                            <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                        </span>
+                                        :
+                                        <span key={b.style} className={classes.buttonInternal}>
+                                            <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
+                                        </span>)}
+                                {blockbuttons.map(b =>
+                                    blockbuttonVariant(b.block) ?
+                                        <span className={classes.buttonInternal}>
+                                            <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                        </span>
+                                        :
+                                        <span key={b.block} className={classes.buttonInternal}>
+                                            <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
+                                        </span>)}
+                                {linkbutton.map(b =>
                                     <span className={classes.buttonInternal}>
-                                        <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                        <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
                                     </span>
-                                    :
-                                    <span  key={b.block} className={classes.buttonInternal}>
-                                        <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                    </span>)}
-                            {linkbutton.map(b =>
-                                <span  className={classes.buttonInternal}>
-                                    <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                </span>
-                            )}
+                                )}
+                            </Box>
+                        </Box >
+                        <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
+                            <Editor
+                                customStyleMap={styleMap}
+                                editorState={editorState}
+                                handleKeyCommand={handleKeyCommand}
+                                onChange={onChange}
+                            />
                         </Box>
-                    </Box >
-                    <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
-                        <Editor
-                            customStyleMap={styleMap}
-                            editorState={editorState}
-                            handleKeyCommand={handleKeyCommand}
-                            onChange={onChange}
-                        />
+                        <Box justifyContent="flex-end" display="flex" padding={2}>
+                            <Button onClick={saveQuestion} variant='contained' color='secondary' size='large' >Submit</Button>
+                        </Box>
                     </Box>
-                    <Box justifyContent="flex-end" display="flex" padding={2}>
-                        <Button onClick={saveQuestion} variant='contained' color='secondary' size='large' >Submit</Button>
-                    </Box>
-                </Box>
-            </Container>
-        </ThemeProvider>
+                </Container>
+            </ThemeProvider>
         </div>
     )
 }

@@ -4,12 +4,17 @@ import ForumAnswerComponent from './forum-answer.component';
 import ForumQuestionComponent from './forum-question.component';
 import ForumAcceptedAnswerComponent from './forum-accepted-answer.component';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
-import * as fallbackRemote from '../../../remotes/fallback.remote';
+import * as answerRemote from '../../../remotes/answer.remote';
+import * as questionRemote from '../../../remotes/question.remote';
 import { Answer } from '../../../models/answer';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import Pagination from '@material-ui/lab/Pagination';
 
+/**
+ * @file Contains and manages questions, accepted answers, and general answers displayed in forums. 
+ * @author Keith Salzman 
+ */
 
 const theme = createMuiTheme({
     palette: {
@@ -59,7 +64,7 @@ export const ForumContainerComponent: React.FC<ForumContainerComponentProps> = (
 
     const load = async (page: number) => {
         let retrievedAnswerPageable: any;
-        retrievedAnswerPageable = await fallbackRemote.getAnswersByQuestionId(props.storeQuestion.id, size, page);
+        retrievedAnswerPageable = await answerRemote.getAnswersByQuestionId(props.storeQuestion.id, size, page);
         setTotalPages(retrievedAnswerPageable.totalPages);
         setAnswers(retrievedAnswerPageable.content);
     }
@@ -68,7 +73,7 @@ export const ForumContainerComponent: React.FC<ForumContainerComponentProps> = (
         const load = async (page: number) => {
             let retrievedAnswerPageable: any;
             try {
-                retrievedAnswerPageable = await fallbackRemote.getAnswersByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))), size, page);
+                retrievedAnswerPageable = await answerRemote.getAnswersByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))), size, page);
             } catch {
                 return;
             }
@@ -80,11 +85,11 @@ export const ForumContainerComponent: React.FC<ForumContainerComponentProps> = (
             let retrievedAnswer: Answer;
             const reQuestionId = +JSON.parse(JSON.stringify(localStorage.getItem('questionId')))
             try {
-                const reQuestion = await fallbackRemote.getQuestionByQuestionId(reQuestionId);
+                const reQuestion = await questionRemote.getQuestionByQuestionId(reQuestionId);
                 if (reQuestion.acceptedId === null) {
                     return;
                 } else {
-                    retrievedAnswer = await fallbackRemote.getAnswerByAnswerId(reQuestion.acceptedId);
+                    retrievedAnswer = await answerRemote.getAnswerByAnswerId(reQuestion.acceptedId);
                 }
             } catch {
                 return;
@@ -111,8 +116,6 @@ export const ForumContainerComponent: React.FC<ForumContainerComponentProps> = (
     }
 
     const renderForumAnswerComponents = () => {
-        //! Right now reducer only grabs first page, need to account for other pages to make this change
-        // return props.storeAnswers.content.map((answer: Answer) => { 
         return answers.map(answer => {
             return (
                 <ForumAnswerComponent key={answer.id} answer={answer} setSelected={setSelected} selected={selected} />
@@ -153,13 +156,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForumContainerComponent);
-
-    // if (props.storeQuestion && (answers.length === 0)) {
-    //     load(0);
-    // } else if (!props.storeQuestion && (answers.length === 0)) {
-    //     load(0);
-    // }
-
-    // .sort(function(x, y) {
-    //     return (x. === y)? 0 : x? -1 : 1;
-    // })

@@ -4,6 +4,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useHistory } from 'react-router';
 
+/**
+ * @file places breadcrume bar under the navbar with clickable trail
+ * @author Keith Salzman
+ */
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         link: {
@@ -15,9 +20,14 @@ const useStyles = makeStyles((theme: Theme) =>
             width: 20,
             height: 20,
         },
-        toolbar: {
+        BCtoolbar: {
             backgroundColor: "#474c55",
-            paddingLeft: 80
+            paddingLeft: 80,
+            marginTop: 60,
+            marginLeft: 20,
+            display: "flex",
+            flexGrow: 1
+            
         }
     }),
 );
@@ -42,7 +52,7 @@ export const BreadcrumbBarComponent: React.FC = (props) => {
     }
 
     return (
-        <Toolbar className={classes.toolbar}>
+        <Toolbar className={classes.BCtoolbar}>
             <Link color="inherit" href="/" onClick={handleClick2} className={classes.link}>
                 <HomeIcon className={classes.icon} />
             </Link>

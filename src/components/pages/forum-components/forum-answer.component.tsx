@@ -3,7 +3,7 @@ import { makeStyles, Box, FormControlLabel, Modal, Fade, Backdrop, Button, Conta
 import DoneIcon from '@material-ui/icons/Done';
 import { green } from '@material-ui/core/colors';
 import { Answer } from '../../../models/answer';
-import * as fallbackRemote from '../../../remotes/fallback.remote';
+import * as questionRemote from '../../../remotes/question.remote';
 import { Question } from '../../../models/question';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
@@ -11,6 +11,10 @@ import { acceptAnswer } from '../../../actions/answer.actions';
 import { clickQuestion } from '../../../actions/question.actions';
 import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
+/**
+ * @file Displays general answers belonging to question of interest within forum
+ * @author Keith Salzman 
+ */
 
 const useStyles = makeStyles({
     modal: {
@@ -98,11 +102,17 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
     const handleCloseSubmit = async () => {
         let questionInfo: Question;
         try {
-            questionInfo = await fallbackRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
+            questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
         } catch {
             alert("You encountered an error")
             return;
         }
+
+        console.log(questionInfo.id);
+        console.log(props.answer.id);
+        console.log(questionInfo.title);
+        console.log(questionInfo.content);
+        console.log(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
         const payload = {
             id: questionInfo.id,
             acceptedId: props.answer.id,
@@ -115,7 +125,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
         };
 
         try {
-            const retrievedQuestion = await fallbackRemote.updateQuestionAcceptedAnswerId(payload);
+            const retrievedQuestion = await questionRemote.updateQuestionAcceptedAnswerId(payload);
             localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
             props.clickQuestion(retrievedQuestion.data);
             localStorage.setItem('answerId', JSON.stringify(props.answer.id));
@@ -171,13 +181,12 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
                                     />
                                 </Box>
                                 <Box textAlign="left">
-                                <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
+                                    <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                     <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                                 </Box>
                             </Box>
                         }
                     </Box>
-
                     <Modal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"
