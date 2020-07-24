@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
@@ -79,18 +80,22 @@ export function SideMenuComponent(props: Props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    {/* The implementation and content of the sidemenu */ }
     const drawer = (
         <div>
             <div className={classes.toolbar} />
             <Typography variant="h6" noWrap>
                 Menu
-        </Typography>
+            </Typography>
             <List>
-            {/**  
-             * This lists clickable icon areas that leads you to a new page.
-             * 
-             */
-             }
+            
+                {/** 
+                 * The text is mapped to a sidemenu list item where 
+                 * the text and the area around it is clickable 
+                 * and leads to a page. 
+                 */
+                 }
                 {["Feed"].map((text, index) => (
                     <ListItem
                         onClick={() => history.push("/feed")}
@@ -98,6 +103,7 @@ export function SideMenuComponent(props: Props) {
                         button
                         key={text}
                     >
+                        {/* The icon is made clickable to the same page as well */}
                         <ListItemIcon>
                             <LiveHelpIcon
                                 onClick={() => history.push("/feed")}
@@ -107,6 +113,12 @@ export function SideMenuComponent(props: Props) {
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
+
+                {/**
+                 * The same is done here for the next item and icon.
+                 * This can be reapeated for every new sidemenu item.
+                 */
+                 }
                 {["Post A Question"].map((text, index) => (
                     <ListItem
                         onClick={() => {
