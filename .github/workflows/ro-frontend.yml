@@ -25,6 +25,7 @@ jobs:
       - name: Build the image
         id: docker_build
         run: |
+          mkdir -v ./roClient
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./roClient
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
   test:
