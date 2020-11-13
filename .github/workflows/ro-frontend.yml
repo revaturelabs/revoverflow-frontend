@@ -24,11 +24,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Build the image
         id: docker_build
-        run: |
-          pwd
-          mkdir -v ./roClient
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./roClient
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        #run: |
+          #pwd
+          #mkdir -v ./roClient
+          #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./roClient
+          #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
   test:
     name: download github repo to runner
     runs-on: ubuntu-latest
