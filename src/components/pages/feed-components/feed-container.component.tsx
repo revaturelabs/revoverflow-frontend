@@ -114,7 +114,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     retrievedPageable = await questionRemote.getAllQuestions(size, page);
                 } else {
                     retrievedPageable = await questionRemote.getAllFilteredQuestions(0, size, page, questionType, location)
-                    console.log(retrievedPageable.numberOfElements)
+                        .then(page => {
+                            if (page.numberOfElements === 0) return;
+                        });
                 }
                 tab = 0;
                 setView(view);
@@ -149,6 +151,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         }
 
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
+
+    }
 
     }
 
