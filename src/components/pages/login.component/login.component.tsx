@@ -37,7 +37,7 @@ export const LoginComponent: React.FC = () => {
     authAxios.defaults.headers["Authorization"]= response.headers.authorization
     setInputEmail('');
     setInputPassword('');
-    localStorage.setItem('accessToken', response.headers.authorization);
+    localStorage.setItem('accessToken', response.data.jwt);
     localStorage.setItem('admin', response.data.admin);
     localStorage.setItem('email', response.data.email)
     localStorage.setItem('firstName', response.data.firstName);
