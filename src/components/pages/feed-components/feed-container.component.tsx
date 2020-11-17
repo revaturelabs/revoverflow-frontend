@@ -186,13 +186,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         <div>
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
-                <Box justifyContent="flex-end" display="flex" >
-                    <ThemeProvider theme={theme} >
-                        <Button variant="contained" color="secondary" onClick={() => handleRedirect()}>
-                            Ask a Question
-                        </Button>
-                    </ThemeProvider>
-                </Box>
                 <Box>
                     <FilterDropDown questionType={(e: string) => handleQuestionTypeChange(e)} location={(e: string) => handleLocationChange(e)} />
                 </Box>
