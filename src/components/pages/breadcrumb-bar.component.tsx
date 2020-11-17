@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, createStyles, makeStyles, Theme, Toolbar } from '@material-ui/core';
+import { Link, createStyles, makeStyles, Theme, Toolbar, Box, Button, ThemeProvider, createMuiTheme} from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useHistory } from 'react-router';
@@ -8,6 +8,17 @@ import { useHistory } from 'react-router';
  * @file places breadcrume bar under the navbar with clickable trail
  * @author Keith Salzman
  */
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#f26925',
+        },
+        secondary: {
+            main: '#3498db',
+        },
+    },
+});
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -51,20 +62,33 @@ export const BreadcrumbBarComponent: React.FC = (props) => {
         refreshPage();
     }
 
+    const handleRedirect = () => {
+        history.push('/question');
+    }
+
     return (
         <Toolbar className={classes.BCtoolbar}>
-            <Link color="inherit" href="/feed" onClick={handleClick2} className={classes.link}>
-                <HomeIcon className={classes.icon} />
-            </Link>
-            <ArrowForwardIosIcon className={classes.link} />
-            <Link
-                color="inherit"
-                href={pathname}
-                onClick={handleClick}
-                className={classes.link}
-            >
-                {pathname}
-            </Link>
+            <Box display='flex' flexGrow={1}>
+                <Link color="inherit" href="/feed" onClick={handleClick2} className={classes.link}>
+                    <HomeIcon className={classes.icon} />
+                </Link>
+                <ArrowForwardIosIcon className={classes.link} />
+                <Link
+                    color="inherit"
+                    href={pathname}
+                    onClick={handleClick}
+                    className={classes.link}
+                >
+                    {pathname}
+                </Link>
+            </Box>
+            <Box justifyContent="flex-end" display="flex" >
+                    <ThemeProvider theme={theme} >
+                        <Button variant="contained" color="secondary" onClick={() => handleRedirect()}>
+                            Ask a Question
+                        </Button>
+                    </ThemeProvider>
+            </Box>
         </Toolbar>
     );
 }
