@@ -5,7 +5,7 @@
 
 import Axios from "axios";
 
-const server = process.env.REACT_APP_API_URL ?? "http://a05ca03ed94f848dfa2d6ef975d395ff-284278107.us-east-1.elb.amazonaws.com";
+const server = process.env.REACT_APP_API_URL ?? "http://a05ca03ed94f848dfa2d6ef975d395ff-284278107.us-east-1.elb.amazonaws.com/revoverflow";
 
 export const internalAxios = Axios.create({
     baseURL: server,
