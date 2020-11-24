@@ -1,11 +1,12 @@
 /**
  * @file Manage the login component for the web application
  * @author Michel Charles <mcharl05@nyit.edu>
- */
-
-/**
+ *
  * @file Nanage the side menu component for the web application
  * @author Yurrian Pierre-Boyer
+ * 
+ * @Additions added the ability to navigate to the location and revature specific questions pages
+ * @author Soksivateara Eng
  */
 
 import React, { useState, useEffect } from "react";
@@ -31,6 +32,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import RoomIcon from '@material-ui/icons/Room';
+import ApartmentIcon from '@material-ui/icons/Apartment';
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { useHistory } from "react-router";
 import { Menu, MenuItem, Box } from "@material-ui/core";
@@ -187,7 +190,7 @@ export const NavbarComponent: React.FC = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("accessToken");
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -217,7 +220,7 @@ export const NavbarComponent: React.FC = () => {
     </Menu>
   );
 
-  const [points, setPoints] = useState<any>();
+  const [points, setPoints] = useState<any>(0);
   const gettingPoints = localStorage.getItem("points");
 
   useEffect(() => {
@@ -225,7 +228,6 @@ export const NavbarComponent: React.FC = () => {
   });
 
   const displayPoints = async () => {
-
     if (gettingPoints) {
       try {
       const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
@@ -339,6 +341,48 @@ export const NavbarComponent: React.FC = () => {
                 <QuestionAnswerIcon
                   onClick={() => {
                     history.push("/question");
+                  }}
+                  style={{ color: "#F26925" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          <Divider />
+          {["Revature Questions"].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                history.push("/revature");
+              }}
+              style={{ color: "#F26925" }}
+              button
+              key={text}
+            >
+              <ListItemIcon>
+                <ApartmentIcon
+                  onClick={() => {
+                    history.push("/revature");
+                  }}
+                  style={{ color: "#F26925" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          <Divider />
+          {["Location Questions"].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                history.push("/location");
+              }}
+              style={{ color: "#F26925" }}
+              button
+              key={text}
+            >
+              <ListItemIcon>
+                <RoomIcon
+                  onClick={() => {
+                    history.push("/location");
                   }}
                   style={{ color: "#F26925" }}
                 />

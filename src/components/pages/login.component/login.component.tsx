@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const LoginComponent: React.FC = () => {
   const classes = useStyles();
-
   const history = useHistory();
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
@@ -35,7 +34,7 @@ export const LoginComponent: React.FC = () => {
   const setInformation = async () => {
     setInputEmail('');
     setInputPassword('');
-    localStorage.setItem('jwt', response.data.jwt);
+    localStorage.setItem('accessToken', response.data.jwt);
     localStorage.setItem('admin', response.data.admin);
     localStorage.setItem('email', response.data.email)
     localStorage.setItem('firstName', response.data.firstName);
@@ -47,7 +46,8 @@ export const LoginComponent: React.FC = () => {
     history.push('/feed')
   }
 
-  const addLoginCredentials = async () => {
+  const addLoginCredentials = async (e: any) => {
+    e.preventDefault()
     const payload = {
       email: inputEmail,
       password: inputPassword
@@ -87,10 +87,10 @@ export const LoginComponent: React.FC = () => {
               value={inputPassword}
               onChange={(e) => setInputPassword(e.target.value)}
             />
+            <div className="logIn">
+              <button type="submit" onClick={(e) => addLoginCredentials(e)}>Log In</button>
+            </div>
           </form>
-          <div className="logIn">
-            <button type="submit" onClick={() => addLoginCredentials()}>Log In</button>
-          </div>
         </div>
       </div>
     </div>

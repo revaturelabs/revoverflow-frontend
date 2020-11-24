@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+    revoverflow-frontend:
+        image: "ro-frontend:latest"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - "ro-client_data:/roClient/roClient-sonar"
+            - "nginx_data:/var/log/nginx"
+        ports:
+            - "3000:80"
+        environment:
+            - ALLOW_ANONYMOUS_LOGIN=true
+volumes:
+    ro-client_data:
+        driver: local
+    nginx_data:
+        driver: local

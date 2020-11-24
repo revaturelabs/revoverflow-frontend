@@ -1,6 +1,9 @@
 /**
  * @file Defining user model
  * @author Yurrian Pierre-Boyer
+ * 
+ * @Additions adding fields for questionType and location
+ * @author Soksivateara
  */
 
 export interface Question {
@@ -11,4 +14,6 @@ export interface Question {
     creationDate: Date;
     status: boolean;
     userID: number;
+    questionType: string;
+    location: string;
 }

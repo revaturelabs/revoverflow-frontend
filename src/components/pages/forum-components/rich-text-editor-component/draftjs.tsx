@@ -3,13 +3,17 @@
  * @author D. Jared Chase 
  * @author Milton Reyes
  * @author Jerry Pujals
+ * 
+ * @author Soksivateara Eng
+ * @Additions Changed payload to include questionType and location values
+ * Added the dropdown filter to set those values
  */
 
 import React from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase} from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -21,6 +25,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
+import { FilterDropDown } from '../../../common/filter-drop-down.component';
 
 
 const theme = createMuiTheme({
@@ -69,6 +74,12 @@ const useStyles = makeStyles({
     font: {
         fontSize: 25,
         paddingLeft: 10
+    },
+    dropDownBox: {
+        display: "flex",
+        justifyContent: "flex-start",
+        marginTop: 10,
+        marginBottom: 10,
     }
 });
 
@@ -83,6 +94,8 @@ export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const [title, setTitle] = useState('');
+    const [questionType, setQuestionType] = useState('');
+    const [location, setLocation] = useState('');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
@@ -102,13 +115,23 @@ export const RichTextEditorComponent: React.FC = () => {
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
             status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            questionType: questionType,
+            location: location
         }
         await questionRemote.postQuestion(payload);
         history.push("/feed");
         window.location.reload(false);
     }
 
+    const handleQuestionTypeChange = (e: string) => {
+        setQuestionType(e);
+    }
+
+    const handleLocationChange = (e: string) => {
+        setLocation(e);
+    }
+    
     //INLINE and BLOCK LEVEL styles, consists of these functions and an array of buttons to map to span button elements
     const buttonVariant = (name: string) => {
         const currentInLineStyle = editorState.getCurrentInlineStyle();
@@ -224,13 +247,13 @@ export const RichTextEditorComponent: React.FC = () => {
                     <Box justifyContent="flex-start" display="flex" padding={3} >
                         <Typography variant="h4" >
                             Ask a Question:
-                    </Typography>
+                        </Typography>
                     </Box>
-                    <Box display="flex" flexDirection="column" paddingBottom={3}>
+                    <Box display="flex" flexDirection="column">
                         <Box display="flex">
                             <Typography variant="h5" >
                                 Title:
-                    </Typography>
+                            </Typography>
                         </Box>
                         <Box display="flex" className={classes.titleTool}>
                             <FormControl fullWidth variant="outlined"   >
@@ -240,12 +263,15 @@ export const RichTextEditorComponent: React.FC = () => {
                             </FormControl>
                         </Box>
                     </Box>
+                    <Box className={classes.dropDownBox}>
+                        <FilterDropDown questionType={(e:string) => handleQuestionTypeChange(e)} location={(e:string) => handleLocationChange(e)}/>
+                    </Box>
                     <Box>
                         <Box justifyContent="center" display="flex" flexDirection="column">
                             <Box justifyContent="flex-start" display="flex" >
                                 <Typography variant="h5">
                                     Content:
-                            </Typography>
+                                </Typography>
                             </Box>
                             <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
                                 {buttons.map(b =>

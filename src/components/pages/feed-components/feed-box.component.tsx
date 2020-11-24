@@ -1,6 +1,9 @@
 /**
  * @file Contains and manages questions and answer mapped into boxes within the feed container
  * @author Keith Salzman 
+ * 
+ * @author Sokivateara Eng
+ * @additions Added an additional style that shows that a question is confirmed and renders based on status
  */
 
 import React from 'react';
@@ -9,7 +12,7 @@ import { useHistory } from 'react-router';
 import { Question } from '../../../models/question';
 import * as answerRemote from '../../../remotes/answer.remote';
 import * as questionRemote from '../../../remotes/question.remote';
-import { IState } from '../../../reducers';
+//import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
@@ -22,6 +25,14 @@ const useStyles = makeStyles({
         marginTop: 10,
         borderStyle: "solid",
         borderColor: "#f26925",
+        maxWidth: 1000,
+        width: `calc(100% - ${drawerWidth}px)`
+    },
+    boxInternalConfirmed: {
+        marginBottom: 5,
+        marginTop: 10,
+        borderStyle: "solid",
+        borderColor: "#4CAF50",
         maxWidth: 1000,
         width: `calc(100% - ${drawerWidth}px)`
     },
@@ -70,10 +81,17 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.question.content)));
     const onChange = () => { };
 
+    const boxOutlineSet = () => {
+        if(props.question.status)
+            return classes.boxInternalConfirmed
+        else
+            return classes.boxInternal
+    }
+
     //!First box here contains answers not questions, so does its handler deal with answer not questions
     return (
         <Box display="flex" justifyContent="center" >
-            <Card className={classes.boxInternal}>
+            <Card className={boxOutlineSet()}>
                 {props.question.questionId ?
                     <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}  >
                         <Box paddingLeft={2} paddingRight={2} >
@@ -87,9 +105,9 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
                         <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()} >
                             <Box paddingLeft={2} paddingRight={2}>
                                 <h2>{props.question.title}</h2>
-                                <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
-                                <h3>{props.question.userId}</h3>
-                                <p>{props.question.creationDate}</p>
+                                <div>{<Editor editorState={questionContent} readOnly={true} onChange={onChange} />}</div>
+                                <h3>UserID: {props.question.userId}</h3>
+                                <p>Posted On: {props.question.creationDate}</p>
                             </Box>
                         </Box>
                     </Box>}
@@ -98,12 +116,12 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     )
 }
 
-const mapStateToProps = (state: IState) => {
+// const mapStateToProps = (state: IState) => {
 
-}
+// }
 
 const mapDispatchToProps = {
     clickQuestion,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedBoxComponent);
+export default connect(null, mapDispatchToProps)(FeedBoxComponent);
