@@ -61,7 +61,6 @@ export const LoginComponent: React.FC = () => {
     } catch {
       alert('Incorrect username and/or password')
     }
-
   }
 
 
