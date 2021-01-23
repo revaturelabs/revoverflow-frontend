@@ -1,6 +1,6 @@
 /**
  * @file Contains and manages the questions and answer boxes populated into the feed
- * @author Keith Salzman 
+ * @author Keith Salzman
  */
 
 import React, { useState } from 'react';
@@ -76,7 +76,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     };
 
     /**
-     * Populates the feed with answers or questions according to the particular view and page input. 
+     * Populates the feed with answers or questions according to the particular view and page input.
      * @param view string variable that dictates what is displayed in the rendered feed box components
      * @param page number variable that describes which page to display form the paginated information recieved from the server
      */
@@ -165,6 +165,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
                         </Tabs>
+                    </Box>
+                    <Box className={classes.boxInternal}>
+                        {/* this is where we could put a select option https://material-ui.com/components/selects/ */}
                     </Box>
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >

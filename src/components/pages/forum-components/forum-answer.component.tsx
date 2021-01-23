@@ -13,7 +13,7 @@ import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
 /**
  * @file Displays general answers belonging to question of interest within forum
- * @author Keith Salzman 
+ * @author Keith Salzman
  */
 
 const useStyles = makeStyles({
@@ -98,8 +98,12 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             setOpen(true);
         }
     };
-
-    const handleCloseSubmit = async () => {
+    /**
+     * WHen you click the check icon thsi si the submit button
+     */
+    const handleCloseSubmit = async (e) => {
+        //page resets here
+        console.log("hello")
         let questionInfo: Question;
         try {
             questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))

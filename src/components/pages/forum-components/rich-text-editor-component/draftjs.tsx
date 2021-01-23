@@ -1,6 +1,6 @@
 /**
- * @file 
- * @author D. Jared Chase 
+ * @file
+ * @author D. Jared Chase
  * @author Milton Reyes
  * @author Jerry Pujals
  */
@@ -95,6 +95,10 @@ export const RichTextEditorComponent: React.FC = () => {
         }
     }
 
+    /**
+     *  gets called on an onclick on line 288, uses draft-js and grabs the information from editorState created line 86
+     *  and calls the axios request on postQuestion and then uses window.location.reload(false) [deprecated]
+     */
     const saveQuestion = async () => {
         const contentState = editorState.getCurrentContent();
         const payload: any = {
