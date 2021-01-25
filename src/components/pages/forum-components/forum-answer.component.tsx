@@ -101,7 +101,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
     /**
      * WHen you click the check icon thsi si the submit button
      */
-    const handleCloseSubmit = async (e) => {
+    const handleCloseSubmit = async () => {
         //page resets here
         console.log("hello")
         let questionInfo: Question;
@@ -112,7 +112,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             return;
         }
 
-        const payload = {
+        const payload: Question = {
             id: questionInfo.id,
             acceptedId: props.answer.id,
             title: questionInfo.title,
@@ -120,7 +120,8 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             creationDate: questionInfo.creationDate,
             editDate: null,
             status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            location: null
         };
 
         try {

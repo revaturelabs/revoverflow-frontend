@@ -19,6 +19,8 @@ export interface Question {
     title: string;
     content: string;
     creationDate: Date;
+    editDate: Date | null;
     status: boolean;
     userID: number;
+    location: string | null;
 }
