@@ -38,7 +38,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import * as loginRemote from '../remotes/login.remote'
 
 
-
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -161,6 +160,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 export const NavbarComponent: React.FC = () => {
+
+
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
@@ -201,6 +202,7 @@ export const NavbarComponent: React.FC = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => handleMenuClose()}> <Typography onClick={() => history.push("/")}> Log Out </Typography></MenuItem>
+
     </Menu>
   );
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -228,8 +230,8 @@ export const NavbarComponent: React.FC = () => {
 
     if (gettingPoints) {
       try {
-      const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
-      localStorage.setItem('points', JSON.stringify(response.data.points));
+        const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+        localStorage.setItem('points', JSON.stringify(response.data.points));
       } catch {
         alert('Couldnt retrieve points')
       }
@@ -259,7 +261,7 @@ export const NavbarComponent: React.FC = () => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <Box className={classes.imageDoor}>
-              <img 
+              <img
                 src={require("../logo/image.png")}
                 height={40}
                 width={100}
