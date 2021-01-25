@@ -21,6 +21,8 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
+import locations from '../../../../data/locations.json';
+import { AnyARecord } from 'dns';
 
 
 const theme = createMuiTheme({
@@ -58,6 +60,10 @@ const useStyles = makeStyles({
         fontSize: 20,
         padding: 10
     },
+    dropDownTool: {
+        borderStyle: "solid",
+        borderColor: "#f26925",
+    },
     buttonInternal: {
         padding: 2,
         marginBottom: 3
@@ -68,6 +74,10 @@ const useStyles = makeStyles({
     },
     font: {
         fontSize: 25,
+        paddingLeft: 10
+    },
+    fontDropDown: {
+        fontSize: 20,
         paddingLeft: 10
     }
 });
@@ -80,9 +90,12 @@ const styleMap = {
 };
 
 export const RichTextEditorComponent: React.FC = () => {
+    //Reads in the locations.json in the data folder.
+    const geographicSet = locations; 
     const classes = useStyles();
     const history = useHistory();
     const [title, setTitle] = useState('');
+    const [geoState, setGeoState] = useState(geographicSet[0]);  
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
@@ -106,7 +119,8 @@ export const RichTextEditorComponent: React.FC = () => {
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
             status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            location: geoState
         }
         await questionRemote.postQuestion(payload);
         history.push("/feed");
@@ -244,6 +258,26 @@ export const RichTextEditorComponent: React.FC = () => {
                             </FormControl>
                         </Box>
                     </Box>
+
+                    {/* Set location box */}
+                    <Box display="flex" flexDirection="column" paddingBottom={3}>
+                        <Box display="flex">
+                            <Typography variant="h5" >
+                                Location:
+                            </Typography>
+                        </Box>
+                        {/* Creates a dropdown with the options being read in from the locations.Json located in the data folder  */}                       
+                        <Box display="flex" className={classes.dropDownTool}>
+                            <FormControl fullWidth variant="outlined">
+                                <select name="question-location" className={classes.fontDropDown} onChange={(e) => {setGeoState(e.currentTarget.value); e.stopPropagation();}}>
+                                    {geographicSet.map((location) => {
+                                        return <option key={location} value={location} >{location}</option>;
+                                    })};
+                                </select>
+                            </FormControl>
+                        </Box>
+                    </Box>
+
                     <Box>
                         <Box justifyContent="center" display="flex" flexDirection="column">
                             <Box justifyContent="flex-start" display="flex" >
