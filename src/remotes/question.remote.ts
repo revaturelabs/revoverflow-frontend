@@ -94,7 +94,7 @@ export const updateQuestionStatus = async (questionStatus: any) => {
  *  @param page: number
  *  @param location: string
  */
-export const getAllQuestionsByLocation = async (size: number, page: number, location: string) => {
-    const response = await authAxios.get<any>(`/questions/location?&size=${size}&page=${page}&location=${location}`);
+export const getAllQuestionsByLocation = async (size: number, page: number, location: string | null) => {
+    const response = await authAxios.get<any>(`/questions/location/${location}?&size=${size}&page=${page}`);
     return response.data;
 }

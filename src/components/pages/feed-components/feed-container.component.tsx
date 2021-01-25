@@ -140,9 +140,15 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         history.push('/question');
     }
 
-    const handleFilter = () => {
+    /**
+     * This method gets called on the on click on line 193 and sends in size, page number, and filterText value
+     *  not 100% sure how to change the view for this.
+     */
+    const handleFilter = async ( ) => {
         // TODO: send filterText to the server endpoint, update displayed questions
-        console.log(filterText);
+        let retrievedPageable: any;
+        retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, 0, filterText);
+        console.log(retrievedPageable);
     }
 
     return (
