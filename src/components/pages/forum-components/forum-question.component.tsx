@@ -84,6 +84,13 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
         }
     }
 
+    const addFAQ = async () => {
+        console.log("adding to faq view simulated");
+        //axios call to update question faq status
+        //i.e., change to true
+        
+    }
+
     const handleRedirect = () => {
         setAnswerFields(true);
     }
@@ -114,6 +121,16 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
                                         :
                                         ""}
                                 </Box>
+
+                                {/* ADDING FAQ ADD BUTTON */}
+                                <Box display="flex" paddingLeft={2}>
+                                    {((admin === 'true') && (props.storeQuestion.status === false) && (props.storeQuestion.isFAQ !== false) && (props.storeQuestion.acceptedId !== null) && !props.storeConfirm) ? 
+                                    <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={()=>addFAQ()}>
+                                        FAQ
+                                    </Button>
+                                        : ""}
+                                </Box>
+
                             </Box>
                         </Box>
                     </Box>

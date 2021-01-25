@@ -26,6 +26,11 @@ export const MainComponent: React.FC = () => {
                         <Route exact path="/question">
                             <RichTextEditorComponent />
                         </Route>
+
+                        {/* THIS MAY NOT BE NECESSARY */}
+                        <Route exact path ="/faq">
+                            {/* <FAQComponent/> */}
+                        </Route>
                     </Fragment>
                 </Switch>
             </main>

@@ -60,7 +60,7 @@ export interface FeedContainerComponentProps {
 export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
-    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
+    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent' | 'faq'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
@@ -102,6 +102,12 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             retrievedPageable = await questionRemote.getUnconfirmedQuestions(size, page);
             tab = 3;
             setView(view)
+        } 
+        /////////////////ADDED THIS/////////////////
+        else if (view === 'faq') {
+            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            tab = 4;
+            setView(view);
         }
 
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
@@ -122,7 +128,16 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-        } else {
+        //ADDED THIS
+        }else if (view === 'faq') {
+            filteredQuestions = props.storeQuestions.filter(question => question.isFAQ !== false);
+            return filteredQuestions.map(question => {
+                return (
+                    <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view}/>
+                )
+            })
+        }
+         else {
             return props.storeQuestions.map(question => {
                 return (
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
@@ -164,6 +179,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 onClick={(e) => load("answer", 0)} />
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
+                            {/* ADDED THIS */}
+                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>

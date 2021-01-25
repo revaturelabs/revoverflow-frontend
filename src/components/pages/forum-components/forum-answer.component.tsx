@@ -72,7 +72,7 @@ export interface ForumAnswerComponentProps {
 
 export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props) => {
     const classes = useStyles();
-    const [color, setColor] = useState(false)
+    const [color, setColor] = useState(false);
     const [open, setOpen] = React.useState(false);
 
     const selectAnswer = async () => {
@@ -116,7 +116,9 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             creationDate: questionInfo.creationDate,
             editDate: null,
             status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            //adding this new property
+            isFAQ: questionInfo.isFAQ
         };
 
         try {
