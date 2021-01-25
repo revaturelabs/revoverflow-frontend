@@ -87,3 +87,14 @@ export const updateQuestionStatus = async (questionStatus: any) => {
     const response = await authAxios.put<Question>(`/questions/status`, questionStatus);
     return response;
 }
+
+/**
+ *  This method gets called in @function ____ in feed-container-component.jsx on line ____
+ *  @param size: number (const 10)
+ *  @param page: number
+ *  @param location: string
+ */
+export const getAllQuestionsByLocation = async (size: number, page: number, location: string) => {
+    const response = await authAxios.get<any>(`/questions/location?&size=${size}&page=${page}&location=${location}`);
+    return response.data;
+}

@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles } from '@material-ui/core';
+import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles, TextField } from '@material-ui/core';
 import FeedBoxComponent from './feed-box.component';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
@@ -21,6 +21,8 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import { Autocomplete } from '@material-ui/lab';
+import locations from '../../../data/locations.json';
 
 const theme = createMuiTheme({
     palette: {
@@ -29,7 +31,7 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#3498db',
-        },
+        }
     },
 });
 
@@ -62,6 +64,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
+    const [filterText, setFilterText] = useState<string | null>(null);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -107,9 +110,11 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 && view === 'recent') {
-        load("recent", 0);
-    }
+    // Set view to recent if there are no questions to display.
+    // This is stupid. Don't do this.
+    // if (props.storeQuestions.length === 0 && view === 'recent') {
+    //     load("recent", 0);
+    // }
 
     /**
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
@@ -133,6 +138,11 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
 
     const handleRedirect = () => {
         history.push('/question');
+    }
+
+    const handleFilter = () => {
+        // TODO: send filterText to the server endpoint, update displayed questions
+        console.log(filterText);
     }
 
     return (
@@ -166,9 +176,21 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
                         </Tabs>
                     </Box>
-                    <Box className={classes.boxInternal}>
-                        {/* this is where we could put a select option https://material-ui.com/components/selects/ */}
-                    </Box>
+                    {view !== 'answer' ?
+                        <Box className={classes.boxInternal} display='flex' justifyContent='center' m={2}>
+                            <Autocomplete
+                                onChange={(e, value) => setFilterText(value)}
+                                value={filterText}
+                                options={locations}
+                                style={{ width: 300 }}
+                                renderInput={params =>
+                                    <TextField {...params} onChange={e => setFilterText(e.target.value)} label="View by Location" variant="outlined"/>
+                                }
+                            />
+                            <Button onClick={() => handleFilter()} variant="outlined">Filter</Button>
+                        </Box> :
+                        <></>
+                    }
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >
                             {renderFeedBoxComponents()}
