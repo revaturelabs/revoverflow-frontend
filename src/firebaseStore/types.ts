@@ -7,23 +7,23 @@ export const SET_SUCCESS = 'SET_SUCCESS';
 
 export interface User {
     firstName: string;
-    email: string,
-    id: string,
-    createdAt: any,
+    email: string;
+    id: string;
+    createdAt: any;
 }
 
 export interface AuthState {
     user: User | null;
     authenticated: boolean;
     loading: boolean;
-    error: string,
+    error: string;
     needVerification: boolean;
-    success: string
+    success: string;
 }
 
 export interface SignUpData {
     firstName: string;
-    email: string,
+    email: string;
     password: string;
 }
 
@@ -32,8 +32,7 @@ export interface SignInData {
     password: string;
 }
 
-//Actions
-
+// Actions
 interface SetUserAction {
     type: typeof SET_USER;
     payload: User;
@@ -63,4 +62,3 @@ interface SetSuccessAction {
 }
 
 export type AuthAction = SetUserAction | SetLoadingAction | SignOutAction | SetErrorAction | NeedVerificationAction | SetSuccessAction;
-

@@ -2,8 +2,10 @@ import { ThunkAction } from 'redux-thunk';
 import { SignUpData, AuthAction, SET_USER, User, SET_ERROR, SET_LOADING, SignInData, SET_SUCCESS, NEED_VERIFICATION, SIGN_OUT } from '../types';
 import { RootState } from '../firebaseIndex';
 import firebase from '../../firebase/config';
+import * as loginRemote from '../../remotes/login.remote'
+import { authAxios } from "../../remotes/internal.axios";
+import { useHistory } from 'react-router-dom'
 
-//Create user
 export const signup = (data: SignUpData, onError: () => void): ThunkAction<void, RootState, null, AuthAction> => {
     return async dispatch => {
         try {
@@ -16,7 +18,7 @@ export const signup = (data: SignUpData, onError: () => void): ThunkAction<void,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 await firebase.firestore().collection('/users').doc(res.user.uid).set(userData);
-                await res.user
+                await res.user.sendEmailVerification();
                 dispatch({
                     type: NEED_VERIFICATION
                 });
@@ -36,7 +38,7 @@ export const signup = (data: SignUpData, onError: () => void): ThunkAction<void,
     }
 }
 
-//Get user by id
+// Get user by id
 export const getUserById = (id: string): ThunkAction<void, RootState, null, AuthAction> => {
     return async dispatch => {
         try {
@@ -54,7 +56,7 @@ export const getUserById = (id: string): ThunkAction<void, RootState, null, Auth
     }
 }
 
-
+// Set loading
 export const setLoading = (value: boolean): ThunkAction<void, RootState, null, AuthAction> => {
     return dispatch => {
         dispatch({
@@ -64,12 +66,14 @@ export const setLoading = (value: boolean): ThunkAction<void, RootState, null, A
     }
 }
 
-
-//Log in
+// Log in
 export const signin = (data: SignInData, onError: () => void): ThunkAction<void, RootState, null, AuthAction> => {
     return async dispatch => {
         try {
-            await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
+            const authVar = await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
+            // await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
+            console.log(authVar)
+            addLoginCredentials(data.email, data.password);
         } catch (err) {
             console.log(err);
             onError();
@@ -78,7 +82,40 @@ export const signin = (data: SignInData, onError: () => void): ThunkAction<void,
     }
 }
 
-// log out
+// let history = useHistory();
+let response: any;
+const setInformation = async () => {
+
+    authAxios.defaults.headers["Authorization"] = response.headers.authorization
+
+    localStorage.setItem('accessToken', response.headers.authorization);
+    localStorage.setItem('admin', response.data.admin);
+    localStorage.setItem('email', response.data.email)
+    localStorage.setItem('firstName', response.data.firstName);
+    localStorage.setItem('lastName', response.data.lastName);
+    localStorage.setItem('points', response.data.points);
+    localStorage.setItem('profilePicture', response.data.profilePicture);
+    localStorage.setItem('rssaccountId', response.data.rssaccountId);
+    localStorage.setItem('userId', response.data.userID);
+    // history.push('/feed')
+}
+
+const addLoginCredentials = async (email: string, password: string) => {
+    // e.preventDefault()
+    const payload = {
+        email: email,
+        password: password
+    };
+    try {
+        response = await loginRemote.checkLoginCredentials(payload);
+
+        await setInformation();
+    } catch {
+        alert('Incorrect username and/or password')
+    }
+}
+
+// Log out
 export const signout = (): ThunkAction<void, RootState, null, AuthAction> => {
     return async dispatch => {
         try {
@@ -94,9 +131,7 @@ export const signout = (): ThunkAction<void, RootState, null, AuthAction> => {
     }
 }
 
-
-
-//Set error
+// Set error
 export const setError = (msg: string): ThunkAction<void, RootState, null, AuthAction> => {
     return dispatch => {
         dispatch({
@@ -105,7 +140,6 @@ export const setError = (msg: string): ThunkAction<void, RootState, null, AuthAc
         });
     }
 }
-
 
 // Set need verification
 export const setNeedVerification = (): ThunkAction<void, RootState, null, AuthAction> => {
@@ -116,8 +150,7 @@ export const setNeedVerification = (): ThunkAction<void, RootState, null, AuthAc
     }
 }
 
-
-//Set success
+// Set success
 export const setSuccess = (msg: string): ThunkAction<void, RootState, null, AuthAction> => {
     return dispatch => {
         dispatch({
@@ -127,16 +160,15 @@ export const setSuccess = (msg: string): ThunkAction<void, RootState, null, Auth
     }
 }
 
-
-///Send password reset email
+// Send password reset email
 export const sendPasswordResetEmail = (email: string, successMsg: string): ThunkAction<void, RootState, null, AuthAction> => {
     return async dispatch => {
         try {
             await firebase.auth().sendPasswordResetEmail(email);
             dispatch(setSuccess(successMsg));
-        } catch (error) {
-            console.log(error);
-            dispatch(setError(error.message));
+        } catch (err) {
+            console.log(err);
+            dispatch(setError(err.message));
         }
     }
 }

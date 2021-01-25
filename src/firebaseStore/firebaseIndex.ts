@@ -5,7 +5,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import authReducer from './reducers/authReducer';
 
 
-
 //authentication rootReducer
 const rootReducer = combineReducers({
     auth: authReducer

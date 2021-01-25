@@ -6,21 +6,22 @@ import Message from '../../Message';
 import { signin, setError } from '../../../firebaseStore/actions/authActions';
 import { RootState } from '../../../firebaseStore/firebaseIndex';
 import { Link } from 'react-router-dom';
+import * as loginRemote from '../../../remotes/login.remote'
 
 const SignIn: FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const { error } = useSelector((state: RootState) => state.auth);
+    // const { error } = useSelector((state: RootState) => state.auth);
 
-    useEffect(() => {
-        return () => {
-            if (error) {
-                dispatch(setError(''));
-            }
-        }
-    }, [error, dispatch]);
+    // useEffect(() => {
+    //     return () => {
+    //         if (error) {
+    //             dispatch(setError(''));
+    //         }
+    //     }
+    // }, [error, dispatch]);
 
     const submitHandler = (e: FormEvent) => {
         e.preventDefault();
@@ -33,7 +34,7 @@ const SignIn: FC = () => {
             <div className="container">
                 <h2 className="has-text-centered is-size-2 mb-3">Sign In</h2>
                 <form className="form" onSubmit={submitHandler}>
-                    {error && <Message type="danger" msg={error} />}
+                    {/* {error && <Message type="danger" msg={error} />} */}
                     <Input
                         type="email"
                         name="email"
