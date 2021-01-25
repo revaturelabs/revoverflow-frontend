@@ -103,7 +103,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             tab = 3;
             setView(view)
         } 
-        /////////////////ADDED THIS/////////////////
+        /////////////////ADDED THIS FAQ TAB /////////////////
         else if (view === 'faq') {
             retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 4;
@@ -128,8 +128,13 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-        //ADDED THIS
+        //ADDED THIS FAQ FILTER LOGIC 
+
+        
         }else if (view === 'faq') {
+            /** 
+             * FILTERS OUT FAQ QUESTION FROM GENERAL STACK
+            */
             filteredQuestions = props.storeQuestions.filter(question => question.isFAQ !== false);
             return filteredQuestions.map(question => {
                 return (
@@ -193,8 +198,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 onClick={(e) => load("answer", 0)} />
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
-                            {/* ADDED THIS */}
-                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
+                            {/* ADDED THIS FAQ BUTTON TO SHOW UP ON FEED PAGE */}
+                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} id="FAQ-Tab" label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>

@@ -4,8 +4,8 @@ import { mount } from 'enzyme';
 
 
 describe('feed-container.component', () => {
-
-    test('should render', () => {
+    let wrapper:any;
+    beforeEach(()=> {
         const props: FeedContainerComponentProps = {
             storeQuestions: [],
             storeTab: 0,
@@ -13,7 +13,14 @@ describe('feed-container.component', () => {
             storePageCount: 0,
             clickTab: () => { }
         }
-        const wrapper = mount(<FeedContainerComponent {...props} />);
+        wrapper = mount(<FeedContainerComponent {...props} />);
+    })
+
+    test('should render the FeedContainerComponent', () => {
         expect(wrapper).toBeDefined();
+    })
+
+    test('should render a tab for the FAQ', () => {
+        expect(wrapper.exists('#FAQ-Tab')).toBe(true);
     })
 });
