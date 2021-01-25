@@ -1,6 +1,6 @@
 /**
- * @file 
- * @author D. Jared Chase 
+ * @file
+ * @author D. Jared Chase
  * @author Milton Reyes
  * @author Jerry Pujals
  */
@@ -90,7 +90,10 @@ export const AnswerRichTextEditorComponent: React.FC<AnswerRichTextEditorCompone
             return 'not-handled';
         }
     }
-
+    /**
+     *  This method gets called on the onClick of line 262 and gets the content of editorState( the form )
+     *  and puts that into answer. Then calls questionRemote.postAnswer().
+     */
     const saveAnswer = async () => {
         const contentState = editorState.getCurrentContent();
         const payload: any = {

@@ -259,7 +259,7 @@ export const NavbarComponent: React.FC = () => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <Box className={classes.imageDoor}>
-              <img 
+              <img
                 src={require("../logo/image.png")}
                 height={40}
                 width={100}
