@@ -11,6 +11,7 @@ import * as loginRemote from '../../../remotes/login.remote'
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { authAxios } from "../../../remotes/internal.axios";
+import firebase from '../../../firebase/config';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,8 +50,20 @@ export const LoginComponent: React.FC = () => {
     history.push('/feed')
   }
 
-  const addLoginCredentials = async (e: any) => {
+
+
+  const CheckFireBase = async (e: any) =>{
     e.preventDefault()
+    firebase.auth().signInWithEmailAndPassword("users@rss.com","Password123!");
+    console.log("In check firebase")
+
+      addLoginCredentials(e)
+  }
+
+
+
+  const addLoginCredentials = async (e: any) => {
+    // e.preventDefault()
     const payload = {
       email: inputEmail,
       password: inputPassword
@@ -90,7 +103,7 @@ export const LoginComponent: React.FC = () => {
               onChange={(e) => setInputPassword(e.target.value)}
             />
             <div className="logIn">
-              <button type="submit" onClick={(e) => addLoginCredentials(e)}>Log In</button>
+              <button type="submit" onClick={(e) => CheckFireBase(e)}>Log In</button>
             </div>
           </form>
         </div>
