@@ -150,16 +150,30 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         history.push('/question');
     }
 
+    const clickAdd = () => {
+        console.log("add clicked");
+        setView('recent');
+        setValue(0);
+    }
+
     return (
         <div>
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
-                <Box justifyContent="flex-end" display="flex" >
+                <Box justifyContent="flex-end" display="flex">
                     <ThemeProvider theme={theme} >
-                        <Button variant="contained" color="secondary" onClick={() => handleRedirect()}>
+                        <Button variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={() => handleRedirect()}>
                             Ask a Question
                     </Button>
                     </ThemeProvider>
+                    <ThemeProvider theme={theme}>
+                        {(view === 'faq' && admin === 'true') ? <Button variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={()=>clickAdd()}>
+                        Add FAQ
+                    </Button>:""}
+                    </ThemeProvider>
+                </Box>
+                <Box justifyContent="flex-end" display="flex">
+                    
                 </Box>
                 <ThemeProvider theme={theme} >
                     <Box justifyContent="center" display="flex" className={classes.boxExternal}>
