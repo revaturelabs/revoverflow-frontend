@@ -64,7 +64,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
-    const [filterText, setFilterText] = useState('');
+    const [filterText, setFilterText] = useState<string | null>(null);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -179,6 +179,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     {view !== 'answer' ?
                         <Box className={classes.boxInternal} display='flex' justifyContent='center' m={2}>
                             <Autocomplete
+                                onChange={(e, value) => setFilterText(value)}
+                                value={filterText}
                                 options={locations}
                                 style={{ width: 300 }}
                                 renderInput={params =>
