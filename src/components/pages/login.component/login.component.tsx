@@ -54,9 +54,13 @@ export const LoginComponent: React.FC = () => {
     history.push('/feed')
   }
 
-/// Check firebase up here for authentication
-/// If credentials are bad do not send anything to the back end
-// If they are good send the credentials to the back end
+// Check firebase up here for authentication 
+/// If credentials are bad do not send anything to the back end 
+// If they are good send the credentials to the back end 
+// firebase keyword imported in with firebase app from config 
+//Allows user to use firebase as the veryfying authentication ensuring 
+//That any call to the database will be a legitemate call that will bring 
+// back either a user or admin
   const CheckFireBase = async (e: any) =>{
     setBadLogin(false)
     setLoading(true)
