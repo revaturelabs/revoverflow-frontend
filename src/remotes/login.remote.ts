@@ -8,7 +8,16 @@ import { user } from '../models/user';
 
 
 export const checkLoginCredentials = async (token: string | undefined) => {
-    const response = await internalAxios.post(`/login/${token}`)
+    const response = await internalAxios.post(`/login/`, {
+
+      headers: {
+
+        Authorization: `Bearer ${token}` 
+
+      }
+
+    }) 
+
     return response;
 }
 
