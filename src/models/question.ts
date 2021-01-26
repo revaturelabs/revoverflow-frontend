@@ -11,5 +11,5 @@ export interface Question {
     creationDate: Date;
     status: boolean;
     userID: number;
-    isFAQ: boolean;
+    isFaq: boolean;
 }

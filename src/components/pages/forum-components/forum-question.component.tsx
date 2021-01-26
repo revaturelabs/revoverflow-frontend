@@ -90,34 +90,34 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
         console.log("adding to faq view simulated");
         //axios call to update question faq status
         //i.e., change to true
-        // let questionInfo: Question;
-        // try {
-        //     questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
-        // } catch {
-        //     alert("You encountered an error")
-        //     return;
-        // }
-        // const payload = {
-        //     id: questionInfo.id,
-        //     acceptedId: questionInfo.acceptedId,
-        //     title: questionInfo.title,
-        //     content: questionInfo.content,
-        //     creationDate: questionInfo.creationDate,
-        //     editDate: null,
-        //     status: true,
-        //     userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-        //     isFAQ: questionInfo.isFAQ
-        // };
+        let questionInfo: Question;
+        try {
+            questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
+        } catch {
+            alert("You encountered an error1")
+            return;
+        }
+        const payload = {
+            id: questionInfo.id,
+            acceptedId: questionInfo.acceptedId,
+            title: questionInfo.title,
+            content: questionInfo.content,
+            creationDate: questionInfo.creationDate,
+            editDate: null,
+            status: true,
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            isFaq: questionInfo.isFaq
+        };
 
-        // try {
-        //     const retrievedQuestion = await questionRemote.updateQuestionStatus(payload);
-        //     localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
-        //     props.clickConfirm(retrievedQuestion.data, true);
-        //     window.location.reload(false);
-        // } catch {
-        //     alert("You encountered an error")
-        //     return;
-        // }
+        try {
+            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(payload);
+            localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
+            // props.clickConfirm(retrievedQuestion.data, true);
+            window.location.reload(false);
+        } catch {
+            alert("You encountered an error2")
+            return;
+        }
         
         
     }
@@ -157,7 +157,7 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
                                 {/* ADDING FAQ ADD BUTTON */}
                                 {/* WILL NEED TO CHANGE THIS BOOLEAN CHECK LATER */}
                                 <Box display="flex" paddingLeft={2}>
-                                    {((admin === 'true') && (props.storeQuestion.status === false) && (props.storeQuestion.isFAQ !== false) && (props.storeQuestion.acceptedId !== null) && !props.storeConfirm) ? 
+                                    {((admin === 'true') && (props.storeQuestion.isFaq === false)) ? 
                                     <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={()=>addFAQ()}>
                                         FAQ
                                     </Button>

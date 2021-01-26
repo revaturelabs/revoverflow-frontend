@@ -132,10 +132,14 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
 
         
         }else if (view === 'faq') {
+<<<<<<< HEAD
+            filteredQuestions = props.storeQuestions.filter(question => question.isFaq === true);
+=======
             /** 
              * FILTERS OUT FAQ QUESTION FROM GENERAL STACK
             */
             filteredQuestions = props.storeQuestions.filter(question => question.isFAQ !== false);
+>>>>>>> f6186fdac5d7a2005daacc491d9a8a7c91120e52
             return filteredQuestions.map(question => {
                 return (
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view}/>
@@ -157,8 +161,10 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
 
     const clickAdd = () => {
         console.log("add clicked");
-        setView('recent');
-        setValue(0);
+        history.push('/question/faq');
+        // setView('recent');
+        // setValue(0);
+        // load('recent', 0);
     }
 
     return (
