@@ -5,11 +5,11 @@
  * @author Jerry Pujals
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase, Menu, MenuItem } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -21,6 +21,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
+import { getLocations } from '../../../../remotes/location.remote';
 
 
 const theme = createMuiTheme({
@@ -83,7 +84,10 @@ export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const [title, setTitle] = useState('');
+    const [locations, setLocations] = useState(new Array<any>());
+    const [currentLocation, setCurrentLocation] = useState(0)
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -95,11 +99,40 @@ export const RichTextEditorComponent: React.FC = () => {
         }
     }
 
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleLocationChange = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, locationID: number) => {
+        setCurrentLocation(locationID)
+        handleClose()
+    }
+
+    useEffect( ()=>{
+        //fetch location data
+        async function fetchData() {
+            let locationsData:Location[] = await getLocations()
+
+            setLocations(locationsData)
+            
+        }
+        fetchData()
+
+    }, [])
+
+
+
+
+
     const saveQuestion = async () => {
         const contentState = editorState.getCurrentContent();
         const payload: any = {
             title: title,
             content: JSON.stringify(convertToRaw(contentState)),
+            location: currentLocation,
             creationDate: new Date(),
             status: false,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
@@ -271,6 +304,27 @@ export const RichTextEditorComponent: React.FC = () => {
                                         <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
                                     </span>
                                 )}
+
+                                <Button aria-controls="simple-menu" id="location-dropdown-button" aria-haspopup="true" onClick={handleClick}>
+                                        Location
+                                </Button>
+                                <Menu
+                                    id="location-dropdown-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    {locations.map((location)=> {
+                                        return <MenuItem onClick={(e) => {handleLocationChange(e, location.id)}} value={location.id}>{location.name}</MenuItem>
+                                     })}
+                                     <MenuItem onClick={(e) => {handleLocationChange(e, 3)}} value="3">{"test location"}</MenuItem>
+                                        
+                                        
+                                </Menu>
+
+
+
                             </Box>
                         </Box >
                         <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
