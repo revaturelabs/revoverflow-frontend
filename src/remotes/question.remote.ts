@@ -98,3 +98,11 @@ export const getAllQuestionsByLocation = async (size: number, page: number, loca
     const response = await authAxios.get<any>(`/questions/location/${location}?&size=${size}&page=${page}`);
     return response.data;
 }
+
+/**
+ *
+ */
+export const getAllUserQuestionsByLocation = async (size: number, page: number, location: string | null, userId: number) => {
+    const response = await authAxios.get<any>(`/questions/location/${userId}/${location}?&size=${size}&page=${page}`);
+    return response.data;
+}
