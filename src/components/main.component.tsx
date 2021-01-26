@@ -5,7 +5,7 @@ import ForumContainerComponent from './pages/forum-components/forum-container.co
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
-
+import { RevatureQuestionComponent } from './pages/forum-components/rich-text-editor-component/generalQuestion';
 
 export const MainComponent: React.FC = () => {
     return <div id="main-component">
@@ -25,6 +25,9 @@ export const MainComponent: React.FC = () => {
                         </Route>
                         <Route exact path="/question">
                             <RichTextEditorComponent />
+                        </Route>
+                        <Route exact path="/revatureQuestion">
+                            <RevatureQuestionComponent />
                         </Route>
                     </Fragment>
                 </Switch>
