@@ -57,8 +57,8 @@ export const LoginComponent: React.FC = () => {
     e.preventDefault()
    try { 
     response = await firebase.auth().signInWithEmailAndPassword(inputEmail,inputPassword)
-    await localStorage.setItem("FirebaseAuth" , response.isSignedIn)
-    //console.log(response.operationType)
+    await  console.log(firebase.auth().currentUser)
+   
     
     addLoginCredentials(e)
   }catch {
@@ -97,6 +97,7 @@ export const LoginComponent: React.FC = () => {
 
 
   return (
+    
     <div>
       <img alt="logo" id="logo" src={require("../../../logo/image.png")} />
 
