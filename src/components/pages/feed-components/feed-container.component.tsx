@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles, TextField } from '@material-ui/core';
+import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles, TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import FeedBoxComponent from './feed-box.component';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
@@ -59,11 +59,14 @@ export interface FeedContainerComponentProps {
     storePage: number;
 }
 
+enum QuestionType { General, Location };
+
 export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
-    const [value, setValue] = React.useState(props.storeTab);
+    const [value, setValue] = useState(props.storeTab);
+    const [questionType, setQuestionType] = useState<QuestionType>(QuestionType.General);
     const [filterText, setFilterText] = useState<string | null>(null);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
@@ -144,11 +147,12 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      * This method gets called on the on click on line 193 and sends in size, page number, and filterText value
      *  not 100% sure how to change the view for this.
      */
-    const handleFilter = async ( ) => {
-        // TODO: send filterText to the server endpoint, update displayed questions
-        let retrievedPageable: any;
-        retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, 0, filterText);
-        console.log(retrievedPageable);
+    const handleFilter = async () => {
+        const location = questionType === QuestionType.Location ? filterText : null;
+        let data: Question = await questionRemote.getAllQuestionsByLocation(size, 0, location);
+        
+        // TODO: update displayed questions
+        console.log(data);
     }
 
     return (
@@ -182,18 +186,36 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
                         </Tabs>
                     </Box>
+                    {/* Only show the question filter if we are on a question tab */}
                     {view !== 'answer' ?
-                        <Box className={classes.boxInternal} display='flex' justifyContent='center' m={2}>
-                            <Autocomplete
-                                onChange={(e, value) => setFilterText(value)}
-                                value={filterText}
-                                options={locations}
-                                style={{ width: 300 }}
-                                renderInput={params =>
-                                    <TextField {...params} onChange={e => setFilterText(e.target.value)} label="View by Location" variant="outlined"/>
-                                }
-                            />
-                            <Button onClick={() => handleFilter()} variant="outlined">Filter</Button>
+                        <Box className={classes.boxInternal} display='flex' justifyContent='center' alignItems='center' m={2}>
+                            <RadioGroup value={questionType} onChange={e => setQuestionType(parseInt(e.currentTarget.value))}>
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.General}
+                                    control={<Radio />}
+                                    label="General Revature Questions"
+                                />
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.Location}
+                                    control={<Radio />}
+                                    label="Location-Specific Questions"
+                                />
+                            </RadioGroup>
+                            {questionType === QuestionType.Location ?
+                                <Autocomplete
+                                    onChange={(e, value) => setFilterText(value)}
+                                    value={filterText}
+                                    options={locations}
+                                    style={{ width: 300 }}
+                                    renderInput={params =>
+                                        <TextField {...params} onChange={e => setFilterText(e.target.value)} label="View by Location" variant="outlined" />
+                                    }
+                                /> :
+                                <></>
+                            }
+                            <Button onClick={() => handleFilter()} variant="outlined" style={{marginLeft: '1rem'}}>Filter</Button>
                         </Box> :
                         <></>
                     }
