@@ -1,15 +1,9 @@
-/**
- * @file 
- * @author D. Jared Chase 
- * @author Milton Reyes
- * @author Jerry Pujals
- */
 
 import React from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import { InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -69,6 +63,11 @@ const useStyles = makeStyles({
     font: {
         fontSize: 25,
         paddingLeft: 10
+    },
+    formControl: {
+        verticalAlign: "middle",
+        margin: theme.spacing(1),
+        minWidth: 120,
     }
 });
 
@@ -81,7 +80,8 @@ const styleMap = {
 
 const typeStyle ={
     verticalAlign: "middle",
-    margin: "0 10px 0 10px"
+    margin: "0 10px 0 10px",
+    fontSize:"20px"
 }
 
 export const RichTextEditorComponent: React.FC = () => {
@@ -237,19 +237,31 @@ export const RichTextEditorComponent: React.FC = () => {
                                 Type:
                             </Typography>
                         <div style={typeStyle}>
-                        <input  type="radio" id="location" name="type" value="locationChk" checked />
-                        <label style={{fontSize:"20px"}}>Location:</label>
-                        <select name="locations" id="loc-select">
-                            <option value="">--Option--</option>
-                            <option value="1">Toronto</option>
-                            <option value="2">NewYork</option>
-                            <option value="3">Dallas</option>
-                            <option value="4">Orlando</option>
-                        </select>
+                        <input  type="radio" id="location" name="type" value="locationChk" />
+                        <label >Location:</label>
                         </div>
+                            <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel >Option</InputLabel>
+                                    <Select
+                                        native
+                                        //value={state.age}
+                                        //onChange={handleChange}
+                                        label="Location"
+                                        inputProps={{
+                                            name: 'location',
+                                            id: 'outlined-age-native-simple',
+                                        }}
+                                    >
+                                    <option aria-label="Option" value="" />
+                                    <option value={10}>Toronto</option>
+                                    <option value={20}>NewYork</option>
+                                    <option value={30}>Dallas</option>
+                                    </Select>
+                            </FormControl>
+                        
                         <div style={typeStyle}>
                         <input type="radio" id="revature" name="type" value="revatureChk" />
-                        <label style={{fontSize:"20px"}}>Revature</label>
+                        <label >Revature</label>
                         </div>
                         </Box>
                     </Box>
