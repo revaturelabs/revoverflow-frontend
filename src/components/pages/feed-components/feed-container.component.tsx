@@ -148,11 +148,11 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      *  not 100% sure how to change the view for this.
      */
     const handleFilter = async () => {
-        // TODO: send filterText to the server endpoint, update displayed questions
-        let retrievedPageable: Question;
         const location = questionType === QuestionType.Location ? filterText : null;
-        retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, 0, location);
-        console.log(retrievedPageable);
+        let data: Question = await questionRemote.getAllQuestionsByLocation(size, 0, location);
+        
+        // TODO: update displayed questions
+        console.log(data);
     }
 
     return (
@@ -186,11 +186,22 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
                         </Tabs>
                     </Box>
+                    {/* Only show the question filter if we are on a question tab */}
                     {view !== 'answer' ?
                         <Box className={classes.boxInternal} display='flex' justifyContent='center' alignItems='center' m={2}>
                             <RadioGroup value={questionType} onChange={e => setQuestionType(parseInt(e.currentTarget.value))}>
-                                <FormControlLabel labelPlacement="end" value={QuestionType.General} control={<Radio />} label="General Revature Questions" />
-                                <FormControlLabel labelPlacement="end" value={QuestionType.Location} control={<Radio />} label="Location-Specific Questions" />
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.General}
+                                    control={<Radio />}
+                                    label="General Revature Questions"
+                                />
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.Location}
+                                    control={<Radio />}
+                                    label="Location-Specific Questions"
+                                />
                             </RadioGroup>
                             {questionType === QuestionType.Location ?
                                 <Autocomplete
