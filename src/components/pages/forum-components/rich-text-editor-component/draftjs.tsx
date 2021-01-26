@@ -9,7 +9,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, FormControlLabel, InputBase, RadioGroup, Radio } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -23,6 +23,7 @@ import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
 import locations from '../../../../data/locations.json';
 import { AnyARecord } from 'dns';
+import { RemoveShoppingCartRounded } from '@material-ui/icons';
 
 
 const theme = createMuiTheme({
@@ -61,6 +62,7 @@ const useStyles = makeStyles({
         padding: 10
     },
     dropDownTool: {
+        width: 200,
         borderStyle: "solid",
         borderColor: "#f26925",
     },
@@ -75,6 +77,12 @@ const useStyles = makeStyles({
     font: {
         fontSize: 25,
         paddingLeft: 10
+    },
+    locationBlock: {
+        paddingLeft: 10
+    },
+    disabled: {
+        disabled: true
     },
     fontDropDown: {
         fontSize: 20,
@@ -91,11 +99,15 @@ const styleMap = {
 
 export const RichTextEditorComponent: React.FC = () => {
     //Reads in the locations.json in the data folder.
-    const geographicSet = locations; 
+
+    enum QuestionType { General, Location }
+    const geographicSet = locations;
     const classes = useStyles();
     const history = useHistory();
+    const [disabled, setDisabled] = useState(true);
+    const [radioVal, setRadioVal] = useState(QuestionType.General);
     const [title, setTitle] = useState('');
-    const [geoState, setGeoState] = useState(geographicSet[0]);  
+    const [geoState, setGeoState] = useState(geographicSet[0]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
@@ -107,6 +119,8 @@ export const RichTextEditorComponent: React.FC = () => {
             return 'not-handled';
         }
     }
+
+
 
     /**
      *  gets called on an onclick on line 288, uses draft-js and grabs the information from editorState created line 86
@@ -120,7 +134,7 @@ export const RichTextEditorComponent: React.FC = () => {
             creationDate: new Date(),
             status: false,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-            location: geoState
+            location: disabled? null: geoState
         }
         await questionRemote.postQuestion(payload);
         history.push("/feed");
@@ -260,22 +274,42 @@ export const RichTextEditorComponent: React.FC = () => {
                     </Box>
 
                     {/* Set location box */}
-                    <Box display="flex" flexDirection="column" paddingBottom={3}>
-                        <Box display="flex">
-                            <Typography variant="h5" >
-                                Location:
-                            </Typography>
-                        </Box>
-                        {/* Creates a dropdown with the options being read in from the locations.Json located in the data folder  */}                       
-                        <Box display="flex" className={classes.dropDownTool}>
-                            <FormControl fullWidth variant="outlined">
-                                <select name="question-location" className={classes.fontDropDown} onChange={(e) => {setGeoState(e.currentTarget.value); e.stopPropagation();}}>
-                                    {geographicSet.map((location) => {
-                                        return <option key={location} value={location} >{location}</option>;
-                                    })};
-                                </select>
-                            </FormControl>
-                        </Box>
+                    <Box display="flex" flexDirection="" paddingBottom={3}>
+
+                        {/* Creates a dropdown with the options being read in from the locations.Json located in the data folder  */}
+                        <div >
+                            <Box display="inline-flex">
+                                <Typography variant="h5"  >
+                                    Location:
+                                   
+                                </Typography>
+                            </Box>
+                            
+                            <RadioGroup name="revature" value={radioVal} style={{display: 'inline-flex'}} onChange={e => {
+                        
+                                setRadioVal(parseInt(e.currentTarget.value))
+                                
+                               setDisabled(radioVal === QuestionType.Location)
+                                } } row>
+
+                            <FormControlLabel className={classes.locationBlock} value={QuestionType.General} control={<Radio />} label="Revature" ></FormControlLabel>
+
+                            <FormControlLabel value={QuestionType.Location} control={<Radio />} label="Location" ></FormControlLabel>
+
+                            </RadioGroup>
+
+                            <Box display="inline-flex" className={classes.dropDownTool}>
+
+                                <FormControl fullWidth variant="outlined">
+                                    <select name="question-location" disabled={disabled} className={classes.fontDropDown} onChange={(e) => { setGeoState(e.currentTarget.value); e.stopPropagation(); }}>
+                                        {geographicSet.map((location) => {
+                                            return <option key={location} value={location} >{location}</option>;
+                                        })};
+                                    </select>
+                                </FormControl>
+                            </Box>
+                        </div>
+
                     </Box>
 
                     <Box>
