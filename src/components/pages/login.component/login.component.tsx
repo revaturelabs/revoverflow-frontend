@@ -12,6 +12,8 @@ import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { authAxios } from "../../../remotes/internal.axios";
 import firebase from '../../../firebase/config';
+import { Alert } from '@material-ui/lab';
+//import { Alert } from 'react-bootstrap'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +32,8 @@ export const LoginComponent: React.FC = () => {
   const history = useHistory();
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [badLogin, setBadLogin] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => { }, []);
 
@@ -54,15 +58,20 @@ export const LoginComponent: React.FC = () => {
 /// If credentials are bad do not send anything to the back end
 // If they are good send the credentials to the back end
   const CheckFireBase = async (e: any) =>{
+    setBadLogin(false)
+    setLoading(true)
     e.preventDefault()
    try { 
     response = await firebase.auth().signInWithEmailAndPassword(inputEmail,inputPassword)
     await  console.log(firebase.auth().currentUser)
+    await  console.log(response)
    
-    
     addLoginCredentials(e)
+
   }catch {
-    alert("Bad Login")
+    //alert("Bad Login")
+    setBadLogin(true)
+    setLoading(false)
   }
     // .then(response =>{
     //   console.log(response)
@@ -90,7 +99,7 @@ export const LoginComponent: React.FC = () => {
       response = await loginRemote.checkLoginCredentials(payload);
       await setInformation();
     } catch {
-      alert('Incorrect username and/or password')
+      //alert('Incorrect username and/or password')
     }
   }
 
@@ -105,6 +114,7 @@ export const LoginComponent: React.FC = () => {
         <div className="form-wrapper">
           <h3 className="h3">Login</h3>
           <form className={classes.root} noValidate autoComplete="off">
+              {badLogin && <Alert className="alerts" severity="error">Invalid Credentials</Alert>}
             <TextField
               id="outlined-basic"
               label="Email"
@@ -122,7 +132,7 @@ export const LoginComponent: React.FC = () => {
               onChange={(e) => setInputPassword(e.target.value)}
             />
             <div className="logIn">
-              <button type="submit" onClick={(e) => CheckFireBase(e)}>Log In</button>
+              <button disabled={loading} type="submit" onClick={(e) => CheckFireBase(e)}>Log In</button>
             </div>
           </form>
         </div>
