@@ -28,13 +28,14 @@ describe('feed-container.component', () => {
         expect(wrapper.exists('#add-FAQ-button')).toBe(false);
     })
 
-    it('should update the state when FAQ tab is clicked', () => {
-        //TODO implement 
-    })
-
     it('should render an FAQ button after the FAQ tab has been clicked', ()=> {
+        /*
+        currently there is a bug where if no questions exist, you have to double click the faq tab button for the button to display. Bug needs to be fixed 
+        before test can continue 
+        */
         const test = wrapper.find('#FAQ-Tab').first();
         test.simulate('click');
         expect(wrapper.exists('#add-FAQ-button')).toBe(true);
     })
+
 });
