@@ -50,14 +50,30 @@ export const LoginComponent: React.FC = () => {
     history.push('/feed')
   }
 
-
-
+/// Check firebase up here for authentication
+/// If credentials are bad do not send anything to the back end
+// If they are good send the credentials to the back end
   const CheckFireBase = async (e: any) =>{
     e.preventDefault()
-    firebase.auth().signInWithEmailAndPassword("users@rss.com","Password123!");
-    console.log("In check firebase")
+   try { 
+    response = await firebase.auth().signInWithEmailAndPassword(inputEmail,inputPassword)
+    await console.log(response.operationType)
+    addLoginCredentials(e)
+  }catch {
+    alert("Bad Login")
+  }
+    // .then(response =>{
+    //   console.log(response)
+    //   console.log(response.operationType)
+      // if(response.operationType === "signIn"){
+      //   console.log("Yaya I'm logged in")
+      // }        else{
+      //   alert("Bad login")
+      // }
+    // })
+   // console.log("In check firebase")
 
-      addLoginCredentials(e)
+     // addLoginCredentials(e)
   }
 
 
