@@ -347,6 +347,26 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+          {["Question"].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                history.push("/revatureQuestion");
+              }}
+              style={{ color: "#F26925" }}
+              button
+              key={text}
+            >
+              <ListItemIcon>
+                <QuestionAnswerIcon
+                  onClick={() => {
+                    history.push("/revatureQuestion");
+                  }}
+                  style={{ color: "#F26925" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
         </List>
       </Drawer>
       {renderMobileMenu}

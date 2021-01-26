@@ -79,6 +79,11 @@ const styleMap = {
     }
 };
 
+const typeStyle ={
+    verticalAlign: "middle",
+    margin: "0 10px 0 10px"
+}
+
 export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
@@ -227,10 +232,32 @@ export const RichTextEditorComponent: React.FC = () => {
                     </Typography>
                     </Box>
                     <Box display="flex" flexDirection="column" paddingBottom={3}>
+                        <Box display="flex" justifyContent="flex-start" >
+                            <Typography variant="h5" >
+                                Type:
+                            </Typography>
+                        <div style={typeStyle}>
+                        <input  type="radio" id="location" name="type" value="locationChk" checked />
+                        <label style={{fontSize:"20px"}}>Location:</label>
+                        <select name="locations" id="loc-select">
+                            <option value="">--Option--</option>
+                            <option value="1">Toronto</option>
+                            <option value="2">NewYork</option>
+                            <option value="3">Dallas</option>
+                            <option value="4">Orlando</option>
+                        </select>
+                        </div>
+                        <div style={typeStyle}>
+                        <input type="radio" id="revature" name="type" value="revatureChk" />
+                        <label style={{fontSize:"20px"}}>Revature</label>
+                        </div>
+                        </Box>
+                    </Box>
+                    <Box display="flex" flexDirection="column" paddingBottom={3}>
                         <Box display="flex">
                             <Typography variant="h5" >
                                 Title:
-                    </Typography>
+                            </Typography>
                         </Box>
                         <Box display="flex" className={classes.titleTool}>
                             <FormControl fullWidth variant="outlined"   >
@@ -245,7 +272,7 @@ export const RichTextEditorComponent: React.FC = () => {
                             <Box justifyContent="flex-start" display="flex" >
                                 <Typography variant="h5">
                                     Content:
-                            </Typography>
+                                </Typography>
                             </Box>
                             <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
                                 {buttons.map(b =>
