@@ -57,7 +57,9 @@ export const LoginComponent: React.FC = () => {
     e.preventDefault()
    try { 
     response = await firebase.auth().signInWithEmailAndPassword(inputEmail,inputPassword)
-    await console.log(response.operationType)
+    await localStorage.setItem("FirebaseAuth" , response.isSignedIn)
+    //console.log(response.operationType)
+    
     addLoginCredentials(e)
   }catch {
     alert("Bad Login")
