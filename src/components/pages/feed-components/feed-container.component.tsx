@@ -172,7 +172,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     </Button>
                     </ThemeProvider>
                     <ThemeProvider theme={theme}>
-                        {(view === 'faq' && admin === 'true') ? <Button variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={()=>clickAdd()}>
+                        {(view === 'faq' && admin === 'true') ? <Button id="add-FAQ-button" variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={()=>clickAdd()}>
                         Add FAQ
                     </Button>:""}
                     </ThemeProvider>
