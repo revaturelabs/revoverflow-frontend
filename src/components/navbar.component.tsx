@@ -312,6 +312,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
         <List>
           {["Feed"].map((text, index) => (
             <ListItem
+              id="feedTab"
               onClick={() => history.push("/feed")}
               style={{ color: "#F26925" }}
               button
@@ -329,6 +330,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
           <Divider />
           {["Post A Question"].map((text, index) => (
             <ListItem
+              id="postQuestionTab"
               onClick={() => {
                 history.push("/question");
               }}
@@ -349,6 +351,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
           ))}
           {["Question"].map((text, index) => (
             <ListItem
+              id="allQuestionsTab"
               onClick={() => {
                 history.push("/revatureQuestion");
               }}
