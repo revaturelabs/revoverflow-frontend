@@ -11,6 +11,7 @@ import * as loginRemote from '../../../remotes/login.remote'
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { authAxios } from "../../../remotes/internal.axios";
+import firebase from "firebase/app";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,12 +52,18 @@ export const LoginComponent: React.FC = () => {
 
   const addLoginCredentials = async (e: any) => {
     e.preventDefault()
-    const payload = {
-      email: inputEmail,
-      password: inputPassword
-    };
     try {
-      response = await loginRemote.checkLoginCredentials(payload);
+
+      const user = await firebase
+        .auth()
+        .signInWithEmailAndPassword(inputEmail, inputPassword)
+      // console.log("my response ________"+JSON.stringify(user));
+
+      const accessToken = await firebase.auth().currentUser?.getIdToken(true)
+      // console.log("Access Token outside_________"+ JSON.stringify(accessToken))
+
+      response = await loginRemote.checkLoginCredentials(accessToken);
+
       await setInformation();
     } catch {
       alert('Incorrect username and/or password')

@@ -4,12 +4,11 @@
  */
 
 import { authAxios, internalAxios } from './internal.axios';
-import { Login } from '../models/login';
 import { user } from '../models/user';
 
 
-export const checkLoginCredentials = async (login: Login) => {
-    const response = await internalAxios.post('/login', login)
+export const checkLoginCredentials = async (token: string | undefined) => {
+    const response = await internalAxios.post(`/login/${token}`)
     return response;
 }
 

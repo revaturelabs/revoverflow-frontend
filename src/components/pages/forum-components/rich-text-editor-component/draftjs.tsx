@@ -21,6 +21,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
+import protectComponent from '../../../protected-route/UserAuthRoute'
 
 
 const theme = createMuiTheme({
@@ -290,3 +291,5 @@ export const RichTextEditorComponent: React.FC = () => {
         </div>
     )
 }
+
+export default protectComponent(RichTextEditorComponent)

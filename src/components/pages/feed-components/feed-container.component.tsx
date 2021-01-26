@@ -21,6 +21,7 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import protectComponent from '../../protected-route/UserAuthRoute'
 
 const theme = createMuiTheme({
     palette: {
@@ -194,4 +195,4 @@ const mapDispatchToProps = {
     clickTab
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedContainerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(protectComponent(FeedContainerComponent));
