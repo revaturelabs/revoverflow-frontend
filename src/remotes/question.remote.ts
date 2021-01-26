@@ -52,6 +52,6 @@ export const updateQuestionStatus = async (questionStatus: any) => {
 
 //ADDING THIS FOR FAQ STUFF
 export const updateQuestionFAQStatus = async (questionStatus: any) => {
-    const response = await authAxios.put<Question>(`/questions/faq`, questionStatus);
+    const response = await authAxios.post<Question>(`/questions/faq`, questionStatus);
     return response;
 }

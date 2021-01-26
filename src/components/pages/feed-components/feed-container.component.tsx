@@ -130,7 +130,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             })
         //ADDED THIS
         }else if (view === 'faq') {
-            filteredQuestions = props.storeQuestions.filter(question => question.isFAQ !== false);
+            filteredQuestions = props.storeQuestions.filter(question => question.isFaq === true);
             return filteredQuestions.map(question => {
                 return (
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view}/>
@@ -152,8 +152,10 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
 
     const clickAdd = () => {
         console.log("add clicked");
-        setView('recent');
-        setValue(0);
+        history.push('/question/faq');
+        // setView('recent');
+        // setValue(0);
+        // load('recent', 0);
     }
 
     return (
@@ -194,7 +196,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
                             {/* ADDED THIS */}
-                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
+                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} label = "FAQ" className={classes.boxInternal} onClick={(e) => load("faq", 0)}/>
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>
