@@ -99,7 +99,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             }
         } else if (view === 'question') {
             const location = questionType === QuestionType.Location ? filterText : null;
-            retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(userId, size, location, page);
+            retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(size, page,location, userId);
             tab = 1;
             setView(view)
         } else if (view === 'answer') {
