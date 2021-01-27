@@ -100,8 +100,8 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     //!First box here contains answers not questions, so does its handler deal with answer not questions
     return (
         <>
-        <Backdrop className={classes.backdrop} open={open} onClick={handleClose} onClickCapture={handleClose}>
-            <AddFAQComponent/>
+        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+            {(open)?<AddFAQComponent defaultQuestion={"props.questionContent"}/>:''}
         </Backdrop>
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>

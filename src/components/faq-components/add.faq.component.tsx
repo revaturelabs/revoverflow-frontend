@@ -1,34 +1,3 @@
-// import { Input } from "@material-ui/core";
-// import React, { useState, FC } from "react";
-// import { Answer } from "../../models/answer";
-// import { Question } from "../../models/question";
-
-// export interface AddFAQComponentProps{
-  
-// }
-
-
-// export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
-//   const [question, setQuestion] = useState<Question>();
-//   const [answer, setAnswer] = useState<Answer>();
-
-//   const submitFAQ = (question:string, answer:string) =>{
-//     console.log("submitting FAQ")
-//     console.log("with question" + question)
-//     console.log("with answer" + answer)
-//   }
-
-//   return (
-//     <form id="addFAQForm" onSubmit={() =>submitFAQ}>
-//       <label>Question:</label>
-//       <input type="text" id="questionInput" />
-//       <label>Answer:</label>
-//       <input type="text" id="answerInput" />
-//       <button type="submit" id="submitFAQButton"/>
-//     </form>
-//   );
-// };
-
 import classes from "*.module.css";
 import { Backdrop, Card, Input } from "@material-ui/core";
 import axios from "axios";
@@ -53,7 +22,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   useEffect(() => {
     console.log("defaultQuestionProvided is " + defaultQuestionProvided)
     setQuestion(props.defaultQuestion ?? '')
-  },[])
+  }, [props.defaultQuestion])
 
   const handleQuestionChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
     console.log('Changing question')
@@ -90,7 +59,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   };
 
   return (
-    <Card>
+    <Card onClick={(e) => e.stopPropagation()}>
     <form id="addFAQForm" onSubmit={submitFAQ}>
       <label>Question:</label>
       <input type="text" id="questionInput" onChange={handleQuestionChange} placeholder="Enter your Question"/>
