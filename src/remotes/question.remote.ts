@@ -106,3 +106,9 @@ export const getAllUserQuestionsByLocation = async (size: number, page: number, 
     const response = await authAxios.get<any>(`/questions/location/${userId}/${location}?&size=${size}&page=${page}`);
     return response.data;
 }
+
+//ADDING THIS FOR FAQ STUFF
+export const updateQuestionFAQStatus = async (questionStatus: any) => {
+    const response = await authAxios.post<Question>(`/questions/faq`, questionStatus);
+    return response;
+}

@@ -6,6 +6,9 @@ import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
 
+import '../firebase/config';
+
+
 
 export const MainComponent: React.FC = () => {
     return <div id="main-component">
@@ -15,6 +18,11 @@ export const MainComponent: React.FC = () => {
                     <Route exact path="/">
                         <LoginComponent />
                     </Route>
+
+                    {/* <Route exact path="/">
+                        <LoginFirebase />
+                    </Route> */}
+
                     <Fragment>
                         <NavbarComponent />
                         <Route exact path="/feed">
@@ -25,6 +33,16 @@ export const MainComponent: React.FC = () => {
                         </Route>
                         <Route exact path="/question">
                             <RichTextEditorComponent />
+                        </Route>
+
+                        {/* MIGHT NEED THIS FOR ADDING A NEW faq QUESTION */}
+                        <Route exact path="/question/faq">
+                            <RichTextEditorComponent/>
+                        </Route>
+
+                        {/* THIS MAY NOT BE NECESSARY */}
+                        <Route exact path ="/faq">
+                            {/* <FAQComponent/> */}
                         </Route>
                     </Fragment>
                 </Switch>

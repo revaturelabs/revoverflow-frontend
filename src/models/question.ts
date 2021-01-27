@@ -23,4 +23,5 @@ export interface Question {
     status: boolean;
     userID: number;
     location: string | null;
+    isFaq: boolean;
 }

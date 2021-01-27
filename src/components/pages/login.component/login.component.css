@@ -68,3 +68,9 @@ h3 {
 #logo {
     height: auto;
 }
+
+.alerts{
+    text-align: center;
+    align-items: center;
+    margin: auto auto;
+}
