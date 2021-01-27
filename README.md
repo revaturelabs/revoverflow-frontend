@@ -37,15 +37,15 @@ RevOverflow is a site dedicated to providing support to technical problems encou
 # Getting Started
 
 - git clone https://github.com/875-Trevin-Chester/revoverflow-frontend.git
-- The above git command will bring the repository into your specified directory.
+  - The above git command will bring the repository into your specified directory.
 - npm install
-- The above command will install any dependencies and node modules necessary to run the React project.
+  - The above command will install any dependencies and node modules necessary to run the React project.
 
 # Usage
 
 - Be sure to reference the revoverflow-backend 'README.md' to get the backend server started.
 - npm start
-- The above command will start the React project after configuration.
+  - The above command will start the React project after configuration.
 - The landing page will prompt the user for login credentials. Continue from there.
 
 # Contributors
