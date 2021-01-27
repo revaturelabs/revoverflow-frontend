@@ -2,60 +2,52 @@
 # Revoverflow-frontend
 RevOverflow React Frontend.
 
-## Project Description
+# Project Description
 
 RevOverflow is a site dedicated to providing support to technical problems encountered by the Revature community during training and project work. This platform is intended to provide a positive, constructive location to seek help from the Revature community regarding challenges that developers frequently face. It also helps facilitate transfer of knowledge between associates and batches, helps document and solve common problems, and provides a mechanism for associates to gain knowledge by helping one another. RevOverflow integrates with the Revature Swag Shop to provide the opportunity for participants to earn rewards.
 
-## Dependencies
+# Dependencies Needed
+- Typescript 3.7.2
+- React 16.13.1
+- React DOM 16.13.1
+- React Redux 7.2.0
+- Redux 4.0.5
+- Redux Thunk 2.3.0
+- Axios 0.21.1
 
-* React - version 16.13.1
-* React-dom - version 16.13.1
-* React-redux - version 7.2.0
-* React-router - version 5.2.0
-* React-router-dom - version 5.2.0
-* Axios - version 0.21.1
-* Redux - version 4.0.5
-* Redux-thunk - version 2.3.0
-* Typescript - version 3.7.2
+# Dependencies Needed (Developer)
 
-## Dev Dependencies
+- Jest 24.9.0
+- Enzyme 3.11.0
+- Enzyme Adapter React 16 1.15.2
 
-* Jest - version 24.9.0
-* Enzyme - version 3.11.0
-* Enzyme-adapter-react-16 - version 1.15.2
+# Features
 
-## Features
+- Login authentification with FireBase to ensure logins are appropriately handled.
+- Question filtration with regards to location and Revature relevancy.
+- Administrative permission to curate a selection of Frequently Asked Questions (FAQs).
+- Answer approval or denial system to indicate where users should default to.
+- Point-based system to denote questions and answers asked and their respective status.
 
-List of features ready
-* Firebase authentication security for login
-* Question filtering based on location and Revature-relevance
-* Administrator permission to add questions to Frequently Asked Questions
+# To-Do List
 
-To-do list:
-* Implement a microservices system to allow for scalability
-* Create a feature that allows users to edit their questions
-* Build a profile system that allows users to view others' questions and answers
+- Horizontal scalability with microservices.
+- User access to other user profiles to view questions and answers.
 
-## Getting Started
-   
-* Clone project with `git clone https://github.com/875-Trevin-Chester/revoverflow-frontend.git`
-* Download necessary dependencies with `npm install`
-* When used with backend:
-  * Start up the SpringBoot server
- * Start the React server with `npm start`
+# Getting Started
 
-## Usage
+- git clone https://github.com/875-Trevin-Chester/revoverflow-frontend.git
+- The above git command will bring the repository into your specified directory.
+- npm install
+- The above command will install any dependencies and node modules necessary to run the React project.
 
-* On startup, the landing page will be the login 
-* With the correct credentials, users can log in as a regular user or as an administrator
-* There are tabs for recent questions, the user's questions, the user's answers, and FAQ
-* Users can filter questions by location or by Revature relevance
-* Users can answer a question by clicking on it. They can also pick a favorite answer to one of their questions.
-* Administrators can go to the confirm tab and ensure the validity of an answer and assign points to the user that gave the question
-* Administrators can also create a new FAQ or assign FAQ status to any previously asked questions
+# Usage
 
+- Be sure to reference the revoverflow-backend 'README.md' to get the backend server started.
+- npm start
+- The above command will start the React project after configuration.
+- The landing page will prompt the user for login credentials. Continue from there.
 
-## Contributors
+# Contributors
 
-> Trevin Chester Nov-16-2020 Revature batch
-
+- Trevin Chester Nov-16-2020 Revature Batch
