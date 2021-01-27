@@ -5,7 +5,7 @@ import ForumContainerComponent from './pages/forum-components/forum-container.co
 import { LoginComponent } from './pages/login.component/login.component';
 import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
-import LoginFirebase from './pages/login.component/login.firebase';
+
 import '../firebase/config';
 
 
@@ -15,13 +15,13 @@ export const MainComponent: React.FC = () => {
         <BrowserRouter>
             <main>
                 <Switch>
-                    {/* <Route exact path="/">
-                        <LoginComponent />
-                    </Route> */}
-
                     <Route exact path="/">
-                        <LoginFirebase />
+                        <LoginComponent />
                     </Route>
+
+                    {/* <Route exact path="/">
+                        <LoginFirebase />
+                    </Route> */}
 
                     <Fragment>
                         <NavbarComponent />
