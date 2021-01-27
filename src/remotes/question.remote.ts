@@ -51,6 +51,7 @@ export const updateQuestionStatus = async (questionStatus: any) => {
 }
 
 export const getAllRevatureQuestions = async (size: number, page: number, revature:boolean) => {
-    const response = await authAxios.get<any>(`/questions/?&size=${size}&page=${page}&revature=${revature}`);
+    const response = await authAxios.get<any>(`/questions/revature/${revature}`);
+    //?&size=${size}&page=${page}&revaturequestions=${revature}
     return response.data;
 }

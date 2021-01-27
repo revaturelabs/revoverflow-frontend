@@ -74,8 +74,8 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
         let retrievedPageable: any;
         let tab: any;
         if (view === 'revature') {
-            retrievedPageable = await questionRemote.getAllQuestions(size, page);
-            // retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, revature);
+            //retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {

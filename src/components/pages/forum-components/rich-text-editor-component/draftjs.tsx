@@ -88,6 +88,7 @@ export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const [title, setTitle] = useState('');
+    const [revatureQuestion, setRevatureQuestion] = useState(false);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
@@ -107,8 +108,10 @@ export const RichTextEditorComponent: React.FC = () => {
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
             status: false,
+            revatureQuestion: revatureQuestion,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         }
+       
         await questionRemote.postQuestion(payload);
         history.push("/feed");
         window.location.reload(false);
@@ -237,7 +240,7 @@ export const RichTextEditorComponent: React.FC = () => {
                                 Type:
                             </Typography>
                         <div style={typeStyle}>
-                        <input  type="radio" id="location" name="type" value="locationChk" />
+                        <input  type="radio" id="location" name="type" onChange={(e) => setRevatureQuestion(false)}/>
                         <label >Location:</label>
                         </div>
                             <FormControl variant="outlined" className={classes.formControl}>
@@ -260,7 +263,7 @@ export const RichTextEditorComponent: React.FC = () => {
                             </FormControl>
                         
                         <div style={typeStyle}>
-                        <input type="radio" id="revature" name="type" value="revatureChk" />
+                        <input type="radio" id="revature" name="type" onChange={(e) => setRevatureQuestion(true)} />
                         <label >Revature</label>
                         </div>
                         </Box>
