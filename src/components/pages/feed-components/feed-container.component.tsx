@@ -60,7 +60,7 @@ export interface FeedContainerComponentProps {
 export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
-    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
+    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent' | 'faq'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
@@ -102,14 +102,21 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             retrievedPageable = await questionRemote.getUnconfirmedQuestions(size, page);
             tab = 3;
             setView(view)
+        } 
+        /////////////////ADDED THIS FAQ TAB /////////////////
+        else if (view === 'faq') {
+            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            tab = 4;
+            setView(view);
         }
 
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 && view === 'recent') {
-        load("recent", 0);
-    }
+    //this seems to cause a bug with the add faq button, commenting out for now
+    // if (props.storeQuestions.length === 0 && view === 'recent') {
+    //     load("recent", 0);
+    // }
 
     /**
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
@@ -122,7 +129,18 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-        } else {
+         
+
+        //ADDED THIS FAQ FILTER LOGIC
+        }else if (view === 'faq') {
+            filteredQuestions = props.storeQuestions.filter(question => question.isFaq === true);
+            return filteredQuestions.map(question => {
+                return (
+                    <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view}/>
+                )
+            })
+        }
+         else {
             return props.storeQuestions.map(question => {
                 return (
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
@@ -135,16 +153,35 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         history.push('/question');
     }
 
+
+    /**
+     * This function handles the clicking of the add faq button. 
+     * Routes the user to the text editor component; on clicking submit, the added
+     * question is marked by default as a FAQ
+     */
+    const clickAdd = () => {
+        console.log("add clicked");
+        history.push('/question/faq');
+    }
+
     return (
         <div>
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
-                <Box justifyContent="flex-end" display="flex" >
+                <Box justifyContent="flex-end" display="flex">
                     <ThemeProvider theme={theme} >
-                        <Button variant="contained" color="secondary" onClick={() => handleRedirect()}>
+                        <Button variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={() => handleRedirect()}>
                             Ask a Question
                     </Button>
                     </ThemeProvider>
+                    <ThemeProvider theme={theme}>
+                        {(view === 'faq' && admin === 'true') ? <Button id="add-FAQ-button" variant="contained" color="secondary" style={{margin:'0.5em'}} onClick={()=>clickAdd()}>
+                        Add FAQ
+                    </Button>:""}
+                    </ThemeProvider>
+                </Box>
+                <Box justifyContent="flex-end" display="flex">
+                    
                 </Box>
                 <ThemeProvider theme={theme} >
                     <Box justifyContent="center" display="flex" className={classes.boxExternal}>
@@ -164,6 +201,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 onClick={(e) => load("answer", 0)} />
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
+                            {/* ADDED THIS FAQ BUTTON TO SHOW UP ON FEED PAGE */}
+                            <Tab icon={<QuestionAnswerIcon fontSize="large"/>} id="FAQ-Tab" label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>

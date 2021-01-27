@@ -84,9 +84,49 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
         }
     }
 
+
+    //COME BACK TO THIS ONCE BACKEND LOGIC IS FINISHED
+    const addFAQ = async () => {
+        console.log("adding to faq view simulated");
+        //axios call to update question faq status
+        //i.e., change to true
+        let questionInfo: Question;
+        try {
+            questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
+        } catch {
+            alert("You encountered an error1");
+            return;
+        }
+        const payload = {
+            id: questionInfo.id,
+            acceptedId: questionInfo.acceptedId,
+            title: questionInfo.title,
+            content: questionInfo.content,
+            creationDate: questionInfo.creationDate,
+            editDate: null,
+            status: true,
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            isFaq: questionInfo.isFaq
+        };
+
+        try {
+            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(payload);
+            localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
+            // props.clickConfirm(retrievedQuestion.data, true);
+            window.location.reload(false);
+        } catch {
+            alert("You encountered an error2");
+            return;
+        }
+        
+        
+    }
+
     const handleRedirect = () => {
         setAnswerFields(true);
     }
+    /* This appears to be a future implementation to edit answers. Since it's not fully implemented, it breaks our component render tests
+     TODO: Implement this feature and uncomment EditorState box */
 
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.storeQuestion.content)));
     const onChange = () => { }
@@ -98,7 +138,7 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
                     <Box justifyContent="space-between" display="flex" flexDirection="column" color="primary">
                         <Box textAlign="left" >
                             <h2>{props.storeQuestion.title}</h2>
-                            <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
+                            <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div> 
                             <footer>{props.storeQuestion.userId} <br />{props.storeQuestion.creationDate}</footer>
                         </Box>
                         <Box display="flex" flexDirection="row">
@@ -114,6 +154,17 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
                                         :
                                         ""}
                                 </Box>
+
+                                {/* ADDING FAQ ADD BUTTON */}
+                                {/* WILL NEED TO CHANGE THIS BOOLEAN CHECK LATER */}
+                                <Box display="flex" paddingLeft={2}>
+                                    {((admin === 'true') && (props.storeQuestion.isFaq === false)) ? 
+                                    <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={()=>addFAQ()}>
+                                        FAQ
+                                    </Button>
+                                        : ""}
+                                </Box>
+
                             </Box>
                         </Box>
                     </Box>

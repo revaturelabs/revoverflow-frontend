@@ -97,13 +97,37 @@ export const RichTextEditorComponent: React.FC = () => {
 
     const saveQuestion = async () => {
         const contentState = editorState.getCurrentContent();
-        const payload: any = {
-            title: title,
-            content: JSON.stringify(convertToRaw(contentState)),
-            creationDate: new Date(),
-            status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+        let url = window.location.href;
+        let payload: any;
+
+        //this boolean will see if the question should be 
+        //labeled as a faq or not going into the DB
+        let bool: boolean = url.includes('/question/faq');
+
+        if (bool) {
+            payload = {
+                title: title,
+                content: JSON.stringify(convertToRaw(contentState)),
+                creationDate: new Date(),
+                status: false,
+                isFaq: true,
+                userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            }
+
+
+        } else {
+            payload = {
+                title: title,
+                content: JSON.stringify(convertToRaw(contentState)),
+                creationDate: new Date(),
+                status: false,
+                IsFaq: false,
+                userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            }
+
         }
+
+        console.log(payload);
         await questionRemote.postQuestion(payload);
         history.push("/feed");
         window.location.reload(false);
