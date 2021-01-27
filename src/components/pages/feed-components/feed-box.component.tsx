@@ -13,6 +13,8 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 
 
 const drawerWidth = 100;
@@ -67,6 +69,11 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         history.push('/forum');
     }
 
+    const addQuestionToFAQ = () =>{
+
+        console.log("add questions")
+    }
+
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.question.content)));
     const onChange = () => { };
 
@@ -75,21 +82,25 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>
                 {props.question.questionId ?
-                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}  >
+                    <Box display="flex" justifyContent="center">
                         <Box paddingLeft={2} paddingRight={2} >
                             <div className={classes.divInternal}><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                             <h3>{props.question.userId}</h3>
                             <p>{props.question.creationDate}</p>
+                            <AddCircleIcon onClick={() => handleRedirectA()} id="addQuestionFAQButton"/>
+
                         </Box>
                     </Box>
                     :
                     <Box>
-                        <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()} >
+                        <Box display="flex" justifyContent="center">
                             <Box paddingLeft={2} paddingRight={2}>
                                 <h2>{props.question.title}</h2>
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
                                 <p>{props.question.creationDate}</p>
+                                 <AddCircleIcon onClick={() => handleRedirectQ()} id="addQuestionFAQButton"/>
+
                             </Box>
                         </Box>
                     </Box>}
