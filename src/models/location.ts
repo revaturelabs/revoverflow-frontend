@@ -4,6 +4,6 @@
  */
 
 export interface Location {
-    id: number;
-    name: String;
+  id: number;
+  locationName: String;
 }
