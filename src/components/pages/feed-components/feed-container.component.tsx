@@ -91,14 +91,15 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let tab: any;
         if (view === 'recent') {
             const location = questionType === QuestionType.Location ? filterText : null;
-            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);//await questionRemote.getAllQuestions(size, page);
+            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
         } else if (view === 'question') {
-            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(userId, size, location, page);
             tab = 1;
             setView(view)
         } else if (view === 'answer') {
@@ -124,8 +125,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
      */
     const renderFeedBoxComponents = () => {
-        console.log(props.storeQuestions);
-        
         if (view === 'confirm') {
             filteredQuestions = props.storeQuestions.filter(question => question.acceptedId !== null);
             return filteredQuestions.map(question => {
@@ -151,10 +150,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      *  not 100% sure how to change the view for this.
      */
     const handleFilter = async () => {
-        const location = questionType === QuestionType.Location ? filterText : null;
-        let data = await questionRemote.getAllQuestionsByLocation(size, 0, location);
-
-        props.clickTab(data.content, 0, data.totalPages, data.number);
+        // just refreshes the filter
+        load(view, 0);
     }
 
     return (
