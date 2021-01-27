@@ -6,14 +6,13 @@
     stages{
         stage("Prepare Environment"){
             steps{
-                echo "checking node"
                 sh "node --version"
                 sh "npm install"
             }
         }
         stage("Test Code"){
             steps{
-                sh "npm run test" 
+                sh "npm run prodtest" 
             }
         }
         stage("SonarCloud Report"){
