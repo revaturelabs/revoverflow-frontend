@@ -94,7 +94,7 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
         try {
             questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
         } catch {
-            alert("You encountered an error1")
+            alert("You encountered an error1");
             return;
         }
         const payload = {
@@ -115,7 +115,7 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             // props.clickConfirm(retrievedQuestion.data, true);
             window.location.reload(false);
         } catch {
-            alert("You encountered an error2")
+            alert("You encountered an error2");
             return;
         }
         

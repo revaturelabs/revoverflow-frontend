@@ -97,13 +97,12 @@ export const RichTextEditorComponent: React.FC = () => {
 
     const saveQuestion = async () => {
         const contentState = editorState.getCurrentContent();
-
-        //check if url has /faq in it
         let url = window.location.href;
-        console.log(url);
         let payload: any;
+
+        //this boolean will see if the question should be 
+        //labeled as a faq or not going into the DB
         let bool: boolean = url.includes('/question/faq');
-        console.log(bool);
 
         if (bool) {
             payload = {
@@ -114,9 +113,8 @@ export const RichTextEditorComponent: React.FC = () => {
                 isFaq: true,
                 userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
             }
-            //console.log(payload);
-            
-            
+
+
         } else {
             payload = {
                 title: title,
@@ -126,7 +124,6 @@ export const RichTextEditorComponent: React.FC = () => {
                 IsFaq: false,
                 userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
             }
-            //console.log(payload)
 
         }
 

@@ -113,9 +113,10 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 && view === 'recent') {
-        load("recent", 0);
-    }
+    //this seems to cause a bug with the add faq button, commenting out for now
+    // if (props.storeQuestions.length === 0 && view === 'recent') {
+    //     load("recent", 0);
+    // }
 
     /**
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
@@ -128,9 +129,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-        //ADDED THIS FAQ FILTER LOGIC 
+         
 
-        
+        //ADDED THIS FAQ FILTER LOGIC
         }else if (view === 'faq') {
             filteredQuestions = props.storeQuestions.filter(question => question.isFaq === true);
             return filteredQuestions.map(question => {
@@ -152,12 +153,15 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         history.push('/question');
     }
 
+
+    /**
+     * This function handles the clicking of the add faq button. 
+     * Routes the user to the text editor component; on clicking submit, the added
+     * question is marked by default as a FAQ
+     */
     const clickAdd = () => {
         console.log("add clicked");
         history.push('/question/faq');
-        // setView('recent');
-        // setValue(0);
-        // load('recent', 0);
     }
 
     return (
