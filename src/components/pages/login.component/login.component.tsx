@@ -62,7 +62,7 @@ export const LoginComponent: React.FC = () => {
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
       // console.log("Access Token outside_________"+ JSON.stringify(accessToken))
 
-      response = await loginRemote.checkLoginCredentials(accessToken);
+      response = await loginRemote.checkLoginCredentials(inputEmail, accessToken);
 
       await setInformation();
     } catch {
