@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase, Menu, MenuItem } from '@material-ui/core';
+import { Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase, Menu, MenuItem, Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -85,6 +85,7 @@ export const RichTextEditorComponent: React.FC = () => {
     const history = useHistory();
     const [title, setTitle] = useState('');
     const [locations, setLocations] = useState(new Array<any>());
+    const [locationBasedQuestion, setQuestionType] = useState(false);
     const [currentLocation, setCurrentLocation] = useState(0)
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -123,7 +124,9 @@ export const RichTextEditorComponent: React.FC = () => {
 
     }, [])
 
-
+    const changeQuestionType = (val:boolean) => {
+        setQuestionType(val)
+    }
 
 
 
@@ -132,6 +135,7 @@ export const RichTextEditorComponent: React.FC = () => {
         const payload: any = {
             title: title,
             content: JSON.stringify(convertToRaw(contentState)),
+            locationBasedQuestion: locationBasedQuestion,
             location: currentLocation,
             creationDate: new Date(),
             status: false,
@@ -305,9 +309,29 @@ export const RichTextEditorComponent: React.FC = () => {
                                     </span>
                                 )}
 
+                                    <RadioGroup row aria-label="position" name="questionType" defaultValue="top">
+                                        <FormControlLabel
+                                        value={false}
+                                        control={<Radio color="primary" />}
+                                        label="Revature-based Question"
+                                        labelPlacement="top"
+                                        checked={!locationBasedQuestion}
+                                        onChange={()=>changeQuestionType(false)}
+                                    />
+                                        <FormControlLabel
+                                        value={true}
+                                        control={<Radio color="primary" />}
+                                        label="Location-based Question"
+                                        labelPlacement="top"
+                                        checked={locationBasedQuestion}
+                                        onChange={()=>changeQuestionType(true)}
+                                    />
+                                    </RadioGroup>
+                                
                                 <Button aria-controls="simple-menu" id="location-dropdown-button" aria-haspopup="true" onClick={handleClick}>
                                         Location
                                 </Button>
+                                
                                 <Menu
                                     id="location-dropdown-menu"
                                     anchorEl={anchorEl}
