@@ -39,6 +39,7 @@ RevOverflow is a site dedicated to providing support to technical problems encou
 
 - git clone https://github.com/875-Trevin-Chester/revoverflow-frontend.git
   - The above git command will bring the repository into your specified directory.
+- Import the project files into an IDE (VSCode used in development).
 - npm install
   - The above command will install any dependencies and node modules necessary to run the React project.
 
