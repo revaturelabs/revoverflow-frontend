@@ -70,6 +70,7 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             creationDate: questionInfo.creationDate,
             editDate: null,
             status: true,
+            revatureQuestion: questionInfo.revatureQuestion,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         };
 
