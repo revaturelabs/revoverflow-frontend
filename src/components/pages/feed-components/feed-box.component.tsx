@@ -19,7 +19,7 @@ import { AddFAQComponent } from '../../faq-components/add.faq.component';
 
 
 const drawerWidth = 100;
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     boxInternal: {
         marginBottom: 5,
         marginTop: 10,
@@ -32,9 +32,10 @@ const useStyles = makeStyles({
         paddingTop: 20
     },
     backdrop: {
-
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     }
-});
+}));
 
 export interface FeedBoxComponentProps {
     question: any;
@@ -99,7 +100,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     //!First box here contains answers not questions, so does its handler deal with answer not questions
     return (
         <>
-        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+        <Backdrop className={classes.backdrop} open={open} onClick={handleClose} onClickCapture={handleClose}>
             <AddFAQComponent/>
         </Backdrop>
         <Box display="flex" justifyContent="center" >
