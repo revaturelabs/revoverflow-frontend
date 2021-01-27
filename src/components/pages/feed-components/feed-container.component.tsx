@@ -90,7 +90,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let retrievedPageable: any;
         let tab: any;
         if (view === 'recent') {
-            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);//await questionRemote.getAllQuestions(size, page);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {
@@ -123,6 +124,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
      */
     const renderFeedBoxComponents = () => {
+        console.log(props.storeQuestions);
+        
         if (view === 'confirm') {
             filteredQuestions = props.storeQuestions.filter(question => question.acceptedId !== null);
             return filteredQuestions.map(question => {
@@ -149,10 +152,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      */
     const handleFilter = async () => {
         const location = questionType === QuestionType.Location ? filterText : null;
-        let data: Question = await questionRemote.getAllQuestionsByLocation(size, 0, location);
-        
-        // TODO: update displayed questions
-        console.log(data);
+        let data = await questionRemote.getAllQuestionsByLocation(size, 0, location);
+
+        props.clickTab(data.content, 0, data.totalPages, data.number);
     }
 
     return (
