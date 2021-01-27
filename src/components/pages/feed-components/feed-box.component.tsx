@@ -101,7 +101,10 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     return (
         <>
         <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-            {(open)?<AddFAQComponent defaultQuestion={"props.questionContent"}/>:''}
+            {/* {(open)? */
+            <AddFAQComponent defaultQuestion={"props.questionContent"}/>
+            // :''
+        }
         </Backdrop>
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>

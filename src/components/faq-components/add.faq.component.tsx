@@ -12,17 +12,17 @@ export interface AddFAQComponentProps {
 }
 
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
-  const [question, setQuestion] = useState<String>('');
-  const [answer, setAnswer] = useState<String>('');
+  const [question, setQuestion] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
 
   //get the truthiness of the defaultQuestion
   let defaultQuestionProvided:boolean = (props.defaultQuestion)?true:false;
 
   //if there is a default question set our question equal to it
   useEffect(() => {
-    console.log("defaultQuestionProvided is " + defaultQuestionProvided)
+    console.log("defaultQuestionProvided is " + props.defaultQuestion)
     setQuestion(props.defaultQuestion ?? '')
-  }, [props.defaultQuestion])
+  }, [defaultQuestionProvided, props.defaultQuestion])
 
   const handleQuestionChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
     console.log('Changing question')
@@ -62,9 +62,9 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
     <Card onClick={(e) => e.stopPropagation()}>
     <form id="addFAQForm" onSubmit={submitFAQ}>
       <label>Question:</label>
-      <input type="text" id="questionInput" onChange={handleQuestionChange} placeholder="Enter your Question"/>
+      <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"/>
       <label>Answer:</label>
-      <input type="text" id="answerInput" onChange={ handleAnswerChange} placeholder="Enter your Answer"/>
+      <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/>
       <button type="submit" id="submitFAQButton"> Submit </button>
     </form>
     </Card>
