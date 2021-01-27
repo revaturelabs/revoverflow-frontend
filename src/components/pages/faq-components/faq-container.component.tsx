@@ -18,6 +18,10 @@ import { clickTab } from '../../../actions/question.actions';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import BusinessIcon from '@material-ui/icons/Business';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const theme = createMuiTheme({
     palette: {
@@ -43,7 +47,14 @@ const useStyles = makeStyles({
     breadcrumbBar: {
         marginTop: 60,
         marginLeft: 20,
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
 });
 
 export interface FeedContainerComponentProps {
@@ -59,6 +70,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
+    const [location, setLocation] = React.useState('');
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -132,6 +144,33 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
         history.push('/question');
     }
 
+    const renderDropdown = () => {
+
+
+
+        const handleChange = (event: React.ChangeEvent<{ value: any }>) => {
+            setLocation(event.target.value as string);
+          };
+
+        return (
+            
+            <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Locations</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={location}
+              onChange={handleChange}
+            >
+              <MenuItem >Toronto</MenuItem>
+              <MenuItem >Ottawa</MenuItem>
+              <MenuItem >Calgary</MenuItem>
+            </Select>
+          </FormControl>
+          
+        )
+    }
+
     return (
         <div>
             <BreadcrumbBarComponent />
@@ -156,7 +195,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
                             <Tab icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
                                 onClick={(e) => load("recent", 0)} />
                             <Tab icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
-                                onClick={(e) => load("question", 0)} />
+                                onClick={(e) => renderDropdown()} />
                         </Tabs>
                        
                     </Box>
