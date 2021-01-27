@@ -113,7 +113,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         } 
         /////////////////ADDED THIS FAQ TAB /////////////////
         else if (view === 'faq') {
-            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);
             tab = 4;
             setView(view);
         }
