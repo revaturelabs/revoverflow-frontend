@@ -39,6 +39,7 @@ import * as questionRemote from "../../../../remotes/question.remote";
 import { useHistory } from "react-router";
 import { BreadcrumbBarComponent } from "../../breadcrumb-bar.component";
 import { getLocations } from "../../../../remotes/location.remote";
+import { Location } from "../../../../models/location";
 
 const theme = createMuiTheme({
   palette: {
@@ -102,7 +103,7 @@ export const RichTextEditorComponent: React.FC = () => {
   const [title, setTitle] = useState("");
   const [locations, setLocations] = useState(new Array<any>());
   const [locationBasedQuestion, setQuestionType] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(0);
+  const [currentLocation, setCurrentLocation] = useState<Location>();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const onChange = (editorState: EditorState) => setEditorState(editorState);
@@ -125,9 +126,10 @@ export const RichTextEditorComponent: React.FC = () => {
   };
   const handleLocationChange = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    locationID: number
+    location: Location
   ) => {
-    setCurrentLocation(locationID);
+    setCurrentLocation(location);
+    console.log(location);
     handleClose();
   };
 
@@ -427,9 +429,9 @@ export const RichTextEditorComponent: React.FC = () => {
                       <MenuItem
                         key={location.id}
                         onClick={(e) => {
-                          handleLocationChange(e, location.id);
+                          handleLocationChange(e, location);
                         }}
-                        value={location.id}
+                        value={location}
                       >
                         {location.locationName}
                       </MenuItem>
