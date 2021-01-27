@@ -7,15 +7,16 @@ import { authAxios, internalAxios } from './internal.axios';
 import { user } from '../models/user';
 
 
-export const checkLoginCredentials = async (token: string | undefined) => {
-    const response = await internalAxios.post(`/login/`, {
+export const checkLoginCredentials = async (email: string | undefined, token: string | undefined) => {
+  console.log(email)
+    const response = await internalAxios.post(`/login/`, email, {
+
 
       headers: {
 
         Authorization: `Bearer ${token}` 
 
       }
-
     }) 
 
     return response;
