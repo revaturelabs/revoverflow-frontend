@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles } from '@material-ui/core';
@@ -22,6 +22,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import CustomizedBreadcrumbs from './BreadCrumbs';
+
+
 
 const theme = createMuiTheme({
     palette: {
@@ -68,9 +71,9 @@ export interface FeedContainerComponentProps {
 export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
-    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
-    const [value, setValue] = React.useState(props.storeTab);
-    const [location, setLocation] = React.useState('');
+    const [view, setView] = useState("") ;
+    const [value, setValue] = useState(props.storeTab);
+    const [location, setLocation] = useState('');
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -84,61 +87,70 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
         load(view, value - 1);
     };
 
+    const getView = ()=>{
+        return view
+    }
+
+    useEffect(() => {
+        load(view, 1)
+    }, [view])
+
     /**
      * Populates the feed with answers or questions according to the particular view and page input. 
      * @param view string variable that dictates what is displayed in the rendered feed box components
      * @param page number variable that describes which page to display form the paginated information recieved from the server
      */
-    const load = async (view: string, page: number) => {
+    const load = async (currentView: string, page: number) => {
         let retrievedPageable: any;
         let tab: any;
-        if (view === 'recent') {
+        console.log(view, "<<<<<<<<<<<<<<<<<<<<<<<<default")
+        if (currentView === 'revature') {
+            
             retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 0;
-            setView(view);
+            // setView("revature");
+            console.log(view,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<revature")
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
-        } else if (view === 'question') {
-            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+        } else if (currentView === 'location') {
+       
+
+
+            retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 1;
-            setView(view)
-        } else if (view === 'answer') {
-            retrievedPageable = await answerRemote.getAnswersByUserId(userId, size, page);
-            tab = 2;
-            setView(view)
-        } else if (view === 'confirm') {
-            retrievedPageable = await questionRemote.getUnconfirmedQuestions(size, page);
-            tab = 3;
-            setView(view)
-        }
 
-        props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
+            // setView("location")
+            console.log(view, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<location")
+          
+        } 
+
+        // props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 && view === 'recent') {
-        load("recent", 0);
-    }
+    // if (props.storeQuestions.length === 0 && view === 'recent') {
+    //     load("recent", 0);
+    // }
 
     /**
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
      */
-    const renderFeedBoxComponents = () => {
-        if (view === 'confirm') {
-            filteredQuestions = props.storeQuestions.filter(question => question.acceptedId !== null);
-            return filteredQuestions.map(question => {
-                return (
-                    <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
-                )
-            })
-        } else {
-            return props.storeQuestions.map(question => {
-                return (
-                    <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
-                )
-            })
-        }
-    }
+    // const renderFeedBoxComponents = () => {
+    //     if (view === 'confirm') {
+    //         filteredQuestions = props.storeQuestions.filter(question => question.acceptedId !== null);
+    //         return filteredQuestions.map(question => {
+    //             return (
+    //                 <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
+    //             )
+    //         })
+    //     } else {
+    //         return props.storeQuestions.map(question => {
+    //             return (
+    //                 <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
+    //             )
+    //         })
+    //     }
+    // }
 
     const handleRedirect = () => {
         history.push('/question');
@@ -148,27 +160,8 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
 
 
 
-        const handleChange = (event: React.ChangeEvent<{ value: any }>) => {
-            setLocation(event.target.value as string);
-          };
 
-        return (
-            
-            <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Locations</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={location}
-              onChange={handleChange}
-            >
-              <MenuItem >Toronto</MenuItem>
-              <MenuItem >Ottawa</MenuItem>
-              <MenuItem >Calgary</MenuItem>
-            </Select>
-          </FormControl>
-          
-        )
+
     }
 
     return (
@@ -192,16 +185,25 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
                             scrollButtons="auto"
                             onChange={handleChange}
                         >
-                            <Tab icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
-                                onClick={(e) => load("recent", 0)} />
+                            {/* <Tab icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
+                                onClick={(e) => load("revature", 0)} />
                             <Tab icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
-                                onClick={(e) => renderDropdown()} />
+                                onClick={(e) => load('location', 1)} /> */}
+
+                            <Tab icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
+                                onClick={(e) => setView("revature")}/>
+                            <Tab icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
+                                onClick={(e) => setView("location")} />
+                            
                         </Tabs>
                        
                     </Box>
+                    
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >
-                            {renderFeedBoxComponents()}
+                            {console.log(getView(), "im in the box", view)}
+                            {getView() === "location" ? <CustomizedBreadcrumbs /> : console.dir(getView())}
+                            {/* {renderFeedBoxComponents()} */}
                         </Box>
                     </div>
                     <Box display="flex" justifyContent="center" padding={5}>

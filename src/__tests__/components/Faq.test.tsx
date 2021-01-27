@@ -14,7 +14,7 @@ configure({adapter: new Adapter()})
 
 
 describe('USER-FAQ component tests', () => {
-
+    
     test('USER-FAQ component mounting test:Should Render', () => {
         
         const wrapper = mount(<Faq />);
