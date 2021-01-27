@@ -1,12 +1,12 @@
 /**
  * @file Contains and manages the questions and answer boxes populated into the feed
- * @author Keith Salzman 
+ * @author Keith Salzman
  */
 
 import React, { useState } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles } from '@material-ui/core';
+import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles, TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import FeedBoxComponent from './feed-box.component';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
@@ -21,6 +21,8 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import { Autocomplete } from '@material-ui/lab';
+import locations from '../../../data/locations.json';
 
 const theme = createMuiTheme({
     palette: {
@@ -29,7 +31,7 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#3498db',
-        },
+        }
     },
 });
 
@@ -57,11 +59,15 @@ export interface FeedContainerComponentProps {
     storePage: number;
 }
 
+enum QuestionType { General, Location };
+
 export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent' | 'faq'>('recent');
-    const [value, setValue] = React.useState(props.storeTab);
+    const [value, setValue] = useState(props.storeTab);
+    const [questionType, setQuestionType] = useState<QuestionType>(QuestionType.General);
+    const [filterText, setFilterText] = useState<string | null>(null);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
     const size = 10;
@@ -76,7 +82,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     };
 
     /**
-     * Populates the feed with answers or questions according to the particular view and page input. 
+     * Populates the feed with answers or questions according to the particular view and page input.
      * @param view string variable that dictates what is displayed in the rendered feed box components
      * @param page number variable that describes which page to display form the paginated information recieved from the server
      */
@@ -84,14 +90,16 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let retrievedPageable: any;
         let tab: any;
         if (view === 'recent') {
-            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
         } else if (view === 'question') {
-            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(size, page,location, userId);
             tab = 1;
             setView(view)
         } else if (view === 'answer') {
@@ -113,7 +121,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    //this seems to cause a bug with the add faq button, commenting out for now
+    // Set view to recent if there are no questions to display.
+    // This is stupid. Don't do this.
     // if (props.storeQuestions.length === 0 && view === 'recent') {
     //     load("recent", 0);
     // }
@@ -129,7 +138,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-         
+        
 
         //ADDED THIS FAQ FILTER LOGIC
         }else if (view === 'faq') {
@@ -140,7 +149,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                 )
             })
         }
-         else {
+        else {
             return props.storeQuestions.map(question => {
                 return (
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
@@ -153,6 +162,14 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         history.push('/question');
     }
 
+    /**
+     * This method gets called on the on click on line 193 and sends in size, page number, and filterText value
+     *  not 100% sure how to change the view for this.
+     */
+    const handleFilter = async () => {
+        // just refreshes the filter
+        load(view, 0);
+    }
 
     /**
      * This function handles the clicking of the add faq button. 
@@ -205,6 +222,39 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                             <Tab icon={<QuestionAnswerIcon fontSize="large"/>} id="FAQ-Tab" label = "FAQ" className={classes.boxInternal} onClick={(e) => load('faq', 0)}/>
                         </Tabs>
                     </Box>
+                    {/* Only show the question filter if we are on a question tab */}
+                    {view !== 'answer' ?
+                        <Box className={classes.boxInternal} display='flex' justifyContent='center' alignItems='center' m={2}>
+                            <RadioGroup value={questionType} onChange={e => setQuestionType(parseInt(e.currentTarget.value))}>
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.General}
+                                    control={<Radio />}
+                                    label="General Revature Questions"
+                                />
+                                <FormControlLabel
+                                    labelPlacement="end"
+                                    value={QuestionType.Location}
+                                    control={<Radio />}
+                                    label="Location-Specific Questions"
+                                />
+                            </RadioGroup>
+                            {questionType === QuestionType.Location ?
+                                <Autocomplete
+                                    onChange={(e, value) => setFilterText(value)}
+                                    value={filterText}
+                                    options={locations}
+                                    style={{ width: 300 }}
+                                    renderInput={params =>
+                                        <TextField {...params} onChange={e => setFilterText(e.target.value)} label="View by Location" variant="outlined" />
+                                    }
+                                /> :
+                                <></>
+                            }
+                            <Button onClick={() => handleFilter()} variant="outlined" style={{marginLeft: '1rem'}}>Filter</Button>
+                        </Box> :
+                        <></>
+                    }
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >
                             {renderFeedBoxComponents()}

@@ -13,7 +13,7 @@ import { EditorState, convertFromRaw, Editor } from 'draft-js';
 
 /**
  * @file Displays general answers belonging to question of interest within forum
- * @author Keith Salzman 
+ * @author Keith Salzman
  */
 
 const useStyles = makeStyles({
@@ -98,8 +98,12 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             setOpen(true);
         }
     };
-
+    /**
+     * WHen you click the check icon thsi si the submit button
+     */
     const handleCloseSubmit = async () => {
+        //page resets here
+        console.log("hello")
         let questionInfo: Question;
         try {
             questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
@@ -108,7 +112,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             return;
         }
 
-        const payload = {
+        const payload: Question = {
             id: questionInfo.id,
             acceptedId: props.answer.id,
             title: questionInfo.title,
@@ -117,7 +121,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             editDate: null,
             status: false,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-            //adding this new property
+            location: null,
             isFaq: questionInfo.isFaq
         };
 
