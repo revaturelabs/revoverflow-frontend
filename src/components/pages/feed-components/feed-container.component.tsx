@@ -90,14 +90,16 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let retrievedPageable: any;
         let tab: any;
         if (view === 'recent') {
-            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);
             tab = 0;
             setView(view);
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
         } else if (view === 'question') {
-            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+            const location = questionType === QuestionType.Location ? filterText : null;
+            retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(size, page,location, userId);
             tab = 1;
             setView(view)
         } else if (view === 'answer') {
@@ -148,11 +150,8 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
      *  not 100% sure how to change the view for this.
      */
     const handleFilter = async () => {
-        const location = questionType === QuestionType.Location ? filterText : null;
-        let data: Question = await questionRemote.getAllQuestionsByLocation(size, 0, location);
-        
-        // TODO: update displayed questions
-        console.log(data);
+        // just refreshes the filter
+        load(view, 0);
     }
 
     return (
