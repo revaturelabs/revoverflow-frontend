@@ -118,7 +118,7 @@ export const RichTextEditorComponent: React.FC = () => {
             let locationsData:Location[] = await getLocations()
 
             setLocations(locationsData)
-            
+            console.log(locationsData)
         }
         fetchData()
 
@@ -340,7 +340,7 @@ export const RichTextEditorComponent: React.FC = () => {
                                     onClose={handleClose}
                                 >
                                     {locations.map((location)=> {
-                                        return <MenuItem onClick={(e) => {handleLocationChange(e, location.id)}} value={location.id}>{location.name}</MenuItem>
+                                        return <MenuItem onClick={(e) => {handleLocationChange(e, location.id)}} value={location.id}>{location.locationName}</MenuItem>
                                      })}
                                      <MenuItem onClick={(e) => {handleLocationChange(e, 3)}} value="3">{"test location"}</MenuItem>
                                         
