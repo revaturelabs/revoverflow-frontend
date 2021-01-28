@@ -97,13 +97,15 @@ const styleMap = {
   },
 };
 
+interface IRichTextEditorProps {}
+
 export const RichTextEditorComponent: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [locations, setLocations] = useState(new Array<any>());
   const [locationBasedQuestion, setQuestionType] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<Location>();
+  const [currentLocation, setCurrentLocation] = useState<any>(new Object());
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const onChange = (editorState: EditorState) => setEditorState(editorState);
@@ -129,7 +131,7 @@ export const RichTextEditorComponent: React.FC = () => {
     location: Location
   ) => {
     setCurrentLocation(location);
-    console.log(location);
+    console.log(currentLocation.locationName);
     handleClose();
   };
 
@@ -137,7 +139,7 @@ export const RichTextEditorComponent: React.FC = () => {
     //fetch location data
     async function fetchData() {
       let locationsData: Location[] = await getLocations();
-      console.log(locationsData);
+      //console.log(locationsData);
       setLocations(locationsData);
     }
     fetchData();
@@ -414,7 +416,7 @@ export const RichTextEditorComponent: React.FC = () => {
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  Location
+                  {currentLocation.locationName || `Choose locations`}
                 </Button>
 
                 <Menu
