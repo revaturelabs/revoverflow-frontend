@@ -1,9 +1,44 @@
 import React, { useEffect } from 'react';
-import { emphasize, withStyles, Theme } from '@material-ui/core/styles';
+import { emphasize, withStyles, Theme, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#f26925',
+        },
+        secondary: {
+            main: '#3498db',
+        },
+    },
+});
+
+
+const useStyles = makeStyles({
+    parentCrumb:{
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center"
+
+    },
+    babyCrumb:{
+      // flexGrow:"1"
+      margin: "1.5rem",
+
+    },
+    crumbIcon: {
+      color: "#3498db"
+    }
+
+});
+
+
 
 const StyledBreadcrumb = withStyles((theme: Theme) => ({
   root: {
@@ -27,51 +62,66 @@ function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
 }
 
 export default function CustomizedBreadcrumbs() {
+
+  const classes = useStyles();
+
+
   return (
-    <Breadcrumbs aria-label="breadcrumb">
-      <StyledBreadcrumb
-        component="a"
-        href="#"
-        label="Toronto"
-        icon={<HomeIcon fontSize="small" />}
-        onClick={handleClick}
-      />
-      <StyledBreadcrumb 
-      component="a" 
-      href="#" 
-      label="US-1" 
-      onClick={handleClick} 
-      />
-      <StyledBreadcrumb
-        label="US-2"
-        deleteIcon={<ExpandMoreIcon />}
-        onClick={handleClick}
-        onDelete={handleClick}
-      />
-      <StyledBreadcrumb
-        label="US-3"
-        deleteIcon={<ExpandMoreIcon />}
-        onClick={handleClick}
-        onDelete={handleClick}
-      />
-      <StyledBreadcrumb
-        label="US-4"
-        deleteIcon={<ExpandMoreIcon />}
-        onClick={handleClick}
-        onDelete={handleClick}
-      />
-      <StyledBreadcrumb
-        label="US-5"
-        deleteIcon={<ExpandMoreIcon />}
-        onClick={handleClick}
-        onDelete={handleClick}
-      />
-      <StyledBreadcrumb
-        label="US-6"
-        deleteIcon={<ExpandMoreIcon />}
-        onClick={handleClick}
-        onDelete={handleClick}
-      />
-    </Breadcrumbs>
+
+    <ThemeProvider theme={theme} > 
+     
+      <Breadcrumbs className={classes.parentCrumb} aria-label="breadcrumb">
+        <StyledBreadcrumb
+          className={classes.babyCrumb}
+          component="a"
+          href="#"
+          label="Toronto"
+          icon={<HomeIcon fontSize="large" className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb 
+        className={classes.babyCrumb}
+        component="a" 
+        href="#" 
+        label="Reston" 
+        icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+        onClick={handleClick} 
+        />
+        <StyledBreadcrumb
+        className={classes.babyCrumb}
+          label="Tampa"
+          deleteIcon={<ExpandMoreIcon />}
+          icon={<HomeIcon fontSize="large" className={classes.crumbIcon} />}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb
+        className={classes.babyCrumb}
+          label="New York"
+          deleteIcon={<ExpandMoreIcon />}
+          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb
+        className={classes.babyCrumb}
+          label="Dallas"
+          deleteIcon={<ExpandMoreIcon />}
+          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb
+        className={classes.babyCrumb}
+          label="Orlando"
+          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb
+        className={classes.babyCrumb}
+          label="Morgantown"
+          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+      </Breadcrumbs>
+
+    </ThemeProvider>
   );
 }
