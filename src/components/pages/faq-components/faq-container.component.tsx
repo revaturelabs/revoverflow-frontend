@@ -127,32 +127,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
           
         } 
 
-        // props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
-
-    // if (props.storeQuestions.length === 0 && view === 'recent') {
-    //     load("recent", 0);
-    // }
-
-    /**
-     * Maps the questions or answers into feed boxes to be displayed within the feed container.
-     */
-    // const renderFeedBoxComponents = () => {
-    //     if (view === 'confirm') {
-    //         filteredQuestions = props.storeQuestions.filter(question => question.acceptedId !== null);
-    //         return filteredQuestions.map(question => {
-    //             return (
-    //                 <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
-    //             )
-    //         })
-    //     } else {
-    //         return props.storeQuestions.map(question => {
-    //             return (
-    //                 <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
-    //             )
-    //         })
-    //     }
-    // }
 
     const handleRedirect = () => {
         history.push('/question');
