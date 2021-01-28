@@ -1,12 +1,19 @@
-import classes from "*.module.css";
-import { Backdrop, Card, Input } from "@material-ui/core";
+import { Card, } from "@material-ui/core";
 import axios from "axios";
-import React, { useState, FC, HtmlHTMLAttributes, SyntheticEvent, useEffect } from "react";
-import { StringDecoder } from "string_decoder";
-import { Answer } from "../../models/answer";
-import { Question } from "../../models/question";
+import { ContentState, convertFromRaw, Editor, EditorState, RichUtils } from "draft-js";
+import React, { useState, FC, useEffect } from "react";
+import { AnswerRichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/answer-draftjs";
+import { RichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/draftjs";
+import { RichTextBoxComponent } from "../rich-text-box-component";
 
-//pass in null if there is no default question
+const styleMap = {
+  'HIGHLIGHT': {
+      padding: 4,
+      'backgroundColor': '#D3D3D3'
+  }
+};
+
+//pass in if there is no default question
 export interface AddFAQComponentProps {
   defaultQuestion?:string
 }
@@ -14,15 +21,15 @@ export interface AddFAQComponentProps {
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
-
-  //get the truthiness of the defaultQuestion
-  let defaultQuestionProvided:boolean = (props.defaultQuestion)?true:false;
-
+  const [defaultQuestionProvided, setDefaultQuestionProvided] = useState<boolean>(false)
+  
   //if there is a default question set our question equal to it
   useEffect(() => {
+    //get the truthiness of the defaultQuestion
+    setDefaultQuestionProvided((props.defaultQuestion)?true:false)
     console.log("defaultQuestionProvided is " + props.defaultQuestion)
     setQuestion(props.defaultQuestion ?? '')
-  }, [defaultQuestionProvided, props.defaultQuestion])
+  }, [props.defaultQuestion])
 
   const handleQuestionChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
     console.log('Changing question')
@@ -59,14 +66,16 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   };
 
   return (
-    <Card onClick={(e) => e.stopPropagation()}>
-    <form id="addFAQForm" onSubmit={submitFAQ}>
-      <label>Question:</label>
-      <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"/>
-      <label>Answer:</label>
-      <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/>
-      <button type="submit" id="submitFAQButton"> Submit </button>
-    </form>
+    <Card onClick={(e) => e.stopPropagation()}> 
+      <form id="addFAQForm" onSubmit={submitFAQ}>
+        <RichTextBoxComponent/>
+        <label>Question:</label>
+        <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
+            disabled={defaultQuestionProvided}/>
+        <label>Answer:</label>
+        <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/>
+        <button type="submit" id="submitFAQButton"> Submit </button>
+      </form>
     </Card>
   );
 };

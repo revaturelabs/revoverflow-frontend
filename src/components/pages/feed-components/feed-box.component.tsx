@@ -102,7 +102,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         <>
         <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
             {/* {(open)? */
-            <AddFAQComponent defaultQuestion={"props.questionContent"}/>
+            <AddFAQComponent defaultQuestion={props.questionContent}/>
             // :''
         }
         </Backdrop>
