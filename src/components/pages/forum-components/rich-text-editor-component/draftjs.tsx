@@ -105,7 +105,9 @@ export const RichTextEditorComponent: React.FC = () => {
   const [title, setTitle] = useState("");
   const [locations, setLocations] = useState(new Array<any>());
   const [locationBasedQuestion, setQuestionType] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<any>(new Object());
+  const [currentLocation, setCurrentLocation] = useState<any>(
+    new Object({ id: 1, locationName: "All Locations" })
+  );
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const onChange = (editorState: EditorState) => setEditorState(editorState);
@@ -130,8 +132,10 @@ export const RichTextEditorComponent: React.FC = () => {
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     location: Location
   ) => {
+    e.preventDefault();
+    console.log(location);
     setCurrentLocation(location);
-    console.log(currentLocation.locationName);
+
     handleClose();
   };
 
@@ -348,7 +352,7 @@ export const RichTextEditorComponent: React.FC = () => {
                 )}
                 {blockbuttons.map((b) =>
                   blockbuttonVariant(b.block) ? (
-                    <span className={classes.buttonInternal}>
+                    <span key={b.block} className={classes.buttonInternal}>
                       <Button
                         key={b.block}
                         onMouseDown={b.function}
@@ -373,8 +377,8 @@ export const RichTextEditorComponent: React.FC = () => {
                     </span>
                   )
                 )}
-                {linkbutton.map((b) => (
-                  <span className={classes.buttonInternal}>
+                {linkbutton.map((b, i) => (
+                  <span key={i} className={classes.buttonInternal}>
                     <Button
                       onMouseDown={b.function}
                       size="small"
@@ -416,7 +420,7 @@ export const RichTextEditorComponent: React.FC = () => {
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  {currentLocation.locationName || `Choose locations`}
+                  {currentLocation.locationName}
                 </Button>
 
                 <Menu
@@ -430,9 +434,7 @@ export const RichTextEditorComponent: React.FC = () => {
                     return (
                       <MenuItem
                         key={location.id}
-                        onClick={(e) => {
-                          handleLocationChange(e, location);
-                        }}
+                        onClick={(e) => handleLocationChange(e, location)}
                         value={location}
                       >
                         {location.locationName}
