@@ -24,7 +24,9 @@ const useStyles = makeStyles({
     parentCrumb:{
       display:"flex",
       alignItems:"center",
-      justifyContent:"center"
+      justifyContent:"center",
+      boxSizing:"border-box",
+      width:"100%"
 
     },
     babyCrumb:{
@@ -46,19 +48,25 @@ const StyledBreadcrumb = withStyles((theme: Theme) => ({
     height: theme.spacing(3),
     color: theme.palette.grey[800],
     fontWeight: theme.typography.fontWeightRegular,
+    
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.grey[300],
+      backgroundColor: theme.palette.grey[100],
+      color: "#000000",
+
+         fontWeight: "bold"
+      
     },
     '&:active': {
       boxShadow: theme.shadows[1],
-      backgroundColor: emphasize(theme.palette.grey[300], 0.12),
+      backgroundColor: theme.palette.primary.main,
+   
     },
   },
 }))(Chip) as typeof Chip; // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
 function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');
+  console.info('You clicked a location.');
 }
 
 export default function CustomizedBreadcrumbs() {
@@ -70,11 +78,11 @@ export default function CustomizedBreadcrumbs() {
 
     <ThemeProvider theme={theme} > 
      
-      <Breadcrumbs className={classes.parentCrumb} aria-label="breadcrumb">
+      <Breadcrumbs separator="|" className={classes.parentCrumb} aria-label="breadcrumb">
         <StyledBreadcrumb
           className={classes.babyCrumb}
           component="a"
-          href="#"
+          href="#Toronto"
           label="Toronto"
           icon={<HomeIcon fontSize="large" className={classes.crumbIcon}/>}
           onClick={handleClick}
@@ -82,7 +90,7 @@ export default function CustomizedBreadcrumbs() {
         <StyledBreadcrumb 
         className={classes.babyCrumb}
         component="a" 
-        href="#" 
+        href="#Reston" 
         label="Reston" 
         icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
         onClick={handleClick} 
