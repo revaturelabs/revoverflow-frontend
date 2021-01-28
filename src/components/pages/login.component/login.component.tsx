@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const LoginComponent: React.FC = () => {
   const classes = useStyles();
-
   const history = useHistory();
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
@@ -62,7 +61,7 @@ export const LoginComponent: React.FC = () => {
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
       // console.log("Access Token outside_________"+ JSON.stringify(accessToken))
 
-      response = await loginRemote.checkLoginCredentials(inputEmail, accessToken);
+      response = await loginRemote.checkLoginCredentials(accessToken);
 
       await setInformation();
     } catch {
