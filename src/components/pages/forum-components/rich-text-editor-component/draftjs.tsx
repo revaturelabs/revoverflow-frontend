@@ -23,9 +23,8 @@ import {
   InputBase,
   Menu,
   MenuItem,
-  Radio,
   FormControlLabel,
-  RadioGroup,
+  Checkbox,
 } from "@material-ui/core";
 import FormatBoldIcon from "@material-ui/icons/FormatBold";
 import HttpIcon from "@material-ui/icons/Http";
@@ -104,7 +103,8 @@ export const RichTextEditorComponent: React.FC = () => {
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [locations, setLocations] = useState(new Array<any>());
-  const [locationBasedQuestion, setQuestionType] = useState(false);
+  const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
+  const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<any>(
     new Object({ id: 1, locationName: "All Locations" })
   );
@@ -125,12 +125,6 @@ export const RichTextEditorComponent: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-<<<<<<< HEAD
-            setLocations(locationsData)
-            console.log(locationsData)
-        }
-        fetchData()
-=======
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -141,7 +135,6 @@ export const RichTextEditorComponent: React.FC = () => {
     e.preventDefault();
     console.log(location);
     setCurrentLocation(location);
->>>>>>> e7ad56972966c373ed8f22d2af94148d77b6d1f3
 
     handleClose();
   };
@@ -156,8 +149,16 @@ export const RichTextEditorComponent: React.FC = () => {
     fetchData();
   }, []);
 
-  const changeQuestionType = (val: boolean) => {
-    setQuestionType(val);
+  const toggleRevatureBasedQuestion = () => {
+    setRevatureBasedQuestion(!revatureBasedQuestion);
+  };
+
+  const toggleLocationBasedQuestion = () => {
+    if(locationBasedQuestion) {
+      setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }))
+    }
+
+    setLocationBasedQuestion(!locationBasedQuestion);
   };
 
   const saveQuestion = async () => {
@@ -165,6 +166,7 @@ export const RichTextEditorComponent: React.FC = () => {
     const payload: any = {
       title: title,
       content: JSON.stringify(convertToRaw(contentState)),
+      revatureBasedQuestion: revatureBasedQuestion,
       locationBasedQuestion: locationBasedQuestion,
       location: currentLocation,
       creationDate: new Date(),
@@ -397,58 +399,58 @@ export const RichTextEditorComponent: React.FC = () => {
                   </span>
                 ))}
 
-                <RadioGroup
-                  row
-                  aria-label="position"
-                  name="questionType"
-                  defaultValue="top"
-                >
-                  <FormControlLabel
-                    value={false}
-                    control={<Radio color="primary" />}
-                    label="Revature-based Question"
-                    labelPlacement="top"
-                    checked={!locationBasedQuestion}
-                    onChange={() => changeQuestionType(false)}
-                  />
-                  <FormControlLabel
-                    value={true}
-                    control={<Radio color="primary" />}
-                    label="Location-based Question"
-                    labelPlacement="top"
-                    checked={locationBasedQuestion}
-                    onChange={() => changeQuestionType(true)}
-                  />
-                </RadioGroup>
+                <FormControlLabel
+                control = {
+                  <Checkbox
+                   checked={revatureBasedQuestion}
+                   onChange={()=>toggleRevatureBasedQuestion()}
+                   inputProps={{ 'aria-label': 'primary checkbox' }}
+                   />}
+                   label = "Revature-based Question"
+                   />
+                   <FormControlLabel
+                control = {
+                  <Checkbox
+                   checked={locationBasedQuestion}
+                   onChange={()=>toggleLocationBasedQuestion()}
+                   inputProps={{ 'aria-label': 'primary checkbox' }}
+                   />}
+                   label = "Location-based Question"
+                   />
+                  
+                {locationBasedQuestion ? 
+                  <>
+                    <Button
+                      aria-controls="simple-menu"
+                      id="location-dropdown-button"
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      {currentLocation.locationName}
+                    </Button>
 
-                <Button
-                  aria-controls="simple-menu"
-                  id="location-dropdown-button"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                >
-                  {currentLocation.locationName}
-                </Button>
+                    <Menu
+                      id="location-dropdown-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      {locations.map((location) => {
+                        return (
+                          <MenuItem
+                            key={location.id}
+                            onClick={(e) => handleLocationChange(e, location)}
+                            value={location}
+                          >
+                            {location.locationName}
+                          </MenuItem>
+                        );
+                      })}
+                    </Menu>
+                  </>
+                    : ""}
 
-                <Menu
-                  id="location-dropdown-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  {locations.map((location) => {
-                    return (
-                      <MenuItem
-                        key={location.id}
-                        onClick={(e) => handleLocationChange(e, location)}
-                        value={location}
-                      >
-                        {location.locationName}
-                      </MenuItem>
-                    );
-                  })}
-                </Menu>
               </Box>
             </Box>
             <Box
