@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { makeStyles, Box, Container, Button, Card, CardHeader, createMuiTheme, ThemeProvider, Icon } from '@material-ui/core';
 import { spacing } from '@material-ui/system';
 import * as loginRemote from '../../../remotes/login.remote'
@@ -13,24 +13,31 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
     const {} = props
 
    const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+   const [user, setUser] = useState({
+     firstName: "",
+     lastName: "",
+     email: ""
+   });
 
-    // useEffect(()=>{
-    //    getUser();
-    // })
+    useEffect(()=>{
+       getUser();
+    })
 
-    // const getUser = async () => {
+    const getUser = async () => {
 
-    //     console.log("inside getUser function")
-    //       try {
-    //         const response = await loginRemote.getUserById(userId);
-    //         console.log(response);
-    //         console.log(response.data);
-    //       } catch {
-    //         alert('Couldnt retrieve points')
-    //       }
+        console.log("inside getUser function")
+          try {
+            const response = await loginRemote.getProfileById(userId);
+            console.log(response);
+            console.log(response.data);
+            setUser(response.data);
+            console.log("user", user);
+          } catch {
+            alert('Couldnt retrieve points')
+          }
           
         
-    //    };
+       };
 
     return (
         
@@ -46,11 +53,11 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
           <div className='text-white text-center d-flex justify-content-center rgba-black-strong py-5 px-4'>
             <div>
               <h5 id="profile-header">
-              <Icon  className="fa fa-plus-circle" /> UserName
+              <Icon  className="fa fa-plus-circle" />
               </h5>
               <h3>
-                firstname lastname
-                email
+              {user.firstName} {user.lastName}
+                {user.email}
                 </h3>
              
               <div className="row justify-content-center">
