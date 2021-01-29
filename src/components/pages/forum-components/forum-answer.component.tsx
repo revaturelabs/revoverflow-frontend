@@ -126,6 +126,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             status: false,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
             location: null,
+            questionType: "",
             isFaq: questionInfo.isFaq
         };
 

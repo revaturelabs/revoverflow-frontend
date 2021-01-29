@@ -4,7 +4,7 @@ Jordon Hill
 */
 
 import { authAxios } from './internal.axios'
-import { Question} from '../models/question';
+import { Question } from '../models/question';
 import { Answer } from '../models/answer';
 
 /**
@@ -96,6 +96,17 @@ export const updateQuestionStatus = async (questionStatus: any) => {
  */
 export const getAllQuestionsByLocation = async (size: number, page: number, location: string | null) => {
     const response = await authAxios.get<any>(`/questions/location/${location}?&size=${size}&page=${page}`);
+    return response.data;
+}
+
+export const getAllQuestionsByType = async (size: number, page: number, questionType: string) => {
+    console.log(questionType);
+    const response = await authAxios.get<any>(`/questions/type/${questionType}?&size=${size}&page=${page}`);
+    return response.data;
+}
+
+export const getAllUserQuestionsByType = async (size: number, page: number, questionType: string, userId: number) => {
+    const response = await authAxios.get<any>(`/questions/type/${userId}/${questionType}?&size=${size}&page=${page}`);
     return response.data;
 }
 

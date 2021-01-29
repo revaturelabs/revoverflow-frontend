@@ -97,20 +97,9 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             alert("You encountered an error1");
             return;
         }
-        const payload = {
-            id: questionInfo.id,
-            acceptedId: questionInfo.acceptedId,
-            title: questionInfo.title,
-            content: questionInfo.content,
-            creationDate: questionInfo.creationDate,
-            editDate: null,
-            status: true,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-            isFaq: questionInfo.isFaq
-        };
 
         try {
-            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(payload);
+            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(questionInfo);
             localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
             // props.clickConfirm(retrievedQuestion.data, true);
             window.location.reload(false);
@@ -118,15 +107,11 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             alert("You encountered an error2");
             return;
         }
-        
-        
     }
 
     const handleRedirect = () => {
         setAnswerFields(true);
     }
-    /* This appears to be a future implementation to edit answers. Since it's not fully implemented, it breaks our component render tests
-     TODO: Implement this feature and uncomment EditorState box */
 
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.storeQuestion.content)));
     const onChange = () => { }
