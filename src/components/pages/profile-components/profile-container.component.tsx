@@ -52,6 +52,7 @@ export interface ForumContainerComponentProps {
 
 export const ProfileContainerComponent: React.FC<ForumContainerComponentProps> = (props) => {
     const userId = useParams();
+    console.log(userId);
 
     const classes = useStyles();
     const [selected, setSelected] = useState(false);
