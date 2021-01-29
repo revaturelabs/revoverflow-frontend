@@ -21,7 +21,7 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
 
     useEffect(()=>{
        getUser();
-    })
+    },[])
 
     const getUser = async () => {
 
