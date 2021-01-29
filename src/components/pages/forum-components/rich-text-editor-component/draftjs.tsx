@@ -5,7 +5,7 @@
  * @author Jerry Pujals
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
@@ -100,7 +100,7 @@ const styleMap = {
 export const RichTextEditorComponent: React.FC = () => {
     //Reads in the locations.json in the data folder.
 
-    enum QuestionType { General, Location }
+    enum QuestionType { General, Technology, Location}
     const geographicSet = locations;
     const classes = useStyles();
     const history = useHistory();
@@ -120,6 +120,20 @@ export const RichTextEditorComponent: React.FC = () => {
         }
     }
 
+    /**
+     * disables location options for question Type when the radio button clicked is Revature or Technology.
+     * enables location options for question Type when radio button clicked is Location.
+     */
+    useEffect(()=>{
+        if(radioVal === QuestionType.General){
+            setDisabled(true);
+        }else if(radioVal === QuestionType.Technology){
+            setDisabled(true);
+        }else{
+            setDisabled(false);
+        }
+    }
+    )
 
 
     /**
@@ -130,7 +144,7 @@ export const RichTextEditorComponent: React.FC = () => {
         const contentState = editorState.getCurrentContent();
         let url = window.location.href;
         let payload: any;
-
+        console.log(QuestionType[radioVal]);
         //this boolean will see if the question should be 
         //labeled as a faq or not going into the DB
         let bool: boolean = url.includes('/question/faq');
@@ -143,9 +157,9 @@ export const RichTextEditorComponent: React.FC = () => {
                 status: false,
                 isFaq: true,
                 userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-                location: disabled? null: geoState
+                location: disabled? null: geoState,
+                questionType: QuestionType[radioVal]
             }
-
 
         } else {
             payload = {
@@ -155,11 +169,12 @@ export const RichTextEditorComponent: React.FC = () => {
                 status: false,
                 IsFaq: false,
                 userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-                location: disabled? null: geoState
+                location: disabled? null: geoState,
+                questionType: QuestionType[radioVal]
             }
 
         }
-
+        
         console.log(payload);
         await questionRemote.postQuestion(payload);
         history.push("/feed");
@@ -305,19 +320,21 @@ export const RichTextEditorComponent: React.FC = () => {
                         <div >
                             <Box display="inline-flex">
                                 <Typography variant="h5"  >
-                                    Location:
+                                    Type:
                                    
                                 </Typography>
                             </Box>
                             
                             <RadioGroup name="revature" value={radioVal} style={{display: 'inline-flex'}} onChange={e => {
                         
-                                setRadioVal(parseInt(e.currentTarget.value))
+                               setRadioVal(parseInt(e.currentTarget.value))
                                 
                                setDisabled(radioVal === QuestionType.Location)
                                 } } row>
 
                             <FormControlLabel className={classes.locationBlock} value={QuestionType.General} control={<Radio />} label="Revature" ></FormControlLabel>
+
+                            <FormControlLabel className={classes.locationBlock} value={QuestionType.Technology} control={<Radio />} label="Tech" ></FormControlLabel>
 
                             <FormControlLabel value={QuestionType.Location} control={<Radio />} label="Location" ></FormControlLabel>
 
