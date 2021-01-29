@@ -229,18 +229,21 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                         <Box className={classes.boxInternal} display='flex' justifyContent='center' alignItems='center' m={2}>
                             <RadioGroup value={questionType} onChange={e => setQuestionType(parseInt(e.currentTarget.value))}>
                                 <FormControlLabel
+                                    id="revQfilter"
                                     labelPlacement="end"
                                     value={QuestionType.General}
                                     control={<Radio />}
                                     label="General Revature Questions"
                                 />
                                 <FormControlLabel
+                                    id="locQfilter"
                                     labelPlacement="end"
                                     value={QuestionType.Location}
                                     control={<Radio />}
                                     label="Location-Specific Questions"
                                 />
                                 <FormControlLabel
+                                    id="techQfilter"
                                     labelPlacement="end"
                                     value={QuestionType.Technology}
                                     control={<Radio />}

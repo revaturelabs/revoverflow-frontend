@@ -112,8 +112,6 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
     const handleRedirect = () => {
         setAnswerFields(true);
     }
-    /* This appears to be a future implementation to edit answers. Since it's not fully implemented, it breaks our component render tests
-     TODO: Implement this feature and uncomment EditorState box */
 
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.storeQuestion.content)));
     const onChange = () => { }
