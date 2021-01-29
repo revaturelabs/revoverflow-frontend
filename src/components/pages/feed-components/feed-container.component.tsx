@@ -90,13 +90,11 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
         let retrievedPageable: any;
         let tab: any;
         if (view === 'recent') {
-
             if (questionType === QuestionType.Location) {
                 retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, filterText);
             } else {
                 retrievedPageable = await questionRemote.getAllQuestionsByType(size, page, QuestionType[questionType]);
             }
-
             tab = 0;
             setView(view);
         } else if (view === 'question') {
@@ -118,8 +116,11 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             setView(view)
         }
         else if (view === 'faq') {
-            const location = questionType === QuestionType.Location ? filterText : null;
-            retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, location);
+            if (questionType === QuestionType.Location) {
+                retrievedPageable = await questionRemote.getAllQuestionsByLocation(size, page, filterText);
+            } else {
+                retrievedPageable = await questionRemote.getAllQuestionsByType(size, page, QuestionType[questionType]);
+            }
             tab = 4;
             setView(view);
         }

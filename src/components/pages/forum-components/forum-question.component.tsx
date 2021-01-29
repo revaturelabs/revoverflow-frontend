@@ -97,20 +97,9 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             alert("You encountered an error1");
             return;
         }
-        const payload = {
-            id: questionInfo.id,
-            acceptedId: questionInfo.acceptedId,
-            title: questionInfo.title,
-            content: questionInfo.content,
-            creationDate: questionInfo.creationDate,
-            editDate: null,
-            status: true,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
-            isFaq: questionInfo.isFaq
-        };
 
         try {
-            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(payload);
+            const retrievedQuestion = await questionRemote.updateQuestionFAQStatus(questionInfo);
             localStorage.setItem("question", JSON.stringify(retrievedQuestion.data));
             // props.clickConfirm(retrievedQuestion.data, true);
             window.location.reload(false);
@@ -118,8 +107,6 @@ export const ForumQuestionComponent: React.FC<ForumQuestionComponentProps> = (pr
             alert("You encountered an error2");
             return;
         }
-        
-        
     }
 
     const handleRedirect = () => {
