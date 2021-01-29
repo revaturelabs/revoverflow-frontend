@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core';
-import ForumAnswerComponent from './profile-answer.component';
-import ProfileQuestionComponent from './profile-question.component';
-import ForumAcceptedAnswerComponent from './profile-accepted-answer.component';
+// import ForumAnswerComponent from './profile-answer.component';
+// import ProfileQuestionComponent from './profile-question.component';
+// import ForumAcceptedAnswerComponent from './profile-accepted-answer.component';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
 import * as answerRemote from '../../../remotes/answer.remote';
 import * as questionRemote from '../../../remotes/question.remote';
