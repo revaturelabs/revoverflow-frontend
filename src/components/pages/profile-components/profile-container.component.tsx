@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 
 
-export const ProfileContainerComponent3 = () => {
+export const ProfileContainerComponent = () => {
     const postsPerPage = 10;
 
     const classes = useStyles();
@@ -101,4 +101,4 @@ export const ProfileContainerComponent3 = () => {
 }
 
 
-export default ProfileContainerComponent3;
+export default ProfileContainerComponent;
