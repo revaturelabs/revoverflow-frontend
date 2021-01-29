@@ -11,6 +11,7 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import Pagination from '@material-ui/lab/Pagination';
 import { useParams } from 'react-router';
+import {ProfileHeaderComponent}  from './profile-header.component';
 
 
 /**
@@ -135,12 +136,19 @@ export const ProfileContainerComponent: React.FC<ForumContainerComponentProps> =
     }
 
     return (
+        <div>
+        
         <div className={classes.breadcrumbBar}>
+        
             <ThemeProvider theme={theme}>
+            
                 <BreadcrumbBarComponent />
+                {<ProfileHeaderComponent></ProfileHeaderComponent>}
                 <Container className={classes.containerInternal} >
                     <div style={{ width: '100%' }}>
+                    
                         <Box justifyContent="center" display="flex" flexDirection="column">
+                            
                             {renderProfileQuestionComponents()}
                             {/* {renderForumQuestionComponents()} */}
                             {renderForumAcceptedAnswerComponents()}
@@ -152,6 +160,7 @@ export const ProfileContainerComponent: React.FC<ForumContainerComponentProps> =
                     <Pagination size="medium" count={totalPages} page={page} color="secondary" onChange={handlePageChange} />
                 </Box>
             </ThemeProvider>
+        </div>
         </div>
     )
 }

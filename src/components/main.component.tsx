@@ -7,7 +7,8 @@ import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
 
 import '../firebase/config';
-import ProfileContainerComponent from './pages/profile-components/profile-container.component';
+import  ProfileContainerComponent from './pages/profile-components/profile-container.component';
+
 
 
 
