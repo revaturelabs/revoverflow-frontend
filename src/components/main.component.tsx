@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
 
 import '../firebase/config';
-import ProfileContainerComponent from './pages/profile-components/profile-container.component';
+import ProfileContainerComponent3 from './pages/profile-components/profile-container3.component';
 
 
 
@@ -48,7 +48,7 @@ export const MainComponent: React.FC = () => {
                         </Route>
 
                         <Route path ="/user/:id">
-                            <ProfileContainerComponent/>
+                            <ProfileContainerComponent3/>
                         </Route>
                     </Fragment>
                 </Switch>
