@@ -89,7 +89,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
                                 <h2>{props.question.title}</h2>
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
-                                <p>{props.question.location ? `Location: ${props.question.location}` : 'Revature General'}</p>
+                                <p>{props.question.location ? `Location: ${props.question.location}` : props.question.questionType}</p>
                                 <p>{props.question.creationDate}</p>
                             </Box>
                         </Box>
