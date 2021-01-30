@@ -96,8 +96,6 @@ const styleMap = {
   },
 };
 
-interface IRichTextEditorProps {}
-
 export const RichTextEditorComponent: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -154,8 +152,8 @@ export const RichTextEditorComponent: React.FC = () => {
   };
 
   const toggleLocationBasedQuestion = () => {
-    if(locationBasedQuestion) {
-      setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }))
+    if (locationBasedQuestion) {
+      setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
     }
 
     setLocationBasedQuestion(!locationBasedQuestion);
@@ -400,25 +398,27 @@ export const RichTextEditorComponent: React.FC = () => {
                 ))}
 
                 <FormControlLabel
-                control = {
-                  <Checkbox
-                   checked={revatureBasedQuestion}
-                   onChange={()=>toggleRevatureBasedQuestion()}
-                   inputProps={{ 'aria-label': 'primary checkbox' }}
-                   />}
-                   label = "Revature-based Question"
-                   />
-                   <FormControlLabel
-                control = {
-                  <Checkbox
-                   checked={locationBasedQuestion}
-                   onChange={()=>toggleLocationBasedQuestion()}
-                   inputProps={{ 'aria-label': 'primary checkbox' }}
-                   />}
-                   label = "Location-based Question"
-                   />
-                  
-                {locationBasedQuestion ? 
+                  control={
+                    <Checkbox
+                      checked={revatureBasedQuestion}
+                      onChange={() => toggleRevatureBasedQuestion()}
+                      inputProps={{ "aria-label": "primary checkbox" }}
+                    />
+                  }
+                  label="Revature-based Question"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={locationBasedQuestion}
+                      onChange={() => toggleLocationBasedQuestion()}
+                      inputProps={{ "aria-label": "primary checkbox" }}
+                    />
+                  }
+                  label="Location-based Question"
+                />
+
+                {locationBasedQuestion ? (
                   <>
                     <Button
                       aria-controls="simple-menu"
@@ -449,8 +449,9 @@ export const RichTextEditorComponent: React.FC = () => {
                       })}
                     </Menu>
                   </>
-                    : ""}
-
+                ) : (
+                  ""
+                )}
               </Box>
             </Box>
             <Box
