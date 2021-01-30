@@ -4,7 +4,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import TorontoIcon from './custom-icons/toronto'
 
 
 
@@ -84,7 +84,7 @@ export default function CustomizedBreadcrumbs() {
           component="a"
           href="#Toronto"
           label="Toronto"
-          icon={<HomeIcon fontSize="large" className={classes.crumbIcon}/>}
+          icon={<TorontoIcon />}
           onClick={handleClick}
         />
         <StyledBreadcrumb 
