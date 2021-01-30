@@ -13,6 +13,7 @@ import { Question } from '../../../models/question';
 import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
+import CustomizedBreadcrumbs from './BreadCrumbs';
 
 const theme = createMuiTheme({
     palette: {
@@ -57,7 +58,7 @@ export interface QuestContainerComponentProps {
 
 export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
-    const [view, setView] = useState<'location' | 'revature'>('location');
+    const [view, setView] = useState<'location' | 'revature'>('revature');
     const [value, setValue] = React.useState(props.storeTab);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
@@ -95,6 +96,10 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
         load("revature", 0);
     }
 
+    const getView = ()=>{
+        return view
+    }
+
 
     const renderQuestBoxComponents = () => {
         return props.storeQuestions.map(question => {
@@ -125,8 +130,14 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
                         </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>
+                       {
+                           /* <Box display="flex" flexDirection="column" justifyContent="center" >
+                                {renderQuestBoxComponents()}
+                              </Box>*/
+                       } 
                         <Box display="flex" flexDirection="column" justifyContent="center" >
-                            {renderQuestBoxComponents()}
+                            {/*console.log("getView: " + getView())*/}
+                            {getView() === "revature" ? renderQuestBoxComponents() : <CustomizedBreadcrumbs /> }
                         </Box>
                     </div>
                     <Box display="flex" justifyContent="center" padding={5}>
