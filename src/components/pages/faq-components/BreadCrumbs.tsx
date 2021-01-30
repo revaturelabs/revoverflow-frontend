@@ -95,6 +95,7 @@ export default function CustomizedBreadcrumbs() {
         icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
         onClick={handleClick} 
         />
+        
         <StyledBreadcrumb
         className={classes.babyCrumb}
           label="Tampa"
@@ -128,6 +129,13 @@ export default function CustomizedBreadcrumbs() {
           icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
           onClick={handleClick}
         />
+        <img style={{width:"3rem", borderRadius:"50%", margin:"1rem"}} src="./icons/1.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/2.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/3.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/4.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/5.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/6.png"/>
+        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/7.png"/>
       </Breadcrumbs>
 
     </ThemeProvider>
