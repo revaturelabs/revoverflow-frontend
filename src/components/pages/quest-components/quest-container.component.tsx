@@ -5,7 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Pagination from '@material-ui/lab/Pagination';
 import QuestBoxComponent from './quest-box.component';
 import {createMuiTheme, makeStyles, Container, Box, ThemeProvider} from '@material-ui/core';
-import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import BusinessIcon from '@material-ui/icons/Business';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
 import * as questionRemote from '../../../remotes/question.remote';
 import { Question } from '../../../models/question';
@@ -117,9 +118,9 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
                             scrollButtons="auto"
                             onChange={handleChange}
                         >
-                            <Tab icon={<DynamicFeedOutlinedIcon fontSize="large" />} label="REVATURE" className={classes.boxInternal}
+                            <Tab icon={<BusinessIcon fontSize="large" />} label="REVATURE" className={classes.boxInternal}
                                 onClick={(e) => load("revature", 0)} />
-                            <Tab icon={<DynamicFeedOutlinedIcon fontSize="large" />} label="LOCATION" className={classes.boxInternal}
+                            <Tab icon={<LocationOnIcon fontSize="large" />} label="LOCATION" className={classes.boxInternal}
                                 onClick={(e) => load("location", 0)} />
                         </Tabs>
                     </Box>
