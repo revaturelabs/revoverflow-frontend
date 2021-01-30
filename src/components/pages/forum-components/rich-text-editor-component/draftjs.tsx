@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import {Menu, MenuItem, FormControlLabel, Checkbox,InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -15,7 +15,8 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
-
+import { getLocations } from "../../../../remotes/location.remote";
+import { Location } from "../../../../models/location";
 
 const theme = createMuiTheme({
     palette: {
@@ -88,8 +89,14 @@ export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const [title, setTitle] = useState('');
-    const [revatureQuestion, setRevatureQuestion] = useState(false);
+    const [locations, setLocations] = useState(new Array<any>());
+    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
+    const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
+    const [currentLocation, setCurrentLocation] = useState<any>(
+        new Object({ id: 1, locationName: "All Locations" })
+      );
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const onChange = (editorState: EditorState) => setEditorState(editorState);
     const handleKeyCommand = (command: string, editorState: EditorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -101,6 +108,42 @@ export const RichTextEditorComponent: React.FC = () => {
         }
     }
 
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+      const handleLocationChange = (
+        e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+        location: Location
+      ) => {
+        e.preventDefault();
+        console.log(location);
+        setCurrentLocation(location);
+    
+        handleClose();
+      };
+
+    useEffect(() => {
+    //fetch location data
+    async function fetchData() {
+        let locationsData: Location[] = await getLocations();
+        //console.log(locationsData);
+        setLocations(locationsData);
+    }
+    fetchData();
+    }, []);
+
+    const toggleLocationBasedQuestion = () => {
+    if (locationBasedQuestion) {
+        setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
+    }
+
+    setLocationBasedQuestion(!locationBasedQuestion);
+    };
+
     const saveQuestion = async () => {
         const contentState = editorState.getCurrentContent();
         const payload: any = {
@@ -108,7 +151,9 @@ export const RichTextEditorComponent: React.FC = () => {
             content: JSON.stringify(convertToRaw(contentState)),
             creationDate: new Date(),
             status: false,
-            revatureQuestion: revatureQuestion,
+            revatureQuestion: revatureBasedQuestion,
+            locationBasedQuestion: locationBasedQuestion,
+            location: currentLocation,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         }
        
@@ -234,6 +279,7 @@ export const RichTextEditorComponent: React.FC = () => {
                             Ask a Question:
                     </Typography>
                     </Box>
+                    {/* 
                     <Box display="flex" flexDirection="column" paddingBottom={3}>
                         <Box display="flex" justifyContent="flex-start" >
                             <Typography variant="h5" >
@@ -268,6 +314,7 @@ export const RichTextEditorComponent: React.FC = () => {
                         </div>
                         </Box>
                     </Box>
+                    */}
                     <Box display="flex" flexDirection="column" paddingBottom={3}>
                         <Box display="flex">
                             <Typography variant="h5" >
@@ -312,6 +359,62 @@ export const RichTextEditorComponent: React.FC = () => {
                                     <span className={classes.buttonInternal}>
                                         <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
                                     </span>
+                                )}
+
+                                <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    checked={revatureBasedQuestion}
+                                    onChange={() => setRevatureBasedQuestion(!revatureBasedQuestion)}
+                                    inputProps={{ "aria-label": "primary checkbox" }}
+                                    />
+                                }
+                                label="Revature-based Question"
+                                />
+                                <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    checked={locationBasedQuestion}
+                                    onChange={() => toggleLocationBasedQuestion()}
+                                    inputProps={{ "aria-label": "primary checkbox" }}
+                                    />
+                                }
+                                label="Location-based Question"
+                                />
+
+                                {locationBasedQuestion ? (
+                                <>
+                                    <Button
+                                    aria-controls="simple-menu"
+                                    id="location-dropdown-button"
+                                    aria-haspopup="true"
+                                    onClick={handleClick}
+                                    >
+                                    {currentLocation.locationName}
+                                    </Button>
+
+                                    <Menu
+                                    id="location-dropdown-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                    >
+                                    {locations.map((location) => {
+                                        return (
+                                        <MenuItem
+                                            key={location.id}
+                                            onClick={(e) => handleLocationChange(e, location)}
+                                            value={location}
+                                        >
+                                            {location.locationName}
+                                        </MenuItem>
+                                        );
+                                    })}
+                                    </Menu>
+                                </>
+                                ) : (
+                                ""
                                 )}
                             </Box>
                         </Box >
