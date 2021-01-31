@@ -28,10 +28,12 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
     boxExternal: {
-        minWidth: 500
+        minWidth: 500,
+        
     },
     boxInternal: {
         color: "#f26925",
+       
     },
     breadcrumbBar: {
         marginTop: 60,
@@ -126,10 +128,11 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
             <Container className={classes.containerInternal}>
                 <ThemeProvider theme={theme} >
                     <Box justifyContent="center" display="flex"  className={classes.boxExternal}>
-                        <Checkbox id="chk1" name="revatureChk"  
+                        <span id="checkbox"></span>
+                        <Checkbox id="revatureChk" name="revatureChk"  
                                   icon={<BusinessIcon fontSize="large"/>}  className={classes.boxInternal} checked={revatureBasedQuestion} 
                                   onChange={toggleQuestion} />
-                        <Checkbox id="chk2" name="locationChk"  
+                        <Checkbox id="locationChk" name="locationChk"  
                                   icon={<LocationOnIcon fontSize="large" />} className={classes.boxInternal} checked={locationBasedQuestion} 
                                   onChange={toggleQuestion} />
                         
