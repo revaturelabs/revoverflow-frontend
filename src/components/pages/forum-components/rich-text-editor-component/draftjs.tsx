@@ -297,165 +297,165 @@ export const RichTextEditorComponent: React.FC = () => {
           <BreadcrumbBarComponent />
           <ThemeProvider theme={theme} >
               <Container className={classes.containerTool}>
-                  <Box justifyContent="flex-start" display="flex" padding={3} >
-                      <Typography variant="h4" >
-                          Ask a Question:
-                  </Typography>
-                  </Box>
-                  {/* 
-                  <Box display="flex" flexDirection="column" paddingBottom={3}>
-                      <Box display="flex" justifyContent="flex-start" >
-                          <Typography variant="h5" >
-                              Type:
-                          </Typography>
-                      <div style={typeStyle}>
-                      <input  type="radio" id="location" name="type" onChange={(e) => setRevatureQuestion(false)}/>
-                      <label >Location:</label>
-                      </div>
-                          <FormControl variant="outlined" className={classes.formControl}>
-                                  <InputLabel >Option</InputLabel>
-                                  <Select
-                                      native
-                                      //value={state.age}
-                                      //onChange={handleChange}
-                                      label="Location"
-                                      inputProps={{
-                                          name: 'location',
-                                          id: 'outlined-age-native-simple',
-                                      }}
-                                  >
-                                  <option aria-label="Option" value="" />
-                                  <option value={10}>Toronto</option>
-                                  <option value={20}>NewYork</option>
-                                  <option value={30}>Dallas</option>
-                                  </Select>
-                          </FormControl>
-                      
-                      <div style={typeStyle}>
-                      <input type="radio" id="revature" name="type" onChange={(e) => setRevatureQuestion(true)} />
-                      <label >Revature</label>
-                      </div>
-                      </Box>
-                  </Box>
-                  */}
-                  <Box display="flex" flexDirection="column" paddingBottom={3}>
-                      <Box display="flex">
-                          <Typography variant="h5" >
-                              Title:
-                          </Typography>
-                      </Box>
-                      <Box display="flex" className={classes.titleTool}>
-                          <FormControl fullWidth variant="outlined"   >
-                              <InputBase className={classes.font}
-                                  value={title} onChange={(e) => setTitle(e.target.value)}
-                              />
-                          </FormControl>
-                      </Box>
-                  </Box>
-                  
-                  <FormControlLabel
+                <Box justifyContent="flex-start" display="flex" padding={3} >
+                    <Typography variant="h4" >
+                        Ask a Question:
+                </Typography>
+                </Box>
+                {/* 
+                <Box display="flex" flexDirection="column" paddingBottom={3}>
+                    <Box display="flex" justifyContent="flex-start" >
+                        <Typography variant="h5" >
+                            Type:
+                        </Typography>
+                    <div style={typeStyle}>
+                    <input  type="radio" id="location" name="type" onChange={(e) => setRevatureQuestion(false)}/>
+                    <label >Location:</label>
+                    </div>
+                        <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel >Option</InputLabel>
+                                <Select
+                                    native
+                                    //value={state.age}
+                                    //onChange={handleChange}
+                                    label="Location"
+                                    inputProps={{
+                                        name: 'location',
+                                        id: 'outlined-age-native-simple',
+                                    }}
+                                >
+                                <option aria-label="Option" value="" />
+                                <option value={10}>Toronto</option>
+                                <option value={20}>NewYork</option>
+                                <option value={30}>Dallas</option>
+                                </Select>
+                        </FormControl>
+                    
+                    <div style={typeStyle}>
+                    <input type="radio" id="revature" name="type" onChange={(e) => setRevatureQuestion(true)} />
+                    <label >Revature</label>
+                    </div>
+                    </Box>
+                </Box>
+                */}
+                <Box display="flex" flexDirection="column" paddingBottom={3}>
+                    <Box display="flex">
+                        <Typography variant="h5" >
+                            Title:
+                        </Typography>
+                    </Box>
+                    <Box display="flex" className={classes.titleTool}>
+                        <FormControl fullWidth variant="outlined"   >
+                            <InputBase className={classes.font}
+                                value={title} onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+                
+                <FormControlLabel
+                  control={
+                  <Checkbox
+                  checked={revatureBasedQuestion}
+                  onChange={() => setRevatureBasedQuestion(!revatureBasedQuestion)}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                  />
+                  }
+                  label="This question is specific to Revature"
+                />
+                <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+                    <FormControlLabel
                     control={
                     <Checkbox
-                    checked={revatureBasedQuestion}
-                    onChange={() => setRevatureBasedQuestion(!revatureBasedQuestion)}
+                    checked={locationBasedQuestion}
+                    onChange={() => toggleLocationBasedQuestion()}
                     inputProps={{ "aria-label": "primary checkbox" }}
                     />
                     }
-                    label="This question is specific to Revature"
+                    label="This question is specific to a location"
                   />
-                  <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
-                      <FormControlLabel
-                      control={
-                      <Checkbox
-                      checked={locationBasedQuestion}
-                      onChange={() => toggleLocationBasedQuestion()}
-                      inputProps={{ "aria-label": "primary checkbox" }}
-                      />
-                      }
-                      label="This question is specific to a location"
-                    />
 
-                    {locationBasedQuestion ? (
-                    <>
-                      <Button
-                        aria-controls="simple-menu"
-                        id="location-dropdown-button"
-                        aria-haspopup="true"
-                        onClick={handleClick}
-                      >
-                        {currentLocation.locationName}
-                      </Button>
+                  {locationBasedQuestion ? (
+                  <>
+                    <Button
+                      aria-controls="simple-menu"
+                      id="location-dropdown-button"
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      {currentLocation.locationName}
+                    </Button>
 
-                      <Menu
-                        id="location-dropdown-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                      >
-                        {locations.map((location) => {
-                          return (
-                            <MenuItem
-                              key={location.id}
-                              onClick={(e) => handleLocationChange(e, location)}
-                              value={location}
-                            >
-                              {location.locationName}
-                            </MenuItem>
-                          );
-                        })}
-                      </Menu>
-                    </>
-                    ) : (
-                    ""
-                    )}
-                  </Box>
-                  <br/>
-                  <Box>
-                      <Box justifyContent="center" display="flex" flexDirection="column">
-                          <Box justifyContent="flex-start" display="flex" >
-                              <Typography variant="h5">
-                                  Content:
-                              </Typography>
-                          </Box>
-                          <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
-                              {buttons.map(b =>
-                                  buttonVariant(b.style) ?
-                                      <span key={b.style} className={classes.buttonInternal}>
-                                          <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                      </span>
-                                      :
-                                      <span key={b.style} className={classes.buttonInternal}>
-                                          <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
-                                      </span>)}
-                              {blockbuttons.map(b =>
-                                  blockbuttonVariant(b.block) ?
-                                      <span className={classes.buttonInternal}>
-                                          <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
-                                      </span>
-                                      :
-                                      <span key={b.block} className={classes.buttonInternal}>
-                                          <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                      </span>)}
-                              {linkbutton.map(b =>
-                                  <span className={classes.buttonInternal}>
-                                      <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
-                                  </span>
-                              )}                           
-                          </Box>
-                      </Box >
-                      <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
-                          <Editor
-                              customStyleMap={styleMap}
-                              editorState={editorState}
-                              handleKeyCommand={handleKeyCommand}
-                              onChange={onChange}
-                          />
-                      </Box>
-                      <Box justifyContent="flex-end" display="flex" padding={2} paddingBottom={20}>
-                          <Button onClick={saveQuestion} variant='contained' color='secondary' size='large' >Submit</Button>
-                      </Box>
-                  </Box>
+                    <Menu
+                      id="location-dropdown-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      {locations.map((location) => {
+                        return (
+                          <MenuItem
+                            key={location.id}
+                            onClick={(e) => handleLocationChange(e, location)}
+                            value={location}
+                          >
+                            {location.locationName}
+                          </MenuItem>
+                        );
+                      })}
+                    </Menu>
+                  </>
+                  ) : (
+                  ""
+                  )}
+                </Box>
+                <br/>
+                <Box>
+                    <Box justifyContent="center" display="flex" flexDirection="column">
+                        <Box justifyContent="flex-start" display="flex" >
+                            <Typography variant="h5">
+                                Content:
+                            </Typography>
+                        </Box>
+                        <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+                            {buttons.map(b =>
+                                buttonVariant(b.style) ?
+                                    <span key={b.style} className={classes.buttonInternal}>
+                                        <Button key={b.style} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                    </span>
+                                    :
+                                    <span key={b.style} className={classes.buttonInternal}>
+                                        <Button key={b.style} onMouseDown={b.function} size='small' color='secondary' variant='contained' >{b.name} </Button>
+                                    </span>)}
+                            {blockbuttons.map(b =>
+                                blockbuttonVariant(b.block) ?
+                                    <span className={classes.buttonInternal}>
+                                        <Button key={b.block} onMouseDown={b.function} variant='contained' color='primary' size='small' >{b.name}</Button>
+                                    </span>
+                                    :
+                                    <span key={b.block} className={classes.buttonInternal}>
+                                        <Button key={b.block} onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
+                                    </span>)}
+                            {linkbutton.map(b =>
+                                <span className={classes.buttonInternal}>
+                                    <Button onMouseDown={b.function} size='small' color='secondary' variant='contained'>{b.name}</Button>
+                                </span>
+                            )}                           
+                        </Box>
+                    </Box >
+                    <Box justifyContent="center" display="flex" flexDirection="column" className={classes.editorTool} >
+                        <Editor
+                            customStyleMap={styleMap}
+                            editorState={editorState}
+                            handleKeyCommand={handleKeyCommand}
+                            onChange={onChange}
+                        />
+                    </Box>
+                    <Box justifyContent="flex-end" display="flex" padding={2} paddingBottom={20}>
+                        <Button onClick={saveQuestion} variant='contained' color='secondary' size='large' >Submit</Button>
+                    </Box>
+                </Box>
               </Container>
           </ThemeProvider>
       </div>
