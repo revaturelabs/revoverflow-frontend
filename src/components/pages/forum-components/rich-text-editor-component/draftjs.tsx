@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
@@ -137,11 +136,10 @@ export const RichTextEditorComponent: React.FC = () => {
     }, []);
 
     const toggleLocationBasedQuestion = () => {
-    if (locationBasedQuestion) {
-        setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
-    }
-
-    setLocationBasedQuestion(!locationBasedQuestion);
+        if (locationBasedQuestion) {
+            setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
+        }
+        setLocationBasedQuestion(!locationBasedQuestion);
     };
 
     const saveQuestion = async () => {

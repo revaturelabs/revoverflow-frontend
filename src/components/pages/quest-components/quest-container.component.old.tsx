@@ -1,8 +1,7 @@
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import { Checkbox } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import QuestBoxComponent from './quest-box.component';
 import {createMuiTheme, makeStyles, Container, Box, ThemeProvider} from '@material-ui/core';
@@ -15,7 +14,6 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import CustomizedBreadcrumbs from './BreadCrumbs';
-import useForceUpdate from 'use-force-update';
 
 const theme = createMuiTheme({
     palette: {
@@ -58,77 +56,55 @@ export interface QuestContainerComponentProps {
 }
 
 
-export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
+export const  QuestContainerComponentOld: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
+    const [view, setView] = useState<'location' | 'revature'>('revature');
     const [value, setValue] = React.useState(props.storeTab);
-    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(true);
-    const [locationBasedQuestion, setLocationBasedQuestion] = useState(true);
-    const [allQuestions, setAllQuestions] = useState(true);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+    const admin = (localStorage.getItem("admin"));
     const size = 10;
-    const forceUpdate = useForceUpdate();
-
-    const toggleQuestion = (e:any) => {
-       // const forceUpdate = useForceUpdate();
-       // const forceUpdate = () => {
-                
-                if(e.target.name === 'revatureChk') setRevatureBasedQuestion(e.target.checked)
-                else setLocationBasedQuestion(e.target.checked)
-                forceUpdate();
-                load(0)
-                //WHY?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! getting upset!!!!!!
-               
-
-    };
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        load(value - 1);
+        load(view, value - 1);
     };
 
-    const load = async (page: number) => {
+    const load = async (view: string, page: number) => {
         let retrievedPageable: any;
         let tab: any;
-        console.log("revatureBasedQuestion: " + revatureBasedQuestion)
-        console.log("locationBasedQuestion: " + locationBasedQuestion)
-        if (revatureBasedQuestion === true) {
-            if(locationBasedQuestion === false){
-                retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
-                //tab = 0; 
-                if (retrievedPageable.numberOfElements === 0) {
-                     return;
-                 }
-            }else{
-                retrievedPageable = await questionRemote.getAllQuestions(userId, page);
-                
-                if (retrievedPageable.numberOfElements === 0) {
-                    return;
-                }
-            }
-        } else {
-            if(locationBasedQuestion === true){
-                //SHOULD BE CHANGED!!!!
-                retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
-                //tab = 1;
-            }else{
+        if (view === 'revature') {
+            //retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
+            tab = 0;
+            setView(view);
+            if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
-        }
+        } else if (view === 'location') {
+            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+            tab = 1;
+            setView(view)
+        } 
 
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 ) {
-         load(0);
+    if (props.storeQuestions.length === 0 && view === 'revature') {
+        load("revature", 0);
     }
+
+    const getView = ()=>{
+        return view
+    }
+
 
     const renderQuestBoxComponents = () => {
         return props.storeQuestions.map(question => {
             return (
-                <QuestBoxComponent key={question.id} question={question} questionContent={question.content} view='' />
+                <QuestBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
             )
         })
     }
@@ -138,14 +114,20 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <ThemeProvider theme={theme} >
-                    <Box justifyContent="center" display="flex" className={classes.boxExternal}>
-                        <Checkbox id="chk1" name="revatureChk" defaultChecked 
-                                  icon={<BusinessIcon fontSize="large"/>}  className={classes.boxInternal} checked={revatureBasedQuestion} 
-                                    onChange={toggleQuestion} />
-                        <Checkbox id="chk2" name="locationChk" defaultChecked 
-                                  icon={<LocationOnIcon fontSize="large" />} className={classes.boxInternal} checked={locationBasedQuestion} 
-                                   onChange={toggleQuestion} />
-                        
+                <Box justifyContent="center" display="flex" className={classes.boxExternal}>
+                        <Tabs
+                            value={value}
+                            indicatorColor="secondary"
+                            textColor="primary"
+                            variant="fullWidth"
+                            scrollButtons="auto"
+                            onChange={handleChange}
+                        >
+                            <Tab icon={<BusinessIcon fontSize="large" />} label="REVATURE" className={classes.boxInternal}
+                                onClick={(e) => load("revature", 0)} />
+                            <Tab icon={<LocationOnIcon fontSize="large" />} label="LOCATION" className={classes.boxInternal}
+                                onClick={(e) => load("location", 0)} />
+                        </Tabs>
                     </Box>
                     <div style={{ width: '100%' }}>
                        {
@@ -154,9 +136,8 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
                               </Box>*/
                        } 
                         <Box display="flex" flexDirection="column" justifyContent="center" >
-                            {/*renderQuestBoxComponents()*/}
-                            { locationBasedQuestion ? <CustomizedBreadcrumbs />  : ''}
-                            { renderQuestBoxComponents()}
+                            {/*console.log("getView: " + getView())*/}
+                            {getView() === "revature" ? renderQuestBoxComponents() : <CustomizedBreadcrumbs /> }
                         </Box>
                     </div>
                     <Box display="flex" justifyContent="center" padding={5}>
@@ -183,4 +164,4 @@ const mapDispatchToProps = {
     clickTab
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuestContainerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(QuestContainerComponentOld);
