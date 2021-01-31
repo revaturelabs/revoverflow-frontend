@@ -5,7 +5,7 @@
 
 export interface Location {
 
-  id: number;
-  locationName: String;
-
-}
+    id: number;
+    locationName: String;
+  
+  }
