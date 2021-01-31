@@ -8,7 +8,7 @@ import { Question } from "./question";
 
 
 
-export interface FAQuestion{
+export interface Faq{
     userId:number,
     question: Question,
     answer: Answer

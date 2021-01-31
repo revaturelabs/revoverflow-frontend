@@ -1,20 +1,18 @@
 import { Answer } from '../models/answer';
-import { FAQuestion } from '../models/faquestion';
+import { Faq } from '../models/faquestion';
 import { Location } from '../models/location';
 import { Question } from '../models/question';
 import { authAxios } from './internal.axios'
 
 //Adding FAQs to database.
-export const addToFAQ = async (question: String, answer: String, location: String) => {
+export const addToFAQ = async (question: Question, answer: Answer) => {
 
   let addFAQ ={
         question,
         answer,
-        location
-
     }
 
-    const response = await authAxios.post(`/faq`, addFAQ);
+    const response = await authAxios.post<Faq>(`/faq`, addFAQ);
     console.log(response.data);
     return response.data;
 }
@@ -22,7 +20,7 @@ export const addToFAQ = async (question: String, answer: String, location: Strin
 //Get all FAQs
 export const getAllFAQ = async () => {
 
-    const response = await authAxios.get(`/faq`);
+    const response = await authAxios.get<any>(`/faq`);
     console.log(response.data);
     return response.data;
 }
@@ -30,7 +28,7 @@ export const getAllFAQ = async () => {
 //Get FAQs by location
 export const getFAQByLocation = async (location: string) =>{
 
-    const response = await authAxios.get(`/faq/${location}`);
+    const response = await authAxios.get<Faq[]>(`/faq/${location}`);
     console.log(response.data);
     return response.data;
 
