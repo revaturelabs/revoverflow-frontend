@@ -105,26 +105,16 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
     const load = async (currentView: string, page: number) => {
         let retrievedPageable: any;
         let tab: any;
-        console.log(view, "<<<<<<<<<<<<<<<<<<<<<<<<default")
         if (currentView === 'revature') {
             
             retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 0;
-            // setView("revature");
-            console.log(view,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<revature")
             if (retrievedPageable.numberOfElements === 0) {
                 return;
             }
         } else if (currentView === 'location') {
-       
-
-
             retrievedPageable = await questionRemote.getAllQuestions(size, page);
             tab = 1;
-
-            // setView("location")
-            console.log(view, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<location")
-          
         } 
 
     }
@@ -167,9 +157,9 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (pro
                             <Tab icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
                                 onClick={(e) => load('location', 1)} /> */}
 
-                            <Tab icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
+                            <Tab id="revatureTab" icon={<BusinessIcon fontSize="large" />} label="Revature" className={classes.boxInternal}
                                 onClick={(e) => setView("revature")}/>
-                            <Tab icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
+                            <Tab id="locationsTab" icon={<LocationOnIcon fontSize="large" />} label="Location" className={classes.boxInternal}
                                 onClick={(e) => setView("location")} />
                             
                         </Tabs>

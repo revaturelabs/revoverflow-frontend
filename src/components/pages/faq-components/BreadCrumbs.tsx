@@ -4,7 +4,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TorontoIcon from './custom-icons/toronto'
+import TorontoIcon, {Dallas, Morgan, Ny, Orlando, Reston, Tampa} from './custom-icons/toronto'
 
 
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     },
     babyCrumb:{
       // flexGrow:"1"
-      margin: "1.5rem",
+      margin: "1rem 0.5rem",
 
     },
     crumbIcon: {
@@ -51,9 +51,8 @@ const StyledBreadcrumb = withStyles((theme: Theme) => ({
     
     '&:hover, &:focus': {
       backgroundColor: theme.palette.grey[100],
-      color: "#000000",
+      color: "#f26925",
 
-         fontWeight: "bold"
       
     },
     '&:active': {
@@ -77,22 +76,26 @@ export default function CustomizedBreadcrumbs() {
   return (
 
     <ThemeProvider theme={theme} > 
-     
       <Breadcrumbs separator="|" className={classes.parentCrumb} aria-label="breadcrumb">
-        <StyledBreadcrumb
-          className={classes.babyCrumb}
-          component="a"
-          href="#Toronto"
-          label="Toronto"
-          icon={<TorontoIcon />}
-          onClick={handleClick}
-        />
+        <span>
+            <TorontoIcon />
+            
+            <StyledBreadcrumb
+            className={classes.babyCrumb}
+            component="a"
+            href="#Toronto"
+            label="Toronto"
+            // icon={<TorontoIcon />}
+            onClick={handleClick}
+          />
+        </span>
+        
         <StyledBreadcrumb 
         className={classes.babyCrumb}
         component="a" 
         href="#Reston" 
         label="Reston" 
-        icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+        icon={<Dallas />}
         onClick={handleClick} 
         />
         
@@ -100,42 +103,36 @@ export default function CustomizedBreadcrumbs() {
         className={classes.babyCrumb}
           label="Tampa"
           deleteIcon={<ExpandMoreIcon />}
-          icon={<HomeIcon fontSize="large" className={classes.crumbIcon} />}
+          icon={<Morgan />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
           label="New York"
           deleteIcon={<ExpandMoreIcon />}
-          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          icon={<Ny />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
           label="Dallas"
           deleteIcon={<ExpandMoreIcon />}
-          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          icon={<Orlando />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
           label="Orlando"
-          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          icon={<Reston />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
           label="Morgantown"
-          icon={<HomeIcon fontSize="large"  className={classes.crumbIcon}/>}
+          icon={<Tampa />}
           onClick={handleClick}
         />
-        <img style={{width:"3rem", borderRadius:"50%", margin:"1rem"}} src="./icons/1.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/2.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/3.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/4.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/5.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/6.png"/>
-        <img style={{width:"3rem", borderRadius:"50%",margin:"1rem"}} src="./icons/7.png"/>
+        
       </Breadcrumbs>
 
     </ThemeProvider>

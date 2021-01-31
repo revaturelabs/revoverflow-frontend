@@ -1,35 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`USER-FAQ component tests Snapshot of render 1`] = `
-<div
-  className="Faq"
-  style={
-    Object {
-      "backgroundColor": "Salmon",
-      "height": "100vh",
-    }
-  }
->
-  <p>
-    This is a modifications
-  </p>
-  <h1>
-    User-FAQ
-  </h1>
-  <button
-    id="revatureQ"
-    onClick={[Function]}
-  >
-    Revature Questions
-  </button>
-  <button
-    id="locationQ"
-    onClick={[Function]}
-  >
-    Location-based Questions
-  </button>
-  <h2>
-    
-  </h2>
-</div>
-`;
+exports[`USER-FAQ component tests Snapshot of render 1`] = `<main />`;
