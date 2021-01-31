@@ -146,14 +146,15 @@ export const RichTextEditorComponent: React.FC = () => {
 
     const saveQuestion = async () => {
       const contentState = editorState.getCurrentContent();
+
       const payload: any = {
         title: title,
         content: JSON.stringify(convertToRaw(contentState)),
         creationDate: new Date(),
         status: false,
         revatureQuestion: revatureBasedQuestion,
-        locationBasedQuestion: locationBasedQuestion,
-        location: currentLocation,
+        //locationBasedQuestion: locationBasedQuestion,
+        locationID: currentLocation.id,
         userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
       }
        
