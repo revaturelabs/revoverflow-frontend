@@ -13,7 +13,6 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import CustomizedBreadcrumbs from './BreadCrumbs';
-import useForceUpdate from 'use-force-update';
 
 const theme = createMuiTheme({
     palette: {
@@ -43,11 +42,6 @@ const useStyles = makeStyles({
         paddingTop: 10,
     },
 })
-const questionList = [
-    'Learn React',
-    'Learn Firebase',
-    'Learn GraphQL',
-];
 
 export interface QuestContainerComponentProps {
     storeQuestions: Question[]
@@ -56,11 +50,9 @@ export interface QuestContainerComponentProps {
     storePageCount: number;
     storePage: number;
 }
-
-
+ 
 export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(props.storeTab);
     const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
     const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
@@ -124,6 +116,7 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
 
     return (
         <div className={classes.breadcrumbBar}>
+            ABCDEFT
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <ThemeProvider theme={theme} >
@@ -152,7 +145,6 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
         </div>
     )
 }
-
 
 const mapStateToProps = (state: IState) => {
     return {
