@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { AddFAQComponent } from '../../faq-components/add.faq.component';
+import { AddFAQComponent } from '../../faq-components/add-faq-component';
 
 
 
@@ -93,18 +93,19 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     }
     
 
-
+    console.log("\nprops.question.content")
+    console.log(props.question.content)
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.question.content)));
     const onChange = () => { };
 
     //!First box here contains answers not questions, so does its handler deal with answer not questions
+    console.log("//////////////////////////////////////////////////////")
+    console.log(props.questionContent)
+    console.log(props.question)
     return (
         <>
         <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-            {/* {(open)? */
-            <AddFAQComponent defaultQuestion={"props.questionContent"}/>
-            // :''
-        }
+            <AddFAQComponent defaultQuestion={props.question}/>
         </Backdrop>
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>
