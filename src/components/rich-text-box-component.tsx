@@ -86,6 +86,7 @@ const styleMap = {
 export interface RichTextBoxComponentProps {
     defaultText?:any
     id?:string
+    placeholder?:string
     handleChange:(e: any) => void
   }
 
@@ -137,6 +138,7 @@ export const RichTextBoxComponent: React.FC<RichTextBoxComponentProps> = (props)
           <Editor
             customStyleMap={styleMap}
             editorState={editorState}
+            placeholder={props.placeholder}
             handleKeyCommand={handleKeyCommand}
             onChange={onChange}
             readOnly={props.defaultText?true:false}

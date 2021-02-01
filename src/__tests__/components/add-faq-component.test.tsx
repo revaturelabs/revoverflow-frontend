@@ -1,7 +1,7 @@
 import React from 'react'
 import {mount, shallow} from 'enzyme';
 import Jest from 'jest'
-import { AddFAQComponent } from '../../components/faq-components/add-faq-component';
+import { AddFAQComponent } from '../../components/pages/faq-components/add-faq-component';
 import { Answer } from '../../models/answer';
 import { Question } from '../../models/question';
 import { Button } from '@material-ui/core';

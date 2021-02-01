@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { clickQuestion } from '../../../actions/question.actions';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { AddFAQComponent } from '../../faq-components/add-faq-component';
+import { AddFAQComponent } from '../faq-components/add-faq-component';
 
 
 

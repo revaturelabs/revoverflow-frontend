@@ -9,12 +9,12 @@ import {
   RichUtils,
 } from "draft-js";
 import React, { useState, FC, useEffect } from "react";
-import { Answer } from "../../models/answer";
-import { Question } from "../../models/question";
-import { addToFAQ, getAllFAQ } from "../../remotes/faquestion.remote";
-import { AnswerRichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/answer-draftjs";
-import { RichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/draftjs";
-import { RichTextBoxComponent } from "../rich-text-box-component";
+import { Answer } from "../../../models/answer";
+import { Question } from "../../../models/question";
+import { addToFAQ, getAllFAQ } from "../../../remotes/faquestion.remote";
+import { AnswerRichTextEditorComponent } from "../forum-components/rich-text-editor-component/answer-draftjs";
+import { RichTextEditorComponent } from "../forum-components/rich-text-editor-component/draftjs";
+import { RichTextBoxComponent } from "../../rich-text-box-component";
 
 const styleMap = {
   HIGHLIGHT: {
@@ -101,14 +101,16 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   return (
     <Card onClick={(e) => e.stopPropagation()}>
       <form id="addFAQForm" onSubmit={submitFAQ}>
-        <label>Question:</label>
+        <label>Question Title:</label>
         <RichTextBoxComponent
           defaultText={props.defaultQuestion?.title}
           id="questionTitleInput"
           handleChange={handleQuestionTitleChange}
           />
+        <label>Question Body:</label>
         <RichTextBoxComponent
           defaultText={props.defaultQuestion?.content}
+          placeholder={"Question Body"}
           id="questionBodyInput"
           handleChange={handleQuestionBodyChange}
           />
