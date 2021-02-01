@@ -99,7 +99,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   const handleQuestionTitleChange = (e: string) => {
     console.log("Changing question title");
     console.log(e);
-    setQuestionTitle(e);
+    setQuestionTitle(convertFromRaw(JSON.parse(e)).getPlainText());
     // setQuestionTitle(e.target.value)
   };
   const handleQuestionBodyChange = (e: string) => {
@@ -129,7 +129,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           content: questionBody,
           creationDate: new Date(),
           status: true,
-          userID: 0, //TODO get current user
+          userID: 12, //TODO get current user
         };
 
         let a: Answer = {
@@ -137,7 +137,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           content: answer,
           creationDate: new Date(),
           questionId: 0,
-          userId: 1,
+          userId: 12,
         };
         let submitToFAQ = await addToFAQ(q, a);
         let getAll = await getAllFAQ();
