@@ -50,7 +50,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const handleClose = () => {
-        console.log("closing")
         setOpen(false)
     }
 
@@ -58,7 +57,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
      * retrieves answers, persists question in the Redux store and questionId, quesiton and answers in local storage
      */
     const handleRedirectQ = async () => {
-        console.log("handleRedirectQ")
         const retrievedAnswers = await answerRemote.getAnswersByQuestionId(props.question.id, 10, 0);
         props.clickQuestion(props.question);
         localStorage.setItem("questionId", JSON.stringify(props.question.id));
@@ -72,7 +70,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
      */
 
     const handleRedirectA = async () => {
-        console.log("handleRedirectA")
         const retrievedQuestion = await questionRemote.getQuestionByQuestionId(props.question.questionId);
         const retrievedAnswers = await answerRemote.getAnswersByQuestionId(props.question.questionId, 10, 0);
         localStorage.setItem("questionId", JSON.stringify(retrievedQuestion.id));
@@ -88,7 +85,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     const handleRedirectFAQ = async (e:React.SyntheticEvent) =>  {
         e.stopPropagation()
         setOpen(true)
-        console.log("add questions")
 
     }
     
@@ -96,7 +92,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     try {
         questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.question.content)));
     } catch(e) {
-        console.log("ERROR: Created empty editor state as fallback.");
         questionContent = EditorState.createEmpty();
     }
 
