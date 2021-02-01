@@ -4,13 +4,13 @@
  */
 
 export interface Question {
-    id: number;
-    acceptedId: number;
-    title: string;
-    content: string;
-    creationDate: Date;
-    status: boolean;
-    userID: number;
-    revatureQuestion: boolean;
-    locationID: number;
+  id: number;
+  acceptedId: number;
+  title: string;
+  content: string;
+  creationDate: Date;
+  status: boolean;
+  userID: number;
+  revatureQuestion: boolean;
+  locationID: number;
 }
