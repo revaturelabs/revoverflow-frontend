@@ -410,6 +410,7 @@ export const RichTextEditorComponent: React.FC = () => {
             control={
               <Checkbox
                 checked={revatureBasedQuestion}
+                id="revature-based-checkbox"
                 onChange={() =>
                   setRevatureBasedQuestion(!revatureBasedQuestion)
                 }
@@ -423,6 +424,7 @@ export const RichTextEditorComponent: React.FC = () => {
               control={
                 <Checkbox
                   checked={locationBasedQuestion}
+                  id="location-based-checkbox"
                   onChange={() => toggleLocationBasedQuestion()}
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />
