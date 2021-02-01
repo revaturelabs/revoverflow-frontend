@@ -27,14 +27,16 @@ const style ={
   card:{
     width:"60vw",
     height:"80vh",
-    padding: "2rem"
+    padding: "2rem",
+    justify: "flex-start"
+
   },
   cardBoxes: {
     width:"100%",
     backgroundColor:"lightgray",
     margin:"1rem",
-    // textAlign: "left"
-
+    // alignItems:"left",
+    // justifyContent:"left"
   },
   label:{
     fontSize: "1.2rem",
