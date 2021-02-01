@@ -30,6 +30,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { useHistory } from "react-router";
@@ -340,6 +341,27 @@ export const NavbarComponent: React.FC<any> = (props) => {
                 <QuestionAnswerIcon
                   onClick={() => {
                     history.push("/question");
+                  }}
+                  style={{ color: "#F26925" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+           <Divider />
+          {["FAQ"].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                history.push("/faq");
+              }}
+              style={{ color: "#F26925" }}
+              button
+              key={text}
+            >
+              <ListItemIcon>
+                <RecordVoiceOverIcon
+                  onClick={() => {
+                    history.push("/faq");
                   }}
                   style={{ color: "#F26925" }}
                 />
