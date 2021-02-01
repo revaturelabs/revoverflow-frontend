@@ -5,6 +5,7 @@
  * @author Jerry Pujals
  * @author Kelvin Trinh
  * @author Stephen Wong
+ * @author Mohammed Hammad
  */
 
 import React from "react";
