@@ -34,10 +34,11 @@ export const LoginComponent: React.FC = () => {
 
   let response: any;
   const setInformation = async (accessToken:any) => {
-    authAxios.defaults.headers["Authorization"]= accessToken
+    authAxios.defaults.headers["Authorization"]= accessToken;
+
     setInputEmail('');
     setInputPassword('');
-    // localStorage.setItem('accessToken', response.headers.authorization);
+    localStorage.setItem('accessToken', accessToken);
     // localStorage.setItem('admin', response.data.admin);
     // localStorage.setItem('email', response.data.email)
     // localStorage.setItem('firstName', response.data.firstName);
@@ -46,7 +47,7 @@ export const LoginComponent: React.FC = () => {
     // localStorage.setItem('profilePicture', response.data.profilePicture);
     // localStorage.setItem('rssaccountId', response.data.rssaccountId);
     // localStorage.setItem('userId', response.data.userID);
-    // history.push('/feed')
+    history.push('/feed')
   }
 
   const addLoginCredentials = async (e: any) => {
@@ -56,20 +57,11 @@ export const LoginComponent: React.FC = () => {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
-      // console.log("my response ________"+JSON.stringify(user));
 
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
 
-      // console.log("Access Token outside_________"+ JSON.stringify(accessToken))
-
-      localStorage.setItem('accessToken', user.user.ya);
-      localStorage.setItem('email', user.user.email);
-      localStorage.setItem('displayName', user.user.displayName);
-
-      await loginRemote.checkLoginCredentials(accessToken);
-
-
-      await setInformation(accessToken);
+      await setInformation(`Bearer ${accessToken}`);
+     
     } catch {
       alert('Incorrect username and/or password')
     }

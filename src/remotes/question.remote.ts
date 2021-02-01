@@ -22,21 +22,25 @@ export const postAnswer = async (answer: Answer) => {
 
 export const getAllQuestions = async (size: number, page: number) => {
     const response = await authAxios.get<any>(`/questions?&size=${size}&page=${page}`);
+    console.log("2")
     return response.data;
 }
 
 export const getQuestionsByUserId = async (id: number, size: number, page: number ) => {
     const response = await authAxios.get<Question[]>(`/questions/user/${id}?size=${size}&page=${page}`);
+    console.log("1")
     return response.data;
 }
 
 export const getUnconfirmedQuestions = async (size: number, page: number) => {
     const response = await authAxios.get<Question[]>(`questions/status/false?size=${size}&page=${page}`);
+    console.log("3")
     return response.data;
 }
 
 export const getQuestionByQuestionId = async (id: number) => {
     const response = await authAxios.get<Question>(`/questions/id/${id}`);
+    console.log("4")
     return response.data;
 }
 
