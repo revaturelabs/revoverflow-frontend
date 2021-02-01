@@ -46,9 +46,9 @@ export const getAllQuestions = async (size: number, page: number) => {
  * @param page: the page number type; is number
  * @returns: a list of questions made by the user
  */
-export const getQuestionsByUserId = async (id: number, size: number, page: number) => {
-    const response = await authAxios.get<Question[]>(`/questions/user/${id}?size=${size}&page=${page}`);
-    return response.data;
+export const getQuestionsByUserId = async (id: number, size: number, page: number ) => {
+    const response = await authAxios.get<any>(`/questions/user/${id}?size=${size}&page=${page}`);
+    return response.data.content;
 }
 /**
  * This method gets called in @function load() in the feed-container.component.tsx on line 102 and gets all questions with status that equals false

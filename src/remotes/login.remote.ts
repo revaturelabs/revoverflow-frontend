@@ -17,3 +17,8 @@ export const getUserById = async (id: number) => {
     const response = await authAxios.get<user>(`/user/${id}`);
     return response;
 }
+
+export const getProfileById = async(id: number) => {
+    const response = await authAxios.get<user>(`/user/profile/${id}`);
+    return response;
+}
