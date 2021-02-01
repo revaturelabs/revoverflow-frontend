@@ -27,19 +27,49 @@ const style ={
   card:{
     width:"60vw",
     height:"80vh",
-    padding: "2rem"
-  },
-  cardBoxes: {
-    width:"100%",
-    backgroundColor:"lightgray",
-    margin:"1rem",
+    padding: "2rem",
     // textAlign: "left"
-
+  },
+  cardBoxes1: {
+    width:"100%",
+    height:"5vh",
+    // backgroundColor:"lightgray",
+    margin:"1.5rem",
+    
+  },
+  cardBoxes2: {
+    width:"100%",
+    height:"22.5vh",
+    // backgroundColor:"lightgray",
+    margin:"1.5rem",
+    
+  },
+  cardBoxes3: {
+    width:"100%",
+    height:"22.5vh",
+    // backgroundColor:"lightgray",
+    margin:"1.5rem",
+    
   },
   label:{
     fontSize: "1.2rem",
-    width:"100%"
+    textAlign:"left" as "left",
+    padding: "0",
+    margin: "0 0 0.5rem 1.4rem",
+
+    fontWeight:"bold" as "bold"
+  },
+
+  title:{
+    height:"20%"
+  },
+  submit:{
+    backgroundColor:"#3498db",
+    margin: "3.5rem 1rem",
+    width:"100%",
+    borderRadius:"8px"
   }
+
 }
 
 //pass in if there is no default question
@@ -120,21 +150,22 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   return (
     <Card style={style.card} onClick={(e) => e.stopPropagation()}>
       <form id="addFAQForm" onSubmit={submitFAQ}>
-        <div className="cardBoxes" style={style.cardBoxes}>
-          <label style={style.label} >Title</label>
+        <div className="cardBoxes" style={style.cardBoxes1}>
+          <p style={style.label} >TITLE</p>
           <RichTextBoxComponent
             defaultText={props.defaultQuestion?.title}
             id="questionTitleInput"
             handleChange={handleQuestionTitleChange}
+            placeholder={"Write a descriptive title"}
             />
         </div>
      
 
-        <div className="cardBoxes" style={style.cardBoxes}>
-          <label style={style.label}>Body</label>
+        <div className="cardBoxes" style={style.cardBoxes2}>
+          <p style={style.label}>BODY</p>
           <RichTextBoxComponent
             defaultText={props.defaultQuestion?.content}
-            placeholder={"Question Body"}
+            placeholder={"Describe your question here"}
             id="questionBodyInput"
             handleChange={handleQuestionBodyChange}
             />
@@ -143,19 +174,23 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
               disabled={defaultQuestionProvided}/> */}
 
-        <div className="cardBoxes" style={style.cardBoxes}>
-          <label style={style.label}>Answer</label>
+        <div className="cardBoxes" style={style.cardBoxes3}>
+          <p style={style.label}>ANSWER</p>
         <RichTextBoxComponent
           id="answerInput"
           handleChange={handleAnswerChange}
+          placeholder={"Answer"}
         />
         </div>
         
         {/* <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/> */}
-        <Button type="submit" id="submitFAQButton" disabled={false}>
+        <div style={style.submit} className="submitParent">
+        <Button style={{color:"black"}}  type="submit" id="submitFAQButton" disabled={false}>
           {" "}
           Submit{" "}
         </Button>
+        </div>
+        
       </form>
     </Card>
   );
