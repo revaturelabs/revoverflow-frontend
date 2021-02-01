@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Checkbox } from '@material-ui/core';
+import { Checkbox, InputLabel } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import QuestBoxComponent from './quest-box.component';
 import {createMuiTheme, makeStyles, Container, Box, ThemeProvider} from '@material-ui/core';
@@ -13,6 +13,8 @@ import { IState } from '../../../reducers';
 import { connect } from 'react-redux';
 import { clickTab } from '../../../actions/question.actions';
 import CustomizedBreadcrumbs from './BreadCrumbs';
+import './question.css'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const theme = createMuiTheme({
     palette: {
@@ -28,11 +30,9 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
     boxExternal: {
         minWidth: 500,
-        
     },
     boxInternal: {
-        color: "#f26925",
-       
+        color: '#f26925',
     },
     breadcrumbBar: {
         marginTop: 60,
@@ -41,6 +41,20 @@ const useStyles = makeStyles({
     containerInternal: {
         paddingTop: 10,
     },
+    unchecked:{
+        color: '#f26925',
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
+
+    },
+    checked:{
+        color: '#f26925',
+        backgroundColor: '#fad6c3',
+        marginTop: 20, 
+        marginLeft: 20,
+        marginRight: 20,
+    }
 })
 
 export interface QuestContainerComponentProps {
@@ -53,8 +67,8 @@ export interface QuestContainerComponentProps {
  
 export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
-    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
-    const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
+    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(true);
+    const [locationBasedQuestion, setLocationBasedQuestion] = useState(true);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const size = 10;
 
@@ -72,12 +86,12 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
         load(revatureBasedQuestion,locationBasedQuestion, value - 1);
     };
 
-    const load = async (revatuure:boolean, location:boolean, page: number) => {
+    const load = async (revature:boolean, location:boolean, page: number) => {
         let retrievedPageable: any;
         let tab: any;
-        console.log("revatuure: " + revatuure)
+        console.log("revature: " + revature)
         console.log("location: " + location)
-        if (revatuure) {
+        if (revature) {
             if(!location){
                 retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
                 //tab = 0; 
@@ -92,7 +106,7 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
             }
         } else {
             if(location){
-                //SHOULD BE CHANGED!!!!
+                //SHOULD WORK ON THIS!!!!
                 retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
                 //tab = 1;
             }else{
@@ -116,20 +130,39 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
 
     return (
         <div className={classes.breadcrumbBar}>
-            ABCDEFT
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <ThemeProvider theme={theme} >
                     <Box justifyContent="center" display="flex"  className={classes.boxExternal}>
                         <span id="checkbox"></span>
-                        <Checkbox id="revatureChk" name="revatureChk"  
-                                  icon={<BusinessIcon fontSize="large"/>}  className={classes.boxInternal} checked={revatureBasedQuestion} 
+                        <FormControlLabel
+                            className={classes.boxInternal}
+                            labelPlacement='bottom'
+                            control={
+                                <Checkbox name="revatureChk" 
+                                    icon={<BusinessIcon style={{ fontSize: 42 }} className={classes.unchecked}/>}  
+                                    checkedIcon={<BusinessIcon style={{ fontSize: 42 }} className={classes.checked} />}
+                                    checked={revatureBasedQuestion} 
+                                    onChange={toggleQuestion} />
+                            }
+                            label="REVATURE"
+                        />
+                        <FormControlLabel
+                            className={classes.boxInternal}
+                            labelPlacement='bottom'
+                            control={
+                                <Checkbox name="locationChk" //label="LOCATION"
+                                  icon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.unchecked}/>} 
+                                  checkedIcon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.checked} />}
+                                  checked={locationBasedQuestion} 
                                   onChange={toggleQuestion} />
-                        <Checkbox id="locationChk" name="locationChk"  
-                                  icon={<LocationOnIcon fontSize="large" />} className={classes.boxInternal} checked={locationBasedQuestion} 
-                                  onChange={toggleQuestion} />
-                        
+                            }
+                            label="LOCATION"
+                        />
                     </Box>
+                    {/* <Box justifyContent="center" display="flex"  className={classes.boxExternal}>
+                    <label>REVATURE</label><label>LOCATION</label>
+                    </Box> */}
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >
                             {/*renderQuestBoxComponents()*/}
