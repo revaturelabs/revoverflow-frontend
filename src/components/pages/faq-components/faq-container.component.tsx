@@ -94,7 +94,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
   const [location, setLocation] = useState("");
   const [open, setOpen] = useState<boolean>(false);
   const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
-  const admin = localStorage.getItem("admin");
+  const admin = "false" /*localStorage.getItem("admin")*/;
   const size = 10;
   let filteredQuestions: Question[] = [];
 

@@ -14,11 +14,7 @@ configure({adapter: new Adapter()})
 
 describe('USER-FAQ component tests', () => {
     
-    // test('USER-FAQ component mounting test:Should Render', () => {
-        
-    //     const wrapper = mount(<FaqContainerComponent />);
-    //     expect(wrapper).toBeDefined();
-    // })
+
     test("User-FAQ page mounts properly", ()=>{
     
     const wrapper = mount(
@@ -35,13 +31,7 @@ describe('USER-FAQ component tests', () => {
 
     //=====================================================================================================
 
-    // test('test unmounting of component', () => {
-        
-    //     const wrapper = mount(<FaqContainerComponent />);
-    
-    //     wrapper.unmount()
-    //     expect(wrapper).toBeUndefined;
-    // })
+
 
     test('test unmounting of component', () => {
         
@@ -64,11 +54,7 @@ describe('USER-FAQ component tests', () => {
 
 
     //=====================================================================================================
-    // test("Snapshot of render", ()=>{
-    //     const tree = renderer.create(<FaqContainerComponent />).toJSON();
 
-    //     expect(tree).toMatchSnapshot();
-    // })
 
 
     test("Snapshot of render:  identifies unexpected interface changes within our application", ()=>{
@@ -86,12 +72,7 @@ describe('USER-FAQ component tests', () => {
 
 
     //=====================================================================================================
-    // test('Render the Revature and Location Tab', () => {
-    //     const wrapper = mount(<FaqContainerComponent />)
-    //     expect(wrapper.find('revatureTab')).toBeDefined()
-    //     expect(wrapper.find('locationsTab')).toBeDefined()
-   
-    // })
+ 
 
     test("User-FAQ page renders revature tab and locations tab", ()=>{
     

@@ -77,18 +77,15 @@ export default function CustomizedBreadcrumbs() {
 
     <ThemeProvider theme={theme} > 
       <Breadcrumbs separator="|" className={classes.parentCrumb} aria-label="breadcrumb">
-        <span>
-            <TorontoIcon />
             
-            <StyledBreadcrumb
+          <StyledBreadcrumb
             className={classes.babyCrumb}
             component="a"
             href="#Toronto"
             label="Toronto"
-            // icon={<TorontoIcon />}
+            icon={<TorontoIcon />}
             onClick={handleClick}
           />
-        </span>
         
         <StyledBreadcrumb 
         className={classes.babyCrumb}

@@ -10,7 +10,6 @@ import { AddFAQComponent } from './components/pages/faq-components/add-faq-compo
 function App() {
   return (
     <div className="App">
-      <AddFAQComponent></AddFAQComponent>
         <Provider store={store}>
           <MainComponent />
         </Provider>
