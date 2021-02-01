@@ -34,19 +34,20 @@ export const LoginComponent: React.FC = () => {
   useEffect(() => { }, []);
 
   let response: any;
-  const setInformation = async () => {
-    authAxios.defaults.headers["Authorization"]= response.headers.authorization
+  const setInformation = async (accessToken:any) => {
+    authAxios.defaults.headers["Authorization"]= accessToken;
+
     setInputEmail('');
     setInputPassword('');
-    localStorage.setItem('accessToken', response.headers.authorization);
-    localStorage.setItem('admin', response.data.admin);
-    localStorage.setItem('email', response.data.email)
-    localStorage.setItem('firstName', response.data.firstName);
-    localStorage.setItem('lastName', response.data.lastName);
-    localStorage.setItem('points', response.data.points);
-    localStorage.setItem('profilePicture', response.data.profilePicture);
-    localStorage.setItem('rssaccountId', response.data.rssaccountId);
-    localStorage.setItem('userId', response.data.userID);
+    localStorage.setItem('accessToken', accessToken);
+    // localStorage.setItem('admin', response.data.admin);
+    // localStorage.setItem('email', response.data.email)
+    // localStorage.setItem('firstName', response.data.firstName);
+    // localStorage.setItem('lastName', response.data.lastName);
+    // localStorage.setItem('points', response.data.points);
+    // localStorage.setItem('profilePicture', response.data.profilePicture);
+    // localStorage.setItem('rssaccountId', response.data.rssaccountId);
+    // localStorage.setItem('userId', response.data.userID);
     history.push('/feed')
   }
 
@@ -57,14 +58,11 @@ export const LoginComponent: React.FC = () => {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
-      // console.log("my response ________"+JSON.stringify(user));
 
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
-      // console.log("Access Token outside_________"+ JSON.stringify(accessToken))
 
-      response = await loginRemote.checkLoginCredentials(inputEmail, accessToken);
-
-      await setInformation();
+      await setInformation(`Bearer ${accessToken}`);
+     
     } catch {
       alert('Incorrect username and/or password')
     }
