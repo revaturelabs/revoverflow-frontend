@@ -29,6 +29,7 @@ describe('USER-FAQ component tests', () => {
                 </Route>
             </main>
         </BrowserRouter>)
+
         expect(wrapper).toBeDefined()
     })
 
@@ -70,7 +71,7 @@ describe('USER-FAQ component tests', () => {
     // })
 
 
-    test("Snapshot of render", ()=>{
+    test("Snapshot of render:  identifies unexpected interface changes within our application", ()=>{
         const tree = renderer.create(
         <BrowserRouter>
             <main>
@@ -136,7 +137,7 @@ describe('USER-FAQ component tests', () => {
 
         const {getByText, getByLabelText} = getQueriesForElement(root)
 
-        const tab = //simulate click to revature and breadcrumbs should show
+        //const tab = simulate click to revature and breadcrumbs should show
     })
 
 
