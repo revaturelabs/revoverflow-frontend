@@ -20,39 +20,38 @@ describe("question-form-location-dropdown", () => {
 
   it("Should render the dropdown menu button", () => {
     const wrapper = mount(<RichTextEditorComponent />);
-    const dropDownButton = wrapper
-      .find("#location-dropdown-button")
-      .find(Button);
+    const locationBasedCheckbox = wrapper
+      .find("#location-based-checkbox")
+      .find(Checkbox);
 
-    expect(dropDownButton).toBeDefined();
+    expect(locationBasedCheckbox).toBeDefined();
   });
 
   it("Should render the dropdown menu button if locations checkbox is checked", () => {
     const wrapper = mount(<RichTextEditorComponent />);
 
-    const checkbox = () =>
+    const checkbox = 
       wrapper.find("#location-based-checkbox").find(Checkbox);
 
-    checkbox().simulate("change");
+    checkbox.simulate('change', { target: { checked: true } });
+    wrapper.update();
+    const dropDownMenu = wrapper.find("#location-dropdown-menu").find(Menu);
 
-    const dropDownButton = wrapper.find("#location-dropdown-button");
-
-    expect(dropDownButton).toBeDefined();
+    expect(dropDownMenu.exists()).toBeTruthy();
   });
 
   it("Shouldn't render the dropdown menu button if locations checkbox is unchecked", () => {
     const wrapper = mount(<RichTextEditorComponent />);
 
-    const checkbox = () =>
-      wrapper.find("#location-based-checkbox").find(Checkbox);
+    const checkbox = wrapper.find("#location-based-checkbox").find(Checkbox);
+      checkbox.simulate('change', { target: { checked: true } });
+      wrapper.update();
+      checkbox.simulate('change', { target: { checked: false } });
+      wrapper.update();
+    
+    const dropDownMenu = wrapper.find("#location-dropdown-menu").find(Menu);
 
-    checkbox().simulate("change");
-    wrapper.update();
-    checkbox().simulate("change", { target: { checked: false } });
-    wrapper.update();
-    const dropDownButton = wrapper.find("#location-dropdown-button");
-
-    expect(dropDownButton).toBeUndefined();
+    expect(dropDownMenu.exists()).toBeFalsy();
   });
 
   it("Should render the location dropdown menu when clicked", () => {
