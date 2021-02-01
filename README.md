@@ -29,14 +29,15 @@ RevOverflow is a site dedicated to providing support to technical problems encou
 - Administrative permission to curate a selection of Frequently Asked Questions (FAQs).
 - Answer approval or denial system to indicate where users should default to.
 - Point-based system to denote questions and answers asked and their respective status.
+- User access to other user profiles to view questions and answers.
 
 # To-Do List
 
 - Horizontal scalability with microservices.
-- User access to other user profiles to view questions and answers.
 
 # Getting Started
 
+- This is a quick start. Be sure to reference the 'STARTUP.md' for more information.
 - git clone https://github.com/875-Trevin-Chester/revoverflow-frontend.git
   - The above git command will bring the repository into your specified directory.
 - Import the project files into an IDE (VSCode used in development).
@@ -45,7 +46,7 @@ RevOverflow is a site dedicated to providing support to technical problems encou
 
 # Usage
 
-- Be sure to reference the revoverflow-backend 'README.md' to get the backend server started.
+- Again, be sure to reference the revoverflow-backend 'STARTUP.md' for further detail.
 - npm start
   - The above command will start the React project after configuration.
 - The landing page will prompt the user for login credentials. Continue from there.
