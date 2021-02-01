@@ -12,4 +12,5 @@ export interface Question {
     status: boolean;
     userID: number;
     revatureQuestion: boolean;
+    locationID: number;
 }

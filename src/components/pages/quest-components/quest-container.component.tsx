@@ -101,7 +101,10 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
         } else {
             if(location){
                 //SHOULD BE CHANGED!!!!
-                retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+                retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
+                if (retrievedPageable.numberOfElements === 0) {
+                    return;
+                }
                 //tab = 1;
             }else{
                 return;

@@ -82,6 +82,14 @@ export default function CustomizedBreadcrumbs() {
         <StyledBreadcrumb
           className={classes.babyCrumb}
           component="a"
+          href="#All Locations"
+          label="All Locations"
+          icon={<HomeIcon fontSize="large" className={classes.crumbIcon}/>}
+          onClick={handleClick}
+        />
+        <StyledBreadcrumb
+          className={classes.babyCrumb}
+          component="a"
           href="#Toronto"
           label="Toronto"
           icon={<HomeIcon fontSize="large" className={classes.crumbIcon}/>}

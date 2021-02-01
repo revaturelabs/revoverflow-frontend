@@ -122,6 +122,7 @@ export const RichTextEditorComponent: React.FC = () => {
       e.preventDefault();
       console.log(location);
       setCurrentLocation(location);
+      console.log(currentLocation.id);
       handleClose();
     };
 
@@ -151,8 +152,8 @@ export const RichTextEditorComponent: React.FC = () => {
         creationDate: new Date(),
         status: false,
         revatureQuestion: revatureBasedQuestion,
-        locationBasedQuestion: locationBasedQuestion,
-        location: currentLocation,
+        //locationBasedQuestion: locationBasedQuestion,
+        locationID: currentLocation.id,
         userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
       }
        

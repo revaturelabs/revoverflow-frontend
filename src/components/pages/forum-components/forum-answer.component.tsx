@@ -117,6 +117,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             editDate: null,
             status: false,
             revatureQuestion: questionInfo.revatureQuestion,
+            locationID: questionInfo.locationID,
             userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
         };
 
