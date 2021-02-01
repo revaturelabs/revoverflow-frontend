@@ -175,7 +175,7 @@ export const RichTextEditorComponent: React.FC = () => {
           status: false,
           revatureQuestion: revatureBasedQuestion,
           //locationBasedQuestion: locationBasedQuestion,
-          locationID: currentLocation.id,
+          locationID: currentLocation !== null ? currentLocation.id : null,
           userID: +JSON.parse(JSON.stringify(localStorage.getItem("userId"))),
         };
 
