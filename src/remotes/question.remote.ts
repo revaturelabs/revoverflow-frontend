@@ -55,3 +55,13 @@ export const getAllRevatureQuestions = async (size: number, page: number, revatu
     //?&size=${size}&page=${page}&revaturequestions=${revature}
     return response.data;
 }
+
+export const getAllLocationQuestions = async (size: number, page: number ) => {
+    const response = await authAxios.get<Question[]>(`/questions/location?&size=${size}&page=${page}`);
+    return response.data;
+}
+
+export const getQuestionsByLocationId = async (id: number, size: number, page: number ) => {
+    const response = await authAxios.get<Question[]>(`/questions/location/${id}?size=${size}&page=${page}`);
+    return response.data;
+}
