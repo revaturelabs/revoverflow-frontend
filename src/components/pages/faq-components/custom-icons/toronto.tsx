@@ -1,45 +1,56 @@
 import React from 'react'
 
+const style = {
+    icons:{
+        width:"2rem", 
+        borderRadius:"50%", 
+        margin:"1rem"
+    }
+}
+
 const TorontoIcon = ()=>{
 
+
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/1.png"/>
+            <img style={style.icons} alt="Toronto"  src="./icons/to.png"/>
     )   
 }
+
 export const Dallas = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/2.png"/>
+            <img style={style.icons} alt="Dallas" src="./icons/dl.png"/>
     )   
 }
+
 export const Morgan = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/3.png"/>
+            <img style={style.icons} alt="Morgan" src="./icons/mt.png"/>
     )   
 }
 export const Ny = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/4.png"/>
+            <img style={style.icons} alt="New York" src="./icons/NYC.png"/>
     )   
 }
 export const Orlando = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/5.png"/>
+            <img style={style.icons} alt="Orlando" src="./icons/ol.png"/>
     )   
 }
 export const Reston = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/6.png"/>
+            <img style={style.icons} alt="Reston" src="./icons/re.png"/>
     )   
 }
 export const Tampa = ()=>{
 
     return(
-            <img style={{width:"2rem", borderRadius:"50%", margin:"1rem"}} src="./icons/7.png"/>
+            <img style={style.icons} alt="Tampa" src="./icons/ta.png"/>
     )   
 }
 

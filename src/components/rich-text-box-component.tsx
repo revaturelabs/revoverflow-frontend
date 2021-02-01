@@ -58,8 +58,7 @@ const useStyles = makeStyles({
     padding: 10,
   },
   buttonInternal: {
-      padding: 2,
-      marginBottom: 3
+      padding: "0.2rem",
   },
 });
 
@@ -225,7 +224,7 @@ const blockbuttons = [
 const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
   return (
     <ThemeProvider theme={theme}>
-      {(props.showButtons)?<Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+      {(props.showButtons)?<Box style={{backgroundColor:"salmon"}}>
         {buttons.map((b) =>
           buttonVariant(b.style) ? (
             <span key={b.style} className={classes.buttonInternal}>
@@ -238,6 +237,7 @@ const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
               >
                 {b.name}
               </Button>
+              
             </span>
           ) : (
             <span key={b.style} className={classes.buttonInternal}>
@@ -250,6 +250,7 @@ const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
               >
                 {b.name}{" "}
               </Button>
+              1/3
             </span>
           )
         )}
@@ -265,6 +266,7 @@ const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
               >
                 {b.name}
               </Button>
+             
             </span>
           ) : (
             <span key={b.block} className={classes.buttonInternal}>
@@ -277,6 +279,7 @@ const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
               >
                 {b.name}
               </Button>
+               2/3
             </span>
           )
         )}
@@ -290,6 +293,7 @@ const linkbutton = [{ function: onAddLink, name: <HttpIcon /> }]
             >
               {b.name}
             </Button>
+            3/3
           </span>
         ))}
       </Box>

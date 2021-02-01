@@ -165,7 +165,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
       <Container className={classes.containerInternal}>
         <Box justifyContent="flex-end" display="flex">
           <ThemeProvider theme={theme}>
-            {admin === "false" ? (
+            {admin === "true" ? (
               <Button
                 variant="contained"
                 color="secondary"
@@ -216,11 +216,11 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
           <div style={{ width: "100%" }}>
             <Box display="flex" flexDirection="column" justifyContent="center">
-              {console.log(getView(), "im in the box", view)}
+              {console.log("")}
               {getView() === "location" ? (
                 <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} />
               ) : (
-                console.dir(getView())
+                console.log("")
               )}
               {/* {renderFeedBoxComponents()} */}
             </Box>

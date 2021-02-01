@@ -28,6 +28,7 @@ const style ={
     width:"60vw",
     height:"80vh",
     padding: "2rem",
+    boxSizing:"border-box" as "border-box"
     // textAlign: "left"
   },
   cardBoxes1: {
@@ -36,12 +37,14 @@ const style ={
     // backgroundColor:"lightgray",
     margin:"1.5rem",
     
+    
   },
   cardBoxes2: {
     width:"100%",
     height:"22.5vh",
     // backgroundColor:"lightgray",
     margin:"1.5rem",
+    // display:"flex"
     
   },
   cardBoxes3: {
@@ -49,6 +52,7 @@ const style ={
     height:"22.5vh",
     // backgroundColor:"lightgray",
     margin:"1.5rem",
+    // display:"flex"
     
   },
   label:{
@@ -162,13 +166,16 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
      
 
         <div className="cardBoxes" style={style.cardBoxes2}>
-          <p style={style.label}>BODY</p>
-          <RichTextBoxComponent
+          
+            <p style={style.label}>BODY</p>
+            <RichTextBoxComponent
             defaultText={props.defaultQuestion?.content}
             placeholder={"Describe your question here"}
             id="questionBodyInput"
             handleChange={handleQuestionBodyChange}
+            showButtons={true}
             />
+
         </div>
         
           {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
@@ -176,11 +183,14 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
 
         <div className="cardBoxes" style={style.cardBoxes3}>
           <p style={style.label}>ANSWER</p>
-        <RichTextBoxComponent
-          id="answerInput"
-          handleChange={handleAnswerChange}
-          placeholder={"Answer"}
-        />
+
+            <RichTextBoxComponent
+            id="answerInput"
+            handleChange={handleAnswerChange}
+            placeholder={"Answer"}
+            showButtons={true}
+          />
+
         </div>
         
         {/* <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/> */}

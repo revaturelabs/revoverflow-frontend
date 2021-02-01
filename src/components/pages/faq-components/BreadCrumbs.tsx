@@ -74,8 +74,7 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
 
   function handleClick(event:any) {
     event.preventDefault();
-    props.handleLocationClick(event.target.textContent)
-    
+   (event.target.tagName == "IMG") ? props.handleLocationClick(event.target.alt) : props.handleLocationClick(event.target.innerText)
   }
 
   const classes = useStyles();
@@ -99,14 +98,14 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
         className={classes.babyCrumb}
         component="a" 
         href="#Reston" 
-        label="Reston" 
+        label="Dallas" 
         icon={<Dallas />}
         onClick={handleClick} 
         />
         
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Tampa"
+          label="Morgan"
           deleteIcon={<ExpandMoreIcon />}
           icon={<Morgan />}
           onClick={handleClick}
@@ -120,20 +119,20 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Dallas"
+          label="Orlando"
           deleteIcon={<ExpandMoreIcon />}
           icon={<Orlando />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Orlando"
+          label="Reston"
           icon={<Reston />}
           onClick={handleClick}
         />
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Morgantown"
+          label="Tampa"
           icon={<Tampa />}
           onClick={handleClick}
         />
