@@ -67,7 +67,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
     //dont remove this we need if for the test
     console.log("submitting FAQ");
     console.log(e.target);
-    if (!defaultQuestionProvided) {
+    // if (!defaultQuestionProvided) {
       try {
         let q: Question = {
           id: 0,
@@ -93,9 +93,9 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
       } catch (e) {
         console.log(e);
       }
-    } else {
-      console.log("get question from redux");
-    }
+    // } else {
+    //   console.log("get question from redux");
+    // }
   };
 
   return (
@@ -106,14 +106,14 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           defaultText={props.defaultQuestion?.title}
           id="questionTitleInput"
           handleChange={handleQuestionTitleChange}
-        />
+          />
         <RichTextBoxComponent
           defaultText={props.defaultQuestion?.content}
           id="questionBodyInput"
           handleChange={handleQuestionBodyChange}
-        />
-        {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
-            disabled={defaultQuestionProvided}/> */}
+          />
+          {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
+              disabled={defaultQuestionProvided}/> */}
         <label>Answer:</label>
         <RichTextBoxComponent
           id="answerInput"
