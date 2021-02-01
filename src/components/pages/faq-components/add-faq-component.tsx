@@ -23,6 +23,25 @@ const styleMap = {
   },
 };
 
+const style ={
+  card:{
+    width:"60vw",
+    height:"80vh",
+    padding: "2rem"
+  },
+  cardBoxes: {
+    width:"100%",
+    backgroundColor:"lightgray",
+    margin:"1rem",
+    // textAlign: "left"
+
+  },
+  label:{
+    fontSize: "1.2rem",
+    width:"100%"
+  }
+}
+
 //pass in if there is no default question
 export interface AddFAQComponentProps {
   defaultQuestion?: any;
@@ -99,28 +118,39 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   };
 
   return (
-    <Card onClick={(e) => e.stopPropagation()}>
+    <Card style={style.card} onClick={(e) => e.stopPropagation()}>
       <form id="addFAQForm" onSubmit={submitFAQ}>
-        <label>Question Title:</label>
-        <RichTextBoxComponent
-          defaultText={props.defaultQuestion?.title}
-          id="questionTitleInput"
-          handleChange={handleQuestionTitleChange}
-          />
-        <label>Question Body:</label>
-        <RichTextBoxComponent
-          defaultText={props.defaultQuestion?.content}
-          placeholder={"Question Body"}
-          id="questionBodyInput"
-          handleChange={handleQuestionBodyChange}
-          />
+        <div className="cardBoxes" style={style.cardBoxes}>
+          <label style={style.label} >Title</label>
+          <RichTextBoxComponent
+            defaultText={props.defaultQuestion?.title}
+            id="questionTitleInput"
+            handleChange={handleQuestionTitleChange}
+            />
+        </div>
+     
+
+        <div className="cardBoxes" style={style.cardBoxes}>
+          <label style={style.label}>Body</label>
+          <RichTextBoxComponent
+            defaultText={props.defaultQuestion?.content}
+            placeholder={"Question Body"}
+            id="questionBodyInput"
+            handleChange={handleQuestionBodyChange}
+            />
+        </div>
+        
           {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
               disabled={defaultQuestionProvided}/> */}
-        <label>Answer:</label>
+
+        <div className="cardBoxes" style={style.cardBoxes}>
+          <label style={style.label}>Answer</label>
         <RichTextBoxComponent
           id="answerInput"
           handleChange={handleAnswerChange}
         />
+        </div>
+        
         {/* <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/> */}
         <Button type="submit" id="submitFAQButton" disabled={false}>
           {" "}

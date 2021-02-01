@@ -42,14 +42,7 @@ const useStyles = makeStyles({
   // boxInternal: {
   //     color: "#f26925"
   // },
-  editorContainer: {
-    //   paddingTop: 50,
-      width: "100%",
-      height: "100%",
-      display: "flex",
-    //   flexDirection: "column",
-      justifyContent: "center"
-  },
+
   // titleTool: {
   //     borderStyle: "solid",
   //     borderColor: "#f26925",
@@ -60,11 +53,12 @@ const useStyles = makeStyles({
   editorTool: {
     borderStyle: "solid",
     borderColor: "#f26925",
-    height: "60%",
-    width: "80%",
+    height: "20vh",
+    width: "100%",
     overflowY: "auto",
     fontSize: 20,
     padding: 10,
+
   },
   // buttonInternal: {
   //     padding: 2,
@@ -133,7 +127,6 @@ export const RichTextBoxComponent: React.FC<RichTextBoxComponentProps> = (props)
 
   return (
     <ThemeProvider theme={theme}>
-      <Box className={classes.editorContainer}>
         <Box className={classes.editorTool}>
           <Editor
             customStyleMap={styleMap}
@@ -144,7 +137,6 @@ export const RichTextBoxComponent: React.FC<RichTextBoxComponentProps> = (props)
             readOnly={props.defaultText?true:false}
           />
         </Box>
-      </Box>
     </ThemeProvider>
   );
 };
