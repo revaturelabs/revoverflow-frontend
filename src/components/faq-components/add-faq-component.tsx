@@ -1,79 +1,129 @@
-import { Button, Card, } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
 import axios from "axios";
-import { ContentBlock, ContentState, convertFromRaw, Editor, EditorState, RichUtils } from "draft-js";
+import {
+  ContentBlock,
+  ContentState,
+  convertFromRaw,
+  Editor,
+  EditorState,
+  RichUtils,
+} from "draft-js";
 import React, { useState, FC, useEffect } from "react";
+import { Answer } from "../../models/answer";
 import { Question } from "../../models/question";
-import { addToFAQ } from "../../remotes/faquestion.remote";
+import { addToFAQ, getAllFAQ } from "../../remotes/faquestion.remote";
 import { AnswerRichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/answer-draftjs";
 import { RichTextEditorComponent } from "../pages/forum-components/rich-text-editor-component/draftjs";
 import { RichTextBoxComponent } from "../rich-text-box-component";
 
 const styleMap = {
-  'HIGHLIGHT': {
-      padding: 4,
-      'backgroundColor': '#D3D3D3'
-  }
+  HIGHLIGHT: {
+    padding: 4,
+    backgroundColor: "#D3D3D3",
+  },
 };
 
 //pass in if there is no default question
 export interface AddFAQComponentProps {
-  defaultQuestion?:any
+  defaultQuestion?: any;
 }
 
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
-  // const [questionTitle, setQuestionTitle] = useState<string>('');
-  // const [questionBody, setQuestionBody] = useState<string>('');
-  // const [answer, setAnswer] = useState<string>('');
-  const [defaultQuestionProvided, setDefaultQuestionProvided] = useState<boolean>(false)
-  
+  const [questionTitle, setQuestionTitle] = useState<string>("");
+  const [questionBody, setQuestionBody] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
+  const [
+    defaultQuestionProvided,
+    setDefaultQuestionProvided,
+  ] = useState<boolean>(false);
+
   //if there is a default question set our question equal to it
   useEffect(() => {
     //get the truthiness of the defaultQuestion
-    setDefaultQuestionProvided((props.defaultQuestion)?true:false)
-    // setQuestionTitle(props.defaultQuestion ?? '')
-  }, [props.defaultQuestion])
+    setDefaultQuestionProvided(props.defaultQuestion ? true : false);
+  }, [props.defaultQuestion]);
 
-  // const handleQuestionChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
-  //   console.log('Changing question')
-  //   setQuestionTitle(e.target.value)
-  // }
-  // const handleAnswerChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
-  //   console.log('Changing Answer')
-  //   setAnswer(e.target.value)
-  // }
+  const handleQuestionTitleChange = (e: string) => {
+    console.log("Changing question title");
+    console.log(e);
+    setQuestionTitle(e);
+    // setQuestionTitle(e.target.value)
+  };
+  const handleQuestionBodyChange = (e: string) => {
+    console.log("Changing question body");
+    console.log(e);
+    setQuestionBody(e);
+    // setQuestionTitle(e.target.value)
+  };
+  const handleAnswerChange = (e: string) => {
+    console.log("Changing Answer");
+    console.log(e);
+    setAnswer(e);
+    // setAnswer(e.target.value)
+  };
 
-
-  const submitFAQ = (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const submitFAQ = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     //dont remove this we need if for the test
     console.log("submitting FAQ");
-    // console.log("with question title " + questionTitle);
-    // console.log("with question body " + questionBody);
-    // console.log("with answer " + answer);
-    //make an axios request to /faqs
-    //TODO refactor this
-    try {
-      // let submitToFAQ = await addToFAQ(null, null);
-      // console.log(submitToFAQ);
-     } catch (e) {
-     }
- 
+    console.log(e.target);
+    if (!defaultQuestionProvided) {
+      try {
+        let q: Question = {
+          id: 0,
+          acceptedId: 0,
+          title: questionTitle,
+          content: questionBody,
+          creationDate: new Date(),
+          status: true,
+          userID: 0, //TODO get current user
+        };
 
+        let a: Answer = {
+          id: 0,
+          content: answer,
+          creationDate: new Date(),
+          questionId: 0,
+          userId: 1,
+        };
+        let submitToFAQ = await addToFAQ(q, a);
+        let getAll = await getAllFAQ();
+        console.log(submitToFAQ);
+        console.log(getAll);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      console.log("get question from redux");
+    }
   };
-  
-  
+
   return (
-    <Card onClick={(e) => e.stopPropagation()}> 
+    <Card onClick={(e) => e.stopPropagation()}>
       <form id="addFAQForm" onSubmit={submitFAQ}>
         <label>Question:</label>
-        <RichTextBoxComponent defaultText={props.defaultQuestion?.title} id="questionTitleInput"/>
-        <RichTextBoxComponent defaultText={props.defaultQuestion?.content} id="questionBodyInput"/>
+        <RichTextBoxComponent
+          defaultText={props.defaultQuestion?.title}
+          id="questionTitleInput"
+          handleChange={handleQuestionTitleChange}
+        />
+        <RichTextBoxComponent
+          defaultText={props.defaultQuestion?.content}
+          id="questionBodyInput"
+          handleChange={handleQuestionBodyChange}
+        />
         {/* <input type="text" id="questionInput" value={question} onChange={handleQuestionChange} placeholder="Enter your Question"
             disabled={defaultQuestionProvided}/> */}
         <label>Answer:</label>
-        <RichTextBoxComponent id="answerInput"/>
+        <RichTextBoxComponent
+          id="answerInput"
+          handleChange={handleAnswerChange}
+        />
         {/* <input type="text" id="answerInput" value={answer} onChange={ handleAnswerChange} placeholder="Enter your Answer"/> */}
-        <Button type="submit" id="submitFAQButton" disabled={false}> Submit </Button>
+        <Button type="submit" id="submitFAQButton" disabled={false}>
+          {" "}
+          Submit{" "}
+        </Button>
       </form>
     </Card>
   );

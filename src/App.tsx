@@ -10,7 +10,7 @@ import { AddFAQComponent } from './components/faq-components/add-faq-component';
 function App() {
   return (
     <div className="App">
-      <AddFAQComponent defaultQuestion=''></AddFAQComponent>
+      <AddFAQComponent></AddFAQComponent>
         <Provider store={store}>
           <MainComponent />
         </Provider>

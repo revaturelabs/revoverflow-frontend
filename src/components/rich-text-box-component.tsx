@@ -5,7 +5,7 @@
  * @author Jerry Pujals
  */
 
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useState } from "react";
 import { Editor, EditorState, RichUtils, convertToRaw, ContentState, ContentBlock, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
@@ -86,6 +86,7 @@ const styleMap = {
 export interface RichTextBoxComponentProps {
     defaultText?:any
     id?:string
+    handleChange:(e: any) => void
   }
 
 export const RichTextBoxComponent: React.FC<RichTextBoxComponentProps> = (props) => {
@@ -110,7 +111,11 @@ export const RichTextBoxComponent: React.FC<RichTextBoxComponentProps> = (props)
     :
       EditorState.createWithContent(defaultTextParsed)
           );
-  const onChange = (editorState: EditorState) => {setEditorState(editorState)};
+  const onChange = (editorState: EditorState) => {
+    setEditorState(editorState)
+    props.handleChange(JSON.stringify(convertToRaw(editorState.getCurrentContent())))
+  };
+
 
       
   const handleKeyCommand = (command: string, editorState: EditorState) => {
