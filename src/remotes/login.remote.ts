@@ -25,7 +25,7 @@ export const checkLoginCredentials = async (token: string | undefined) => {
   return response;
 }
 
-export const getUserById = async (id: number) => {
-  const response = await authAxios.get<user>(`/user/${id}`);
+export const getUserByEmail = async (email: string) => {
+  const response = await authAxios.get<user>(`/user/${email}`);
   return response;
 }
