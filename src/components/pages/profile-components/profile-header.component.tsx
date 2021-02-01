@@ -1,3 +1,8 @@
+/**
+ * @file Fetches and displays a specific user's profile information
+ * @author Andrew Kellar
+ */
+
 import React, {useEffect, useState} from 'react'
 import { Box, Card, Icon } from '@material-ui/core';
 import * as loginRemote from '../../../remotes/login.remote'
@@ -11,10 +16,12 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
 
   const {} = props
 
+   //Obtains query param from url that correlates to a user's id
    const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
    const splitURL = window.location.href.split("/");
    const urlUserId = parseInt(splitURL[splitURL.length - 1]);
 
+   //User object set to state for potential re-renders.
    const [user, setUser] = useState({
      firstName: "",
      lastName: "",
@@ -25,6 +32,7 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
        getUser();
     },[])
 
+    //gets and sets user information from internal axios call
     const getUser = async () => {
         
         try {
@@ -36,9 +44,7 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
             setUser(response.data);
           } catch {
             alert('Couldnt retrieve points')
-          }
-          
-          
+          }  
        };
 
     return (
