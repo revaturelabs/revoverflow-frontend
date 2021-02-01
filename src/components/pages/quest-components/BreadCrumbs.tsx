@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import { emphasize, withStyles, Theme, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import React from 'react';
+import { withStyles, Theme, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-
 
 
 const theme = createMuiTheme({
@@ -39,8 +37,6 @@ const useStyles = makeStyles({
     }
 
 });
-
-
 
 const StyledBreadcrumb = withStyles((theme: Theme) => ({
   root: {

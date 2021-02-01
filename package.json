@@ -16,6 +16,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "html-react-parser": "^0.13.0",
+    "labeled-checkbox-material-ui": "^2.6.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

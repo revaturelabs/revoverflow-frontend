@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import {Menu, MenuItem, FormControlLabel, Checkbox,InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import {Menu, MenuItem, FormControlLabel, Checkbox,Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -77,12 +77,6 @@ const styleMap = {
         'backgroundColor': '#D3D3D3'
     }
 };
-
-const typeStyle ={
-    verticalAlign: "middle",
-    margin: "0 10px 0 10px",
-    fontSize:"20px"
-}
 
 export const RichTextEditorComponent: React.FC = () => {
     const classes = useStyles();
