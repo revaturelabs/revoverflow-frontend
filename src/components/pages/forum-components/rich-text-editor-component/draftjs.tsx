@@ -1,9 +1,18 @@
 
+/**
+ * @file
+ * @author D. Jared Chase
+ * @author Milton Reyes
+ * @author Jerry Pujals
+ * @author Kelvin Trinh
+ * @author Stephen Wong
+ */
+
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import {Menu, MenuItem, FormControlLabel, Checkbox,InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase } from '@material-ui/core';
+import {Menu, MenuItem, FormControlLabel, Checkbox,InputLabel, Select, Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase, Snackbar } from '@material-ui/core';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -17,6 +26,7 @@ import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
 import { getLocations } from "../../../../remotes/location.remote";
 import { Location } from "../../../../models/location";
+import { Alert } from '@material-ui/lab';
 
 const theme = createMuiTheme({
   palette: {
@@ -95,6 +105,8 @@ export const RichTextEditorComponent: React.FC = () => {
     const [currentLocation, setCurrentLocation] = useState<any>(
         new Object({ id: 1, locationName: "All Locations" })
       );
+    const [formHasEmptyTitle, changeFormHasEmptyTitle] = useState(false);
+    const [formHasEmptyDescription, changeFormHasEmptyDescription] = useState(false);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const onChange = (editorState: EditorState) => setEditorState(editorState);
@@ -146,7 +158,19 @@ export const RichTextEditorComponent: React.FC = () => {
 
     const saveQuestion = async () => {
       const contentState = editorState.getCurrentContent();
+    
 
+      if(!title) {
+        changeFormHasEmptyTitle(true)
+      }
+      else {
+        changeFormHasEmptyTitle(false)
+
+      if(!contentState.hasText()) {
+        changeFormHasEmptyDescription(true)
+      }
+      else {
+        changeFormHasEmptyDescription(false)
       const payload: any = {
         title: title,
         content: JSON.stringify(convertToRaw(contentState)),
@@ -161,10 +185,21 @@ export const RichTextEditorComponent: React.FC = () => {
       await questionRemote.postQuestion(payload);
       history.push("/feed");
       window.location.reload(false);
+      }
     }
+  }
 
     const toggleRevatureBasedQuestion = () => {
       setRevatureBasedQuestion(!revatureBasedQuestion);
+    };
+
+    const handleSnackBarClose = (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      changeFormHasEmptyDescription(false);
+      changeFormHasEmptyTitle(false);
     };
 
   //INLINE and BLOCK LEVEL styles, consists of these functions and an array of buttons to map to span button elements
@@ -457,6 +492,12 @@ export const RichTextEditorComponent: React.FC = () => {
                           <Button onClick={saveQuestion} variant='contained' color='secondary' size='large' >Submit</Button>
                       </Box>
                   </Box>
+                  <Snackbar open={formHasEmptyTitle} autoHideDuration={6000} onClose={handleSnackBarClose}>
+                    <Alert severity="error">Please enter a title</Alert>
+                  </Snackbar>
+                  <Snackbar open={formHasEmptyDescription} autoHideDuration={6000} onClose={handleSnackBarClose}>
+                    <Alert severity="error">Please enter a description</Alert>
+                  </Snackbar>
               </Container>
           </ThemeProvider>
       </div>
