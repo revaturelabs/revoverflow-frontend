@@ -146,6 +146,7 @@ export const RichTextEditorComponent: React.FC = () => {
 
     const saveQuestion = async () => {
       const contentState = editorState.getCurrentContent();
+
       const payload: any = {
         title: title,
         content: JSON.stringify(convertToRaw(contentState)),
