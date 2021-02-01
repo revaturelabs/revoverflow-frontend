@@ -15,6 +15,8 @@ import { clickTab } from '../../../actions/question.actions';
 import CustomizedBreadcrumbs from './BreadCrumbs';
 import './question.css'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+//import useForceUpdate from 'use-force-update';
+
 
 const theme = createMuiTheme({
     palette: {
