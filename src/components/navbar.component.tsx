@@ -9,33 +9,22 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import clsx from "clsx";
-import {
-  createStyles,
-  makeStyles,
-  useTheme,
-  Theme,
-} from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import { createStyles,makeStyles,useTheme,Theme } from "@material-ui/core/styles";
+import { Drawer, AppBar, Toolbar, List } from "@material-ui/core";
+import { CssBaseline, Typography, Divider, IconButton}  from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Box} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import { useHistory } from "react-router";
-import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import * as loginRemote from "../remotes/login.remote";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import * as loginRemote from '../remotes/login.remote'
+
+
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -314,6 +303,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
         <List>
           {["Feed"].map((text, index) => (
             <ListItem
+              id="feedTab"
               onClick={() => history.push("/feed")}
               style={{ color: "#F26925" }}
               button
@@ -331,6 +321,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
           <Divider />
           {["Post A Question"].map((text, index) => (
             <ListItem
+              id="postQuestionTab"
               onClick={() => {
                 history.push("/question");
               }}
@@ -351,6 +342,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
           ))}
           {["Question"].map((text, index) => (
             <ListItem
+              id="allQuestionsTab"
               onClick={() => {
                 history.push("/revatureQuestion");
               }}
@@ -359,7 +351,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
               key={text}
             >
               <ListItemIcon>
-                <QuestionAnswerIcon
+                <HelpOutlineIcon
                   onClick={() => {
                     history.push("/revatureQuestion");
                   }}

@@ -6,41 +6,25 @@
  * @author Kelvin Trinh
  * @author Stephen Wong
  * @author Mohammed Hammad
+ * @author Jinyeong Kim
  */
 
-import React from "react";
-import { useState, useEffect } from "react";
-import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
-import "draft-js/dist/Draft.css";
-import {
-  Menu,
-  MenuItem,
-  FormControlLabel,
-  Checkbox,
-  InputLabel,
-  Select,
-  Button,
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-  Box,
-  Container,
-  Typography,
-  FormControl,
-  InputBase,
-  Snackbar,
-} from "@material-ui/core";
-import FormatBoldIcon from "@material-ui/icons/FormatBold";
-import HttpIcon from "@material-ui/icons/Http";
-import FormatItalicIcon from "@material-ui/icons/FormatItalic";
-import FormatUnderlinedIcon from "@material-ui/icons/FormatUnderlined";
-import StrikethroughSIcon from "@material-ui/icons/StrikethroughS";
-import CodeIcon from "@material-ui/icons/Code";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
-import * as questionRemote from "../../../../remotes/question.remote";
-import { useHistory } from "react-router";
-import { BreadcrumbBarComponent } from "../../breadcrumb-bar.component";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import {Menu, MenuItem, FormControlLabel, Checkbox,Button, createMuiTheme, makeStyles, ThemeProvider, Box, Container, Typography, FormControl, InputBase, Snackbar } from '@material-ui/core';
+import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import HttpIcon from '@material-ui/icons/Http';
+import FormatItalicIcon from '@material-ui/icons/FormatItalic';
+import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
+import StrikethroughSIcon from '@material-ui/icons/StrikethroughS';
+import CodeIcon from '@material-ui/icons/Code';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import * as questionRemote from '../../../../remotes/question.remote';
+import { useHistory } from 'react-router';
+import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
 import { getLocations } from "../../../../remotes/location.remote";
 import { Location } from "../../../../models/location";
 import { Alert } from "@material-ui/lab";
@@ -104,12 +88,6 @@ const styleMap = {
     padding: 4,
     backgroundColor: "#D3D3D3",
   },
-};
-
-const typeStyle = {
-  verticalAlign: "middle",
-  margin: "0 10px 0 10px",
-  fontSize: "20px",
 };
 
 export const RichTextEditorComponent: React.FC = () => {
