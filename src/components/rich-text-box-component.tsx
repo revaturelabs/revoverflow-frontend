@@ -49,9 +49,9 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
   editorTool: {
-    borderStyle: "solid",
-    borderColor: "#f26925",
-    height: "20vh",
+    borderRadius:"8px",
+    border:"1px solid #f26925",
+    height: "100%",
     width: "100%",
     overflowY: "auto",
     fontSize: 20,

@@ -30,8 +30,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import CustomizedBreadcrumbs from "./BreadCrumbs";
+import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
+import { getFAQByLocation } from "../../../remotes/faquestion.remote";
 
 const theme = createMuiTheme({
   palette: {
@@ -94,13 +95,20 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
   const [location, setLocation] = useState("");
   const [open, setOpen] = useState<boolean>(false);
   const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
-  const admin = "false" /*localStorage.getItem("admin")*/;
+  const admin = localStorage.getItem("admin");
   const size = 10;
   let filteredQuestions: Question[] = [];
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    
   };
+
+  const handleBreadcrumbChange = (name:any) => {
+    console.log(name)
+    getFAQByLocation(name)
+
+  }
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -150,7 +158,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
   return (
     <div>
-      <BreadcrumbBarComponent />
+      <BreadcrumbBarComponent/>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
         <AddFAQComponent />
       </Backdrop>
@@ -210,7 +218,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
             <Box display="flex" flexDirection="column" justifyContent="center">
               {console.log(getView(), "im in the box", view)}
               {getView() === "location" ? (
-                <CustomizedBreadcrumbs />
+                <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} />
               ) : (
                 console.dir(getView())
               )}

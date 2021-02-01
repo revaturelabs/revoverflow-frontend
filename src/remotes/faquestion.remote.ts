@@ -28,7 +28,7 @@ export const getAllFAQ = async () => {
 //Get FAQs by location
 export const getFAQByLocation = async (location: string) =>{
 
-    const response = await authAxios.get<Faq[]>(`/faq/${location}`);
+    const response = await authAxios.get<Faq[]>(`/faq/location/${location}`);
     console.log(response.data);
     return response.data;
 

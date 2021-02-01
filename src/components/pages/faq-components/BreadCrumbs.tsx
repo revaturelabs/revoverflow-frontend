@@ -63,12 +63,20 @@ const StyledBreadcrumb = withStyles((theme: Theme) => ({
   },
 }))(Chip) as typeof Chip; // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
-function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
-  event.preventDefault();
-  console.info('You clicked a location.');
+
+
+export interface IBreadCrumbComponentProps{
+  handleLocationClick:(e: any) => void
 }
 
-export default function CustomizedBreadcrumbs() {
+export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props) => {
+
+
+  function handleClick(event:any) {
+    event.preventDefault();
+    props.handleLocationClick(event.target.textContent)
+    
+  }
 
   const classes = useStyles();
 
