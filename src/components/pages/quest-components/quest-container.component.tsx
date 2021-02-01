@@ -67,8 +67,8 @@ export interface QuestContainerComponentProps {
  
 export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
-    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(true);
-    const [locationBasedQuestion, setLocationBasedQuestion] = useState(true);
+    const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
+    const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const size = 10;
 
