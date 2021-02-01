@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import { makeStyles, Box, Container, Button, Card, CardHeader, createMuiTheme, ThemeProvider, Icon } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
+import { Box, Card, Icon } from '@material-ui/core';
 import * as loginRemote from '../../../remotes/login.remote'
-import { getUserById } from '../../../remotes/login.remote';
+
 
 export interface ProfileContainerComponentProps{
 
@@ -10,12 +9,12 @@ export interface ProfileContainerComponentProps{
 
 export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = (props) => {
 
-    const {} = props
+  const {} = props
 
    const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
    const splitURL = window.location.href.split("/");
    const urlUserId = parseInt(splitURL[splitURL.length - 1]);
-   console.log("url id", urlUserId)
+
    const [user, setUser] = useState({
      firstName: "",
      lastName: "",
@@ -27,8 +26,6 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
     },[])
 
     const getUser = async () => {
-
-        console.log("inside getUser function")
         
         try {
           let response;
@@ -36,10 +33,7 @@ export const ProfileHeaderComponent: React.FC<ProfileContainerComponentProps> = 
               response = await loginRemote.getProfileById(userId);
           else
               response = await loginRemote.getProfileById(urlUserId);
-            console.log(response);
-            console.log(response.data);
             setUser(response.data);
-            console.log("user", user);
           } catch {
             alert('Couldnt retrieve points')
           }
