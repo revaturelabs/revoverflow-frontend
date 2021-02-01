@@ -97,9 +97,8 @@ export const RichTextEditorComponent: React.FC = () => {
   const [locations, setLocations] = useState(new Array<any>());
   const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
   const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<any>(
-    new Object({ id: 1, locationName: "All Locations" })
-  );
+  const [currentLocation, setCurrentLocation] = useState<any>(null)
+  
   const [formHasEmptyTitle, changeFormHasEmptyTitle] = useState(false);
   const [formHasEmptyDescription, changeFormHasEmptyDescription] = useState(
     false
@@ -148,6 +147,9 @@ export const RichTextEditorComponent: React.FC = () => {
 
   const toggleLocationBasedQuestion = () => {
     if (locationBasedQuestion) {
+      setCurrentLocation(null);
+    }
+    else {
       setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
     }
 
