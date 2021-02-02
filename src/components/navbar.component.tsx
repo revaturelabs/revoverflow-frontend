@@ -239,7 +239,8 @@ export const NavbarComponent: React.FC = () => {
     if (gettingPoints) {
       try {
         const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
-        localStorage.setItem('points', JSON.stringify(response.data.points));
+        if(localStorage.getItem("points") != undefined)
+          localStorage.setItem('points', JSON.stringify(response.data.points));
       } catch {
         alert('Couldnt retrieve points')
       }
@@ -291,7 +292,7 @@ export const NavbarComponent: React.FC = () => {
             </IconButton>
 
             <Typography className={classes.pointsDisplay} variant="h4" >
-              Points: {undefined ? 0 : points}
+              Points: {points > 0 ? points : 0}
             </Typography>
           </Box>
         </Toolbar>
