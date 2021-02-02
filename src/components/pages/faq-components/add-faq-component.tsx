@@ -1,17 +1,20 @@
-import { Button, Card } from "@material-ui/core";
+import { Box, Button, Card, Checkbox, FormControlLabel, Menu, MenuItem } from "@material-ui/core";
 import { ContentState, convertFromRaw } from "draft-js";
 import React, { useState, useEffect } from "react";
 import { Answer } from "../../../models/answer";
 import { Question } from "../../../models/question";
+import {Location} from "../../../models/location"
 import { addToFAQ, getAllFAQ } from "../../../remotes/faquestion.remote";
+import { getLocations } from "../../../remotes/location.remote";
 import { RichTextBoxComponent } from "../../rich-text-box-component";
 
 const style = {
   card: {
     width: "60vw",
-    height: "80vh",
+    height: "auto",
     padding: "2rem",
     boxSizing: "border-box" as "border-box",
+    
     // textAlign: "left"
   },
   cardBoxes1: {
@@ -48,15 +51,25 @@ const style = {
   },
   submit: {
     backgroundColor: "#3498db",
-    margin: "3.5rem 1rem",
+    margin: "1rem",
     width: "100%",
     borderRadius: "8px",
   },
+  btn:{
+    width: "100%",
+    color:"#000"
+  },
+  checkbox:{
+    margin: "1.5rem",
+    width: "100%",
+    textAlign: "center" as "center"
+  }
 };
 
 //pass in if there is no default question
 export interface AddFAQComponentProps {
   defaultQuestion?: any;
+  onSubmit:() => void;
 }
 
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
@@ -64,6 +77,11 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   const [questionBody, setQuestionBody] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
   const [defaultQuestionProvided, setDefaultQuestionProvided] = useState<boolean>(false);
+  const [locations, setLocations] = useState(new Array<any>());
+  const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
+  const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState<any>(null)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   //if there is a default question set our question equal to it
   useEffect(() => {
@@ -71,6 +89,18 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
     setDefaultQuestionProvided(props.defaultQuestion ? true : false);
   }, [props.defaultQuestion]);
 
+  useEffect(() => {
+    //fetch location data
+    async function fetchData() {
+      let locationsData: Location[] = await getLocations();
+      //console.log(locationsData);
+      setLocations(locationsData);
+    }
+    fetchData();
+  }, []);
+
+  
+  
   const handleQuestionTitleChange = (e: string) => {
     setQuestionTitle(convertFromRaw(JSON.parse(e)).getPlainText());
   };
@@ -79,6 +109,37 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   };
   const handleAnswerChange = (e: string) => {
     setAnswer(e);
+  };
+
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLocationChange = (
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    location: Location
+  ) => {
+    e.preventDefault();
+    console.log(location);
+    setCurrentLocation(location);
+    console.log(currentLocation.id);
+    handleClose();
+  };
+  
+  const toggleLocationBasedQuestion = () => {
+    if (locationBasedQuestion) {
+      setCurrentLocation(null);
+    }
+    else {
+      setCurrentLocation(new Object({ id: 1, locationName: "All Locations" }));
+    }
+
+    setLocationBasedQuestion(!locationBasedQuestion);
   };
 
   const submitFAQ = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -95,6 +156,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         creationDate: new Date(),
         status: true,
         userID: JSON.parse(localStorage.getItem("userId")!),
+        locationID: locations.find((e)=>currentLocation === e)?.id,
+        revatureQuestion: revatureBasedQuestion
       };
 
       let a: Answer = {
@@ -104,14 +167,18 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         questionId: 0,
         userId: JSON.parse(localStorage.getItem("userId")!),
       };
-      let submitToFAQ = await addToFAQ(q, a);
-      //console.log(submitToFAQ);
+      //This prevents users from submitting empty text boxes
+      // if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
+        let submitToFAQ = await addToFAQ(q, a);
+        console.log(submitToFAQ);
+        props.onSubmit()        
+      //}
+     
     } catch (e) {
       console.log(e);
-    }
-    // } else {
-    //   console.log("get question from redux");
-    // }
+    } 
+
+    
   };
 
   return (
@@ -145,9 +212,78 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
             placeholder={"Answer"}
           />
         </div>
+          
+        <div style={style.checkbox}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={revatureBasedQuestion}
+                id="revature-based-checkbox"
+                onChange={() =>
+                  setRevatureBasedQuestion(!revatureBasedQuestion)
+                }
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+            }
+            label="This question is specific to Revature"
+          />
+
+           
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={locationBasedQuestion}
+                  id="location-based-checkbox"
+                  onChange={() => toggleLocationBasedQuestion()}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                />
+              }
+              label="This question is specific to a location"
+            />
+
+            {locationBasedQuestion ? (
+              <>
+                <Button
+                  aria-controls="simple-menu"
+                  id="location-dropdown-button"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  {currentLocation.locationName}
+                </Button>
+
+                <Menu
+                  id="location-dropdown-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  {locations.map((location) => {
+                    return (
+                      <MenuItem
+                        key={location.id}
+                        onClick={(e) => handleLocationChange(e, location)}
+                        value={location}
+                      >
+                        {location.locationName}
+                      </MenuItem>
+                    );
+                  })}
+                </Menu>
+              </>
+            ) : (
+              ""
+            )}
+        </div>
+
+        
+
+
         <div style={style.submit} className="submitParent">
           <Button
-            style={{ color: "black" }}
+            style={style.btn}
             type="submit"
             id="submitFAQButton"
             disabled={false}

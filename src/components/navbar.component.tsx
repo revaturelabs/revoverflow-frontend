@@ -228,8 +228,8 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <AccountCircle className={classes.orange} />
             </IconButton>
 
-            <Typography className={classes.pointsDisplay} variant="h4">
-              Points: {points}
+            <Typography className={classes.pointsDisplay} variant="h4" >
+              Points: {points || 0}
             </Typography>
           </Box>
         </Toolbar>

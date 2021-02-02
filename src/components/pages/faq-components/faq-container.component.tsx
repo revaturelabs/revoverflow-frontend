@@ -32,7 +32,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
-import { getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { getRevatureBasedFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { Faq } from "../../../models/faquestion";
+import { FaqBoxComponent } from "./faq-box.component";
 
 const theme = createMuiTheme({
   palette: {
@@ -90,23 +92,22 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 ) => {
   const classes = useStyles();
   const history = useHistory();
-  const [view, setView] = useState("");
+  const [view, setView] = useState("revature");
   const [value, setValue] = useState(props.storeTab);
-  const [location, setLocation] = useState("");
   const [open, setOpen] = useState<boolean>(false);
+  const [faqTodisplay, setFAQs] = useState<Array<Faq>>();
   const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
   const admin = localStorage.getItem("admin");
   const size = 10;
-  let filteredQuestions: Question[] = [];
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
     
   };
 
-  const handleBreadcrumbChange = (name:any) => {
-    console.log(name)
-    getFAQByLocation(name)
+  const handleBreadcrumbChange = async (name:any) => {
+    let faq = await getFAQByLocation(name)
+    setFAQs(faq || [])
 
   }
 
@@ -123,7 +124,12 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
   useEffect(() => {
     load(view, 1);
-  }, [view]);
+  }, [view, open]);
+
+  // useEffect(() => {
+  //   load(view, 1);
+  // }, [open]);
+
 
   /**
    * Populates the feed with answers or questions according to the particular view and page input.
@@ -133,16 +139,19 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
   const load = async (currentView: string, page: number) => {
     let retrievedPageable: any;
     let tab: any;
+    
     if (currentView === "revature") {
-      retrievedPageable = await questionRemote.getAllQuestions(size, page);
+      retrievedPageable = await getRevatureBasedFAQ();
+      console.log(retrievedPageable)
       tab = 0;
       if (retrievedPageable.numberOfElements === 0) {
+        setFAQs(retrievedPageable)
         return;
       }
     } else if (currentView === "location") {
-      retrievedPageable = await questionRemote.getAllQuestions(size, page);
       tab = 1;
     }
+    setFAQs(retrievedPageable)
   };
 
   const openBackdrop = () => {
@@ -160,7 +169,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     <div>
       <BreadcrumbBarComponent/>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-        <AddFAQComponent />
+        <AddFAQComponent onSubmit={handleClose}/>
       </Backdrop>
       <Container className={classes.containerInternal}>
         <Box justifyContent="flex-end" display="flex">
@@ -217,12 +226,26 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
           <div style={{ width: "100%" }}>
             <Box display="flex" flexDirection="column" justifyContent="center">
               {console.log("")}
-              {getView() === "location" ? (
+              {(getView() === "location" )? (
+                <>
                 <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} />
+                {(faqTodisplay)?
+                faqTodisplay.map(faquestion => {
+                return (
+                    <FaqBoxComponent key={faquestion.userId} answer={faquestion.answer.content} 
+                    question={faquestion.question} questionContent={faquestion.question.content} view={view} />
+                )})
+                :
+                "Please choose a location"
+                }
+                </>
               ) : (
-                console.log("")
+                faqTodisplay && faqTodisplay.map(faquestion => {
+                return (
+                    <FaqBoxComponent key={faquestion.userId} answer={faquestion.answer.content} 
+                    question={faquestion.question} questionContent={faquestion.question.content} view={view} />
+                )})
               )}
-              {/* {renderFeedBoxComponents()} */}
             </Box>
           </div>
           <Box display="flex" justifyContent="center" padding={5}>

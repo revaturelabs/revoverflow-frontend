@@ -29,14 +29,4 @@ describe('navbar.component', () => {
         expect(logoutMenu.prop('anchorEl')).toBeDefined()
     })
 
-    it('Should render the Question tab when drawer is opened', () => {
-        
-        const wrapper = mount(<NavbarComponent />);
-
-        const postQuestionTab = wrapper.find("#allQuestionsTab").find(ListItem)
-        
-        expect(postQuestionTab.exists()).toBeTruthy();
-    
-    })
-
 });

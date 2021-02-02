@@ -38,5 +38,9 @@ export const getFAQByLocation = async (location: string) =>{
 //Get Revature based FAQs
 export const getRevatureBasedFAQ = async() =>{
 
+    const response = await authAxios.get<Faq[]>(`/faq/revature`);
+    console.log(response.data);
+    return response.data;
+
 
 }
