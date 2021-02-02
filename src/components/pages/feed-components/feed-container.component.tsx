@@ -165,7 +165,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
 
     /**
      * This method gets called on the on click on line 193 and sends in size, page number, and filterText value
-     *  not 100% sure how to change the view for this.
+     *  not 100% sure how to change the view for this. (setView?)
      */
     const handleFilter = async () => {
         // just refreshes the filter
