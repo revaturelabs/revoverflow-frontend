@@ -17,7 +17,6 @@ import { CssBaseline, Typography, IconButton } from "@material-ui/core";
 import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import * as loginRemote from '../remotes/login.remote'
-import { Link } from "react-router-dom";
 import firebase from "firebase/app";
 
 
@@ -112,7 +111,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
       marginTop: "-1em",
-      position: "absolute"
+      position: "absolute",
+      cursor: "pointer",
     },
   })
 );
@@ -205,15 +205,14 @@ export const NavbarComponent: React.FC<any> = (props) => {
         <Toolbar className={classes.arrangement}>
           <Box className={classes.arrangementInternal}>
             <Box className={classes.imageDoor}>
-              <Link to="/feed">
                 <img
                   className={classes.logo}
+                  onClick={() => {history.push("/feed")}}
                   src={require("../logo/image.png")}
                   height={40}
                   width={100}
                   alt="pop"
                 />
-              </Link>
             </Box>
           </Box>
 
