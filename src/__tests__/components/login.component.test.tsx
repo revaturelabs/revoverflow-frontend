@@ -3,10 +3,10 @@ import { LoginComponent } from '../../components/pages/login.component/login.com
 import { mount } from 'enzyme';
 
 
-describe('feed-container.component', () => {
+describe('login.component.tsx', () => {
 
     test('should render', () => {
-        
+
         const wrapper = mount(<LoginComponent />);
         expect(wrapper).toBeDefined();
     })
