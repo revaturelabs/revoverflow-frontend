@@ -33,17 +33,15 @@ export const LoginComponent: React.FC = () => {
   useEffect(() => { }, []);
 
   let response: any;
-  const setInformation = async (accessToken:any) => {
+  const setInformation = async (accessToken:any, email:any) => {
     authAxios.defaults.headers["Authorization"]= accessToken;
-
     setInputEmail('');
     setInputPassword('');
     localStorage.setItem('accessToken', accessToken);
     // localStorage.setItem('admin', response.data.admin);
-    // localStorage.setItem('email', response.data.email)
+    localStorage.setItem('email', email)
     // localStorage.setItem('firstName', response.data.firstName);
     // localStorage.setItem('lastName', response.data.lastName);
-    // localStorage.setItem('points', response.data.points);
     // localStorage.setItem('profilePicture', response.data.profilePicture);
     // localStorage.setItem('rssaccountId', response.data.rssaccountId);
     // localStorage.setItem('userId', response.data.userID);
@@ -53,14 +51,17 @@ export const LoginComponent: React.FC = () => {
   const addLoginCredentials = async (e: any) => {
     e.preventDefault()
     try {
-
-      await firebase
+      
+      const user = await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
 
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
+      const email = user.user.email;
 
-      await setInformation(`Bearer ${accessToken}`);
+      await setInformation(`Bearer ${accessToken}`, email);
+
+      
      
     } catch {
       alert('Incorrect username and/or password')
