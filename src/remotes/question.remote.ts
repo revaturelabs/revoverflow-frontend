@@ -49,3 +49,19 @@ export const updateQuestionStatus = async (questionStatus: any) => {
     const response = await authAxios.put<Question>(`/questions/status`, questionStatus);
     return response;
 }
+
+export const getAllRevatureQuestions = async (size: number, page: number, revature:boolean) => {
+    const response = await authAxios.get<any>(`/questions/revature/${revature}`);
+    //?&size=${size}&page=${page}&revaturequestions=${revature}
+    return response.data;
+}
+
+export const getAllLocationQuestions = async (size: number, page: number ) => {
+    const response = await authAxios.get<Question[]>(`/questions/location?&size=${size}&page=${page}`);
+    return response.data;
+}
+
+export const getQuestionsByLocationId = async (id: number, size: number, page: number ) => {
+    const response = await authAxios.get<Question[]>(`/questions/location/${id}?size=${size}&page=${page}`);
+    return response.data;
+}
