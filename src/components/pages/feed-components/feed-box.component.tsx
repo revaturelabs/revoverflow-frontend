@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { makeStyles, Box, Card, Backdrop } from '@material-ui/core';
+import { makeStyles, Box, Card, Backdrop, Button } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Question } from '../../../models/question';
 import * as answerRemote from '../../../remotes/answer.remote';
@@ -20,7 +20,7 @@ import { AddFAQComponent } from '../faq-components/add-faq-component';
 
 const drawerWidth = 100;
 const useStyles = makeStyles((theme) => ({
-    boxInternal: {
+    card: {
         marginBottom: 5,
         marginTop: 10,
         borderStyle: "solid",
@@ -29,11 +29,23 @@ const useStyles = makeStyles((theme) => ({
         width: `calc(100% - ${drawerWidth}px)`
     },
     divInternal: {
-        paddingTop: 20
+        paddingTop: 20,
+        width: '100%'
+    },
+    boxInternal: {
+        width: '100%',
+        paddingLeft: '4em',
+        paddingRight: '4em'
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
+    },
+    answerButton: {
+        marginBottom: '3px'
+    },
+    circleIcon: {
+        color: '#3498db'
     }
 }));
 
@@ -110,27 +122,29 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
             <AddFAQComponent defaultQuestion={props.question} onSubmit={handleClose}/>
         </Backdrop>
         <Box display="flex" justifyContent="center" >
-            <Card className={classes.boxInternal}>
+            <Card className={classes.card}>
                 {props.question.questionId ?
-                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}>
-                        <Box paddingLeft={2} paddingRight={2} >
+                    <Box display="flex" justifyContent="left" onClick={() => handleRedirectA()}>
+                        <Box paddingLeft={2} paddingRight={2} className={classes.boxInternal} >
                             <div className={classes.divInternal}><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                             <h3>{props.question.userId}</h3>
-                            <p>{props.question.creationDate}</p>
-                            <AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>
+                            <p>{new Date(props.question.creationDate).toLocaleString()}</p>
+                            <Button className={classes.answerButton} onClick={handleRedirectFAQ}><AddCircleIcon className={classes.circleIcon} id="addQuestionFAQButton"/></Button>
 
                         </Box>
                     </Box>
                     :
                     <Box>
-                        <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()}>
-                            <Box paddingLeft={2} paddingRight={2}>
+                        <Box display="flex" justifyContent="left" onClick={() => handleRedirectQ()}>
+                            <Box paddingLeft={2} paddingRight={2} className={classes.boxInternal}>
                                 <h2>{props.question.title}</h2>
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
-                                <p>{props.question.creationDate}</p>
-                                 
-                                {admin === "true" ?<AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>:''}
+                                <p>{new Date(props.question.creationDate).toLocaleString()}</p>
+                                {admin === "true" ? (
+                                <Button className={classes.answerButton} onClick={handleRedirectFAQ}>
+                                    <AddCircleIcon className={classes.circleIcon} id="addQuestionFAQButton"/>
+                                </Button>):''}
 
                             </Box>
                         </Box>

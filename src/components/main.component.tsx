@@ -8,6 +8,7 @@ import { RichTextEditorComponent } from './pages/forum-components/rich-text-edit
 import FaqContainerComponent from './pages/faq-components/faq-container.component';
 
 import QuestContainerComponent from './pages/quest-components/quest-container.component';
+import Sidebar from './sidebar';
 
 export const MainComponent: React.FC = () => {
     return <div id="main-component">
@@ -18,6 +19,7 @@ export const MainComponent: React.FC = () => {
                         <LoginComponent />
                     </Route>
                     <Fragment>
+                        <Sidebar />
                         <NavbarComponent />
                         <Route exact path="/feed">
                             <FeedContainerComponent />

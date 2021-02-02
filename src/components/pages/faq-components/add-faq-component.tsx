@@ -171,11 +171,12 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
       // console.log(convertFromRaw(JSON.parse(a.content)).getPlainText())
       // console.log(q.content)
       // console.log(convertFromRaw(JSON.parse(q.content)).getPlainText())
+      //This prevents users from submitting empty text boxes
       // if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
         let submitToFAQ = await addToFAQ(q, a);
         console.log(submitToFAQ);
         props.onSubmit()        
-      // }
+      //}
      
     } catch (e) {
       console.log(e);
