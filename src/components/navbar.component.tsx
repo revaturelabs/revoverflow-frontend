@@ -276,8 +276,8 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <AccountCircle className={classes.orange} />
             </IconButton>
 
-            <Typography className={classes.pointsDisplay} variant="h4">
-              Points: {points}
+            <Typography className={classes.pointsDisplay} variant="h4" >
+              Points: {points || 0}
             </Typography>
           </Box>
         </Toolbar>
@@ -368,30 +368,6 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <ListItemText primary={text} />
             </ListItem>
             ))}
-            <Divider />
-              {["Question"].map((text, index) => (
-                <ListItem
-                  id="allQuestionsTab"
-                  onClick={() => {
-                    history.push("/revatureQuestion");
-
-                  }}
-                  style={{ color: "#F26925" }}
-                  button
-                  key={text}
-
-                >
-                  <ListItemIcon>
-                  <HelpOutlineIcon
-                    onClick={() => {
-                      history.push("/revatureQuestion");
-                    }}
-                    style={{ color: "#F26925" }}
-                  />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
         </List>
       </Drawer>
         {renderMobileMenu}

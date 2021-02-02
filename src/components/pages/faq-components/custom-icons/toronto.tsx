@@ -4,7 +4,7 @@ const style = {
     icons:{
         width:"2rem", 
         borderRadius:"50%", 
-        margin:"1rem"
+        margin:"0"
     }
 }
 
@@ -34,7 +34,7 @@ export const Dallas = ()=>{
 export const Morgan = ()=>{
 
     return(
-            <img style={style.icons} alt="Morgan" src="./icons/mt.png"/>
+            <img style={style.icons} alt="Morgantown" src="./icons/mt.png"/>
     )   
 }
 export const Ny = ()=>{

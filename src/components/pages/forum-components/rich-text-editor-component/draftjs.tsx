@@ -337,42 +337,6 @@ export const RichTextEditorComponent: React.FC = () => {
           <Box justifyContent="flex-start" display="flex" padding={3}>
             <Typography variant="h4">Ask a Question:</Typography>
           </Box>
-          {/* 
-                <Box display="flex" flexDirection="column" paddingBottom={3}>
-                    <Box display="flex" justifyContent="flex-start" >
-                        <Typography variant="h5" >
-                            Type:
-                        </Typography>
-                    <div style={typeStyle}>
-                    <input  type="radio" id="location" name="type" onChange={(e) => setRevatureQuestion(false)}/>
-                    <label >Location:</label>
-                    </div>
-                        <FormControl variant="outlined" className={classes.formControl}>
-                                <InputLabel >Option</InputLabel>
-                                <Select
-                                    native
-                                    //value={state.age}
-                                    //onChange={handleChange}
-                                    label="Location"
-                                    inputProps={{
-                                        name: 'location',
-                                        id: 'outlined-age-native-simple',
-                                    }}
-                                >
-                                <option aria-label="Option" value="" />
-                                <option value={10}>Toronto</option>
-                                <option value={20}>NewYork</option>
-                                <option value={30}>Dallas</option>
-                                </Select>
-                        </FormControl>
-                    
-                    <div style={typeStyle}>
-                    <input type="radio" id="revature" name="type" onChange={(e) => setRevatureQuestion(true)} />
-                    <label >Revature</label>
-                    </div>
-                    </Box>
-                </Box>
-                */}
           <Box display="flex" flexDirection="column" paddingBottom={3}>
             <Box display="flex">
               <Typography variant="h5">Title:</Typography>

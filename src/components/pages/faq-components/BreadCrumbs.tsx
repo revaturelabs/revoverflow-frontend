@@ -21,22 +21,21 @@ const theme = createMuiTheme({
 
 
 const useStyles = makeStyles({
+
     parentCrumb:{
       display:"flex",
       alignItems:"center",
       justifyContent:"center",
       boxSizing:"border-box",
-      width:"100%"
-
+      width:"100%",      
     },
     babyCrumb:{
-      // flexGrow:"1"
       margin: "1rem 0.5rem",
 
     },
     crumbIcon: {
       color: "#3498db"
-    }
+    },
 
 });
 
@@ -114,7 +113,7 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
         
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Morgan"
+          label="Morgantown"
           deleteIcon={<ExpandMoreIcon />}
           icon={<Morgan />}
           onClick={handleClick}
