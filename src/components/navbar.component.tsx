@@ -282,7 +282,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
             </IconButton>
 
             <Typography className={classes.pointsDisplay} variant="h4" >
-              Points: {points}
+              Points: {points || 0}
             </Typography>
           </Box>
         </Toolbar>
