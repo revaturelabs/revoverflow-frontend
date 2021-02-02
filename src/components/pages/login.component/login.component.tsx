@@ -47,6 +47,7 @@ export const LoginComponent: React.FC = () => {
 
     const response = authAxios.get(`/user/${email}/points`)
     localStorage.setItem('points', (await response).data.points)
+    localStorage.setItem('admin', (await response).data.admin)
 
   }
 
@@ -58,6 +59,8 @@ export const LoginComponent: React.FC = () => {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
+
+        console.log(user)
 
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
       const email = firebase.auth().currentUser?.email

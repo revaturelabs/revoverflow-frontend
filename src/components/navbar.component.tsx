@@ -189,6 +189,8 @@ export const NavbarComponent: React.FC<any> = (props) => {
     handleMobileMenuClose();
     firebase.auth().signOut().then(() => {
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("email");
+      localStorage.removeItem("points");
     }).catch((error) => {
       alert('Error Occured while trying to logout')
     })
