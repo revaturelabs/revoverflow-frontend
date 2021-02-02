@@ -7,6 +7,11 @@ import { NavbarComponent } from './navbar.component';
 import { RichTextEditorComponent } from './pages/forum-components/rich-text-editor-component/draftjs';
 
 import '../firebase/config';
+import  ProfileContainerComponent from './pages/profile-components/profile-container.component';
+
+
+
+
 
 
 
@@ -40,6 +45,11 @@ export const MainComponent: React.FC = () => {
                             <RichTextEditorComponent/>
                         </Route>
 
+                        
+
+                        <Route path ="/user/:id">
+                            <ProfileContainerComponent/>
+                        </Route>
                     </Fragment>
                 </Switch>
             </main>

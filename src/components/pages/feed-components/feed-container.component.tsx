@@ -98,7 +98,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             tab = 0;
             setView(view);
         } else if (view === 'question') {
-
             if (questionType === QuestionType.Location) {
                 retrievedPageable = await questionRemote.getAllUserQuestionsByLocation(size, page, filterText, userId);
             } else {
@@ -139,9 +138,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                     <FeedBoxComponent key={question.id} question={question} questionContent={question.content} view={view} />
                 )
             })
-
-
-            //ADDED THIS FAQ FILTER LOGIC
         } else if (view === 'faq') {
             filteredQuestions = props.storeQuestions.filter(question => question.isFaq === true);
             return filteredQuestions.map(question => {
@@ -162,11 +158,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
     const handleRedirect = () => {
         history.push('/question');
     }
-
-    /**
-     * This method gets called on the on click on line 193 and sends in size, page number, and filterText value
-     *  not 100% sure how to change the view for this. (setView?)
-     */
+    
     const handleFilter = async () => {
         // just refreshes the filter
         load(view, 0);
@@ -219,7 +211,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                 onClick={(e) => load("answer", 0)} />
                             {admin === 'true' ? <Tab icon={<ConfirmationNumberOutlinedIcon fontSize="large" onClick={(e) => load("confirm", 0)} />}
                                 label="CONFIRM" className={classes.boxInternal} /> : ""}
-                            {/* ADDED THIS FAQ BUTTON TO SHOW UP ON FEED PAGE */}
                             <Tab icon={<QuestionAnswerIcon fontSize="large" />} id="FAQ-Tab" label="FAQ" className={classes.boxInternal}
                                 onClick={(e) => load('faq', 0)} />
                         </Tabs>
@@ -261,7 +252,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                                     /> :
                                     <></>
                                 }
-
                             </RadioGroup>
                             <Button onClick={() => handleFilter()} variant="outlined" style={{ marginLeft: '1rem' }}>Filter</Button>
                         </Box> :

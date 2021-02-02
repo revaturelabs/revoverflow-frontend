@@ -239,11 +239,13 @@ export const NavbarComponent: React.FC = () => {
     if (gettingPoints) {
       try {
         const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
-        localStorage.setItem('points', JSON.stringify(response.data.points));
+        if(localStorage.getItem("points") != undefined)
+          localStorage.setItem('points', JSON.stringify(response.data.points));
       } catch {
         alert('Couldnt retrieve points')
       }
-      setPoints(localStorage.getItem("points"));
+      if(localStorage.getItem("points") != undefined)
+        setPoints(localStorage.getItem("points"));
     }
   };
 
@@ -290,7 +292,7 @@ export const NavbarComponent: React.FC = () => {
             </IconButton>
 
             <Typography className={classes.pointsDisplay} variant="h4" >
-              Points: {points}
+              Points: {points > 0 ? points : 0}
             </Typography>
           </Box>
         </Toolbar>
@@ -349,6 +351,27 @@ export const NavbarComponent: React.FC = () => {
                 <QuestionAnswerIcon
                   onClick={() => {
                     history.push("/question");
+                  }}
+                  style={{ color: "#F26925" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          <Divider />
+          {["Profile Page"].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                history.push("/user/" + localStorage.getItem('userId'));
+              }}
+              style={{ color: "#F26925" }}
+              button
+              key={text}
+            >
+              <ListItemIcon>
+                <QuestionAnswerIcon
+                  onClick={() => {
+                    history.push("/user/" + localStorage.getItem('userId'));
                   }}
                   style={{ color: "#F26925" }}
                 />
