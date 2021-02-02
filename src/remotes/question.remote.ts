@@ -61,7 +61,7 @@ export const getAllLocationQuestions = async (size: number, page: number ) => {
     return response.data;
 }
 
-export const getQuestionsByLocationId = async (id: number, size: number, page: number ) => {
+export const getQuestionsByLocationId = async (size: number, page: number, id?: number) => {
     const response = await authAxios.get<Question[]>(`/questions/location/${id}?size=${size}&page=${page}`);
     return response.data;
 }

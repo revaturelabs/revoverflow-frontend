@@ -25,6 +25,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import * as questionRemote from '../../../../remotes/question.remote';
 import { useHistory } from 'react-router';
 import { BreadcrumbBarComponent } from '../../breadcrumb-bar.component';
+import protectComponent from '../../../protected-route/UserAuthRoute'
 import { getLocations } from "../../../../remotes/location.remote";
 import { Location } from "../../../../models/location";
 import { Alert } from "@material-ui/lab";
@@ -535,3 +536,5 @@ export const RichTextEditorComponent: React.FC = () => {
     </div>
   );
 };
+
+export default protectComponent(RichTextEditorComponent)

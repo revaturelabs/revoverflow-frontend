@@ -4,7 +4,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TorontoIcon, {Dallas, Morgan, Ny, Orlando, Reston, Tampa} from './custom-icons/toronto'
+import TorontoIcon, {AllLocationsIcon, Dallas, Morgan, Ny, Orlando, Reston, Tampa} from './custom-icons/toronto'
 
 
 
@@ -85,6 +85,15 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
     <ThemeProvider theme={theme} > 
       <Breadcrumbs separator="|" className={classes.parentCrumb} aria-label="breadcrumb">
             
+      <StyledBreadcrumb
+            className={classes.babyCrumb}
+            component="a"
+            href="#All Locations"
+            label="All Locations"
+            icon={<AllLocationsIcon />}
+            onClick={handleClick}
+          />
+          
           <StyledBreadcrumb
             className={classes.babyCrumb}
             component="a"
