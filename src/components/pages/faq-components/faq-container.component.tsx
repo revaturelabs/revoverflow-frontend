@@ -166,7 +166,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     <div>
       <BreadcrumbBarComponent/>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-        <AddFAQComponent />
+        <AddFAQComponent onSubmit={handleClose}/>
       </Backdrop>
       <Container className={classes.containerInternal}>
         <Box justifyContent="flex-end" display="flex">

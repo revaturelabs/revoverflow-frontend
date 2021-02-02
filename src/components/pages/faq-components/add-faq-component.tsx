@@ -59,6 +59,7 @@ const style = {
 //pass in if there is no default question
 export interface AddFAQComponentProps {
   defaultQuestion?: any;
+  onSubmit:() => void;
 }
 
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
@@ -143,6 +144,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         creationDate: new Date(),
         status: true,
         userID: JSON.parse(localStorage.getItem("userId")!),
+        locationID: locations.find((e)=>currentLocation === e)?.id,
+        revatureQuestion: revatureBasedQuestion
       };
 
       let a: Answer = {
@@ -153,13 +156,11 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         userId: JSON.parse(localStorage.getItem("userId")!),
       };
       let submitToFAQ = await addToFAQ(q, a);
-      //console.log(submitToFAQ);
+      console.log(submitToFAQ);
     } catch (e) {
       console.log(e);
     }
-    // } else {
-    //   console.log("get question from redux");
-    // }
+    props.onSubmit()
   };
 
   return (

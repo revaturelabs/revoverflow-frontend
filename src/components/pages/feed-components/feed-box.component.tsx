@@ -106,7 +106,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     return (
         <>
         <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-            <AddFAQComponent defaultQuestion={props.question}/>
+            <AddFAQComponent defaultQuestion={props.question} onSubmit={handleClose}/>
         </Backdrop>
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>
@@ -138,61 +138,6 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         </>
     )
 }
-
-
-  // const questionContent = EditorState.createWithContent(
-  //   convertFromRaw(JSON.parse(props.question.content))
-  // );
-  // const onChange = () => {};
-
-  //!First box here contains answers not questions, so does its handler deal with answer not questions
-//   return (
-//     <Box display="flex" justifyContent="center">
-//       <Card className={classes.boxInternal}>
-//         {props.question.questionId ? (
-//           <Box
-//             display="flex"
-//             justifyContent="center"
-//             onClick={() => handleRedirectA()}
-//           >
-//             <Box paddingLeft={2} paddingRight={2}>
-//               <div className={classes.divInternal}>
-//                 <Editor
-//                   editorState={questionContent}
-//                   readOnly={true}
-//                   onChange={onChange}
-//                 />
-//               </div>
-//               <h3>{props.question.userId}</h3>
-//               <p>{props.question.creationDate}</p>
-//             </Box>
-//           </Box>
-//         ) : (
-//           <Box>
-//             <Box
-//               display="flex"
-//               justifyContent="center"
-//               onClick={() => handleRedirectQ()}
-//             >
-//               <Box paddingLeft={2} paddingRight={2}>
-//                 <h2>{props.question.title}</h2>
-//                 <div>
-//                   <Editor
-//                     editorState={questionContent}
-//                     readOnly={true}
-//                     onChange={onChange}
-//                   />
-//                 </div>
-//                 <h3>{props.question.userId}</h3>
-//                 <p>{props.question.creationDate}</p>
-//               </Box>
-//             </Box>
-//           </Box>
-//         )}
-//       </Card>
-//     </Box>
-//   );
-// };
 
 const mapStateToProps = (state: IState) => {};
 
