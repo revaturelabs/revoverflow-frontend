@@ -19,6 +19,7 @@ import HttpIcon from '@material-ui/icons/Http';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import StrikethroughSIcon from '@material-ui/icons/StrikethroughS';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CodeIcon from '@material-ui/icons/Code';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
@@ -81,6 +82,10 @@ const useStyles = makeStyles({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  locationDropdownButton: {
+    color: "#3498db",
+    borderColor: "#3498db"
+  }
 });
 
 const styleMap = {
@@ -333,8 +338,8 @@ export const RichTextEditorComponent: React.FC = () => {
       <BreadcrumbBarComponent />
       <ThemeProvider theme={theme}>
         <Container className={classes.containerTool}>
-          <Box justifyContent="flex-start" display="flex" padding={3}>
-            <Typography variant="h4">Ask a Question:</Typography>
+          <Box justifyContent="flex-start" display="center" padding={3}>
+            <Typography variant="h4">Ask a Question</Typography>
           </Box>
           {/* 
                 <Box display="flex" flexDirection="column" paddingBottom={3}>
@@ -417,11 +422,13 @@ export const RichTextEditorComponent: React.FC = () => {
               <>
                 <Button
                   aria-controls="simple-menu"
+                  variant="outlined"
+                  className={classes.locationDropdownButton}
                   id="location-dropdown-button"
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  {currentLocation.locationName}
+                  {currentLocation.locationName} <ArrowDropDownIcon />
                 </Button>
 
                 <Menu
