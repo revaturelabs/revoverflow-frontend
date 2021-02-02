@@ -18,8 +18,7 @@ const useStyles = makeStyles({
     boxInternal: {
         marginBottom: 5,
         marginTop: 10,
-        borderBottomStyle: "solid",
-        borderLeftStyle: "solid",
+        borderStyle: "solid",
         borderColor: "#f26925",
         padding: 10,
         minWidth: 450

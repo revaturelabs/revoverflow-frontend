@@ -168,11 +168,11 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         userId: JSON.parse(localStorage.getItem("userId")!),
       };
       //This prevents users from submitting empty text boxes
-      if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
+      // if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
         let submitToFAQ = await addToFAQ(q, a);
         console.log(submitToFAQ);
         props.onSubmit()        
-      }
+      //}
      
     } catch (e) {
       console.log(e);
