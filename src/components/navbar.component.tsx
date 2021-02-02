@@ -290,7 +290,7 @@ export const NavbarComponent: React.FC = () => {
             </IconButton>
 
             <Typography className={classes.pointsDisplay} variant="h4" >
-              Points: {points}
+              Points: {undefined ? 0 : points}
             </Typography>
           </Box>
         </Toolbar>
