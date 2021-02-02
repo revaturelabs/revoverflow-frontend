@@ -29,26 +29,6 @@ describe('USER-FAQ component tests', () => {
         expect(wrapper).toBeDefined()
     })
 
-    //=====================================================================================================
-
-
-
-    test('test unmounting of component', () => {
-        
-        const wrapper = mount(
-        <BrowserRouter>
-            <main>
-                <Route exact path="/faq">
-                    <FaqContainerComponent/>
-                </Route>
-            </main>
-        </BrowserRouter>
-            );
-    
-        wrapper.unmount()
-        expect(wrapper).toBeUndefined;
-    })
-
 
 
 

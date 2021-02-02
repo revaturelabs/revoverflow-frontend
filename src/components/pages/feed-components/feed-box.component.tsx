@@ -48,6 +48,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [open, setOpen] = useState<boolean>(false);
+    const admin = localStorage.getItem("admin");
 
     const handleClose = () => {
         setOpen(false)
@@ -128,7 +129,8 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
                                 <p>{props.question.creationDate}</p>
-                                 <AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>
+                                 
+                                {admin === "true" ?<AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>:''}
 
                             </Box>
                         </Box>
