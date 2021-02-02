@@ -43,6 +43,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
   boxExternal: {
     minWidth: 500,
+    marginBottom: '4em'
   },
   boxInternal: {
     color: "#f26925",
