@@ -9,33 +9,20 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import clsx from "clsx";
-import {
-  createStyles,
-  makeStyles,
-  useTheme,
-  Theme,
-} from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import { createStyles, makeStyles, useTheme, Theme } from "@material-ui/core/styles";
+import { Drawer, AppBar, Toolbar, List } from "@material-ui/core";
+import { CssBaseline, Typography, Divider, IconButton } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Box } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import { useHistory } from "react-router";
-import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import * as loginRemote from '../remotes/login.remote'
 
 
@@ -110,10 +97,10 @@ const useStyles = makeStyles((theme: Theme) =>
     pointsDisplay: {
       color: "#F26925",
       fontSize: 30,
-      paddingTop: 11
+      paddingTop: 11,
     },
     imageDoor: {
-      paddingBottom: 10
+      paddingBottom: 10,
     },
     arrangement: {
       display: "flex",
@@ -201,7 +188,10 @@ export const NavbarComponent: React.FC<any> = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleMenuClose()}> <Typography onClick={() => history.push("/")}> Log Out </Typography></MenuItem>
+      <MenuItem onClick={() => handleMenuClose()}>
+        {" "}
+        <Typography onClick={() => history.push("/")}> Log Out </Typography>
+      </MenuItem>
     </Menu>
   );
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -214,25 +204,26 @@ export const NavbarComponent: React.FC<any> = (props) => {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >
-    </Menu>
+    ></Menu>
   );
 
   const [points, setPoints] = useState<any>(0);
   const gettingPoints = localStorage.getItem("points");
 
+  //update components when point change
   useEffect(() => {
     displayPoints();
-  });
+  }, [points]);
 
   const displayPoints = async () => {
-
     if (gettingPoints) {
       try {
-      const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
-      localStorage.setItem('points', JSON.stringify(response.data.points));
+        const response = await loginRemote.getUserById(
+          +JSON.parse(JSON.stringify(localStorage.getItem("userId")))
+        );
+        localStorage.setItem("points", JSON.stringify(response.data.points));
       } catch {
-        alert('Couldnt retrieve points')
+        alert("Couldnt retrieve points");
       }
       setPoints(localStorage.getItem("points"));
     }
@@ -260,7 +251,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <Box className={classes.imageDoor}>
-              <img 
+              <img
                 src={require("../logo/image.png")}
                 height={40}
                 width={100}
@@ -281,7 +272,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <AccountCircle className={classes.orange} />
             </IconButton>
 
-            <Typography className={classes.pointsDisplay} variant="h4" >
+            <Typography className={classes.pointsDisplay} variant="h4">
               Points: {points}
             </Typography>
           </Box>
@@ -313,6 +304,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
         <List>
           {["Feed"].map((text, index) => (
             <ListItem
+              id="feedTab"
               onClick={() => history.push("/feed")}
               style={{ color: "#F26925" }}
               button
@@ -330,6 +322,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
           <Divider />
           {["Post A Question"].map((text, index) => (
             <ListItem
+              id="postQuestionTab"
               onClick={() => {
                 history.push("/question");
               }}
@@ -348,31 +341,57 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-           <Divider />
+          <Divider />
           {["FAQ"].map((text, index) => (
             <ListItem
               onClick={() => {
-                history.push("/faq");
+                history.push("/faq")
               }}
               style={{ color: "#F26925" }}
               button
               key={text}
-            >
+              >
+                
+
               <ListItemIcon>
                 <RecordVoiceOverIcon
                   onClick={() => {
-                    history.push("/faq");
-                  }}
-                  style={{ color: "#F26925" }}
-                />
+                    history.push("/faq")}} style={{ color: "#F26925" }}>
+                      
+                </RecordVoiceOverIcon>
+               
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          ))}
+            ))}
+            <Divider />
+              {["Question"].map((text, index) => (
+                <ListItem
+                  id="allQuestionsTab"
+                  onClick={() => {
+                    history.push("/revatureQuestion");
+
+                  }}
+                  style={{ color: "#F26925" }}
+                  button
+                  key={text}
+
+                >
+                  <ListItemIcon>
+                  <HelpOutlineIcon
+                    onClick={() => {
+                      history.push("/revatureQuestion");
+                    }}
+                    style={{ color: "#F26925" }}
+                  />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
         </List>
       </Drawer>
-      {renderMobileMenu}
-      {renderMenu}
+        {renderMobileMenu}
+        {renderMenu}
     </div>
   );
 };
