@@ -34,6 +34,7 @@ import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
 import { getAllFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
 import { Faq } from "../../../models/faquestion";
+import { FaqBoxComponent } from "./faq-box.component";
 
 const theme = createMuiTheme({
   palette: {
@@ -91,14 +92,13 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 ) => {
   const classes = useStyles();
   const history = useHistory();
-  const [view, setView] = useState("");
+  const [view, setView] = useState("revature");
   const [value, setValue] = useState(props.storeTab);
   const [open, setOpen] = useState<boolean>(false);
-  const [faqTodisplay, setFAQs] = useState<Array<Faq>>([]);
+  const [faqTodisplay, setFAQs] = useState<Array<Faq>>();
   const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
   const admin = localStorage.getItem("admin");
   const size = 10;
-  let filteredQuestions: Question[] = [];
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -107,7 +107,6 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
   const handleBreadcrumbChange = async (name:any) => {
     let faq = await getFAQByLocation(name)
-    console.log(faq)
     setFAQs(faq || [])
 
   }
@@ -127,6 +126,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     load(view, 1);
   }, [view]);
 
+
   /**
    * Populates the feed with answers or questions according to the particular view and page input.
    * @param view string variable that dictates what is displayed in the rendered feed box components
@@ -135,6 +135,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
   const load = async (currentView: string, page: number) => {
     let retrievedPageable: any;
     let tab: any;
+    
     if (currentView === "revature") {
       retrievedPageable = await getAllFAQ();
       console.log(retrievedPageable)
@@ -143,12 +144,11 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
         setFAQs(retrievedPageable)
         return;
       }
-      setFAQs(retrievedPageable)
     } else if (currentView === "location") {
-      retrievedPageable = await getAllFAQ();
+      // retrievedPageable =  ["Please Select Location"];
       tab = 1;
-      setFAQs(retrievedPageable)
     }
+    setFAQs(retrievedPageable)
   };
 
   const openBackdrop = () => {
@@ -223,29 +223,26 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
           <div style={{ width: "100%" }}>
             <Box display="flex" flexDirection="column" justifyContent="center">
               {console.log("")}
-              {getView() === "location" ? (
+              {(getView() === "location" )? (
+                <>
                 <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} />
-              ) : (
-                console.log("")
-              )}
-              {/* {renderFeedBoxComponents()} */}
-              <label>asldkfjlsajfdk</label>
-
-                {faqTodisplay && faqTodisplay.map(faquestion => {
+                {(faqTodisplay)?
+                faqTodisplay.map(faquestion => {
                 return (
-                    <FeedBoxComponent key={faquestion.userId} question={faquestion.question} questionContent={faquestion.question.content} view={view} />
-                )})}
-
-
-
-
-
-
-
-
-
-
-
+                    <FaqBoxComponent key={faquestion.userId} answer={faquestion.answer.content} 
+                    question={faquestion.question} questionContent={faquestion.question.content} view={view} />
+                )})
+                :
+                "Please choose a location"
+                }
+                </>
+              ) : (
+                faqTodisplay && faqTodisplay.map(faquestion => {
+                return (
+                    <FaqBoxComponent key={faquestion.userId} answer={faquestion.answer.content} 
+                    question={faquestion.question} questionContent={faquestion.question.content} view={view} />
+                )})
+              )}
             </Box>
           </div>
           <Box display="flex" justifyContent="center" padding={5}>
