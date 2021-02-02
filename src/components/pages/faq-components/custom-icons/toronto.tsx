@@ -4,7 +4,7 @@ const style = {
     icons:{
         width:"2rem", 
         borderRadius:"50%", 
-        margin:"1rem"
+        margin:"0"
     }
 }
 

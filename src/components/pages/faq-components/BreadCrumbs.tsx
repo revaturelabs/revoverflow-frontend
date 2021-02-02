@@ -21,13 +21,20 @@ const theme = createMuiTheme({
 
 
 const useStyles = makeStyles({
+
+  
+  
+
     parentCrumb:{
       display:"flex",
       alignItems:"center",
       justifyContent:"center",
       boxSizing:"border-box",
-      width:"100%"
-
+      width:"100%",      
+      // flexWrap:"nowrap",
+      // ol: {
+      //      backgroundColor: 'blue',
+      // },
     },
     babyCrumb:{
       // flexGrow:"1"
@@ -36,7 +43,9 @@ const useStyles = makeStyles({
     },
     crumbIcon: {
       color: "#3498db"
-    }
+    },
+    "MuiTypography-root-143":{
+      flexWrap:"nowrap",}
 
 });
 
