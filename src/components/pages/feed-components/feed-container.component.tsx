@@ -104,7 +104,7 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             setView(view)
         }
 
-         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
+        props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
     if (props.storeQuestions.length === 0 && view === 'recent') {
