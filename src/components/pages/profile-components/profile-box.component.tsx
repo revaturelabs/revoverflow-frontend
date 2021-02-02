@@ -6,7 +6,7 @@
 import React from 'react';
 import { makeStyles, Box, Card } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { Question } from '../../../models/question';
+// import { Question } from '../../../models/question';
 import * as answerRemote from '../../../remotes/answer.remote';
 import * as questionRemote from '../../../remotes/question.remote';
 import { IState } from '../../../reducers';
@@ -30,14 +30,14 @@ const useStyles = makeStyles({
     }
 });
 
-export interface FeedBoxComponentProps {
+export interface ProfileBoxComponentProps {
     question: any;
     questionContent: string;
-    clickQuestion: (question: Question) => void;
+    // clickQuestion: (question: Question) => void;
     // view: string;
 }
 
-export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
+export const ProfileBoxComponent: React.FC<ProfileBoxComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
@@ -46,7 +46,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
      */
     const handleRedirectQ = async () => {
         const retrievedAnswers = await answerRemote.getAnswersByQuestionId(props.question.id, 10, 0);
-        props.clickQuestion(props.question);
+        // props.clickQuestion(props.question);
         localStorage.setItem("questionId", JSON.stringify(props.question.id));
         localStorage.setItem("question", JSON.stringify(props.question));
         localStorage.setItem("answers", JSON.stringify(retrievedAnswers));
@@ -63,7 +63,7 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         localStorage.setItem("questionId", JSON.stringify(retrievedQuestion.id));
         localStorage.setItem("question", JSON.stringify(retrievedQuestion));
         localStorage.setItem("answers", JSON.stringify(retrievedAnswers));
-        props.clickQuestion(retrievedQuestion);
+        // props.clickQuestion(retrievedQuestion);
         history.push('/forum');
     }
 
@@ -107,4 +107,4 @@ const mapDispatchToProps = {
     clickQuestion,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedBoxComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileBoxComponent);

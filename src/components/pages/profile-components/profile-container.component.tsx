@@ -1,21 +1,16 @@
 /**
- * @file Contains and manages the questions and answer boxes populated into the feed
- * @author Keith Salzman
+ * @file Contains and manages the profile user's questions
  */
 
 import React, { useEffect, useState } from 'react';
 import { Box, Container, makeStyles} from '@material-ui/core';
-import ProfileBoxComponent from './profile-box.component';
+import { ProfileBoxComponent } from './profile-box.component';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
 import { Question } from '../../../models/question';
-import { IState } from '../../../reducers';
-import { connect } from 'react-redux';
 import * as questionRemote from '../../../remotes/question.remote';
-import { Pagination } from '@material-ui/lab';
 import { ProfileHeaderComponent } from './profile-header.component';
 
-
-
+// Styles for the question components
 const useStyles = makeStyles({
     boxExternal: {
         minWidth: 500
@@ -33,19 +28,23 @@ const useStyles = makeStyles({
 });
 
 export const ProfileContainerComponent = () => {
-    const postsPerPage = 10;
+    /**
+     * postsPerPage is used in the endpoint getQuestionsByUserId to get a certain 
+     * number of questions, so it is set to 10,000 until pagination can be implemented.
+     */
+    const postsPerPage = 10000;
 
     const classes = useStyles();
     const splitURL = window.location.href.split("/");
     const userId = parseInt(splitURL[splitURL.length - 1]);
     const [userQuestions, setUserQuestions] = useState<Question[]>();
-    const [currentPage, setCurrentPage] = useState<number>(0);
-    const [viewedQuestions, setViewedQuestions] = useState<Question[]>([]);
     
+    // Load specific user questions when the ProfileContainerComponent is loaded
     useEffect(()=>{
         getUserQuestions();
     }, [])
  
+    // Grabs all of the user questions given the user id and sets it to the userQuestions state
     const getUserQuestions = async () => {
         try {
             const response = await questionRemote.getQuestionsByUserId(userId, postsPerPage, 0);
@@ -54,13 +53,6 @@ export const ProfileContainerComponent = () => {
             alert("Could not set the user questions.");
         }
     };
-
-    const changePage = (questions: Question[], tab: number, pageCount: number, page: number) => {
-
-    }
-    // const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    //     load(view, value - 1);
-    // };
 
     /**
      * Maps the questions or answers into feed boxes to be displayed within the feed container.
@@ -81,21 +73,20 @@ export const ProfileContainerComponent = () => {
 
     return (
         <div>
+            {/* Breadcrumb component that shows the current url path */}
             <BreadcrumbBarComponent />
+
+            {/* Displays the user information above their questions */}
             <ProfileHeaderComponent></ProfileHeaderComponent>
+
+            {/* Renders all of the questions in the profile box components */}
             <Container className={classes.containerInternal}>
                 <div style={{ width: '100%' }}>
                     <Box display="flex" flexDirection="column" justifyContent="center" >
                         {renderProfileBoxComponents()}
                     </Box>
                 </div>
-
-                {/* <Box display="flex" justifyContent="center" padding={5}>
-                    <Pagination size="medium" count={userQuestions?.length} page={currentPage + 1} color="secondary" onChange={handlePageChange} />
-                </Box> */}
-            </Container>
-
-            
+            </Container>   
         </div>
     );
 }
