@@ -54,17 +54,16 @@ export const LoginComponent: React.FC = () => {
   const addLoginCredentials = async (e: any) => {
     e.preventDefault()
     try {
-      
+
+       
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
 
       const accessToken = await firebase.auth().currentUser?.getIdToken(true)
-      const email = user.user.email;
-
-      await setInformation(`Bearer ${accessToken}`, email);
-
+      const email = firebase.auth().currentUser?.email
       
+      await setInformation(`Bearer ${accessToken}`, email);
      
     } catch {
       alert('Incorrect username and/or password')

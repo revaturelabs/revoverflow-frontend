@@ -14,10 +14,6 @@ const UserAuthRoute: React.FunctionComponent<any> = (props) => {
         //     //         {props.children}
         //     //     </>
         //     // ) : <Redirect to="/" />
-        //     return <>
-        //     {console.log("IN Consumer : " + isSignedIn + "  _ " + user)}
-        //         {props.children}
-        //     </>
         // }}
         // </FirebaseAuthConsumer> 
         localStorage.getItem("accessToken")? 
