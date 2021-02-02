@@ -73,8 +73,8 @@ export interface AddFAQComponentProps {
 }
 
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
-  const [questionTitle, setQuestionTitle] = useState<string>("");
-  const [questionBody, setQuestionBody] = useState<string>("");
+  const [questionTitle, setQuestionTitle] = useState<string>(props.defaultQuestion?props.defaultQuestion.title:'');
+  const [questionBody, setQuestionBody] = useState<string>(props.defaultQuestion?props.defaultQuestion.content:'');
   const [answer, setAnswer] = useState<string>("");
   const [defaultQuestionProvided, setDefaultQuestionProvided] = useState<boolean>(false);
   const [locations, setLocations] = useState(new Array<any>());
@@ -167,12 +167,15 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         questionId: 0,
         userId: JSON.parse(localStorage.getItem("userId")!),
       };
-
-      if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
+      // console.log(q.title)
+      // console.log(convertFromRaw(JSON.parse(a.content)).getPlainText())
+      // console.log(q.content)
+      // console.log(convertFromRaw(JSON.parse(q.content)).getPlainText())
+      // if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
         let submitToFAQ = await addToFAQ(q, a);
         console.log(submitToFAQ);
         props.onSubmit()        
-      }
+      // }
      
     } catch (e) {
       console.log(e);
