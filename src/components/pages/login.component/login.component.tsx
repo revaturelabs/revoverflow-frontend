@@ -47,7 +47,6 @@ export const LoginComponent: React.FC = () => {
 
     const response = authAxios.get(`/user/${email}/points`)
     localStorage.setItem('points', (await response).data.points)
-    console.log(response)
 
   }
 

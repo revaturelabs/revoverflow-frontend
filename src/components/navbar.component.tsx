@@ -233,8 +233,6 @@ export const NavbarComponent: React.FC<any> = (props) => {
     if (gettingPoints) {
       try {
         const response = await loginRemote.getUserById(localStorage.getItem('email'));
-        console.log(localStorage.getItem('email'))
-        console.log(response)
       localStorage.setItem('points', JSON.stringify(response.data.points));
       } catch {
         alert('Couldnt retrieve points')
