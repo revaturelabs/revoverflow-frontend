@@ -36,7 +36,7 @@ import { useHistory } from "react-router";
 import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import * as loginRemote from '../remotes/login.remote'
-
+import firebase from "firebase/app";
 
 
 const drawerWidth = 240;
@@ -187,7 +187,11 @@ export const NavbarComponent: React.FC<any> = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    localStorage.removeItem("accessToken");
+    firebase.auth().signOut().then(() => {
+      localStorage.removeItem("accessToken");
+    }).catch((error) => {
+      alert('Error Occured while trying to logout')
+    })
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (

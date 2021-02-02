@@ -54,7 +54,7 @@ export const LoginComponent: React.FC = () => {
     e.preventDefault()
     try {
 
-      const user = await firebase
+      await firebase
         .auth()
         .signInWithEmailAndPassword(inputEmail, inputPassword)
 
