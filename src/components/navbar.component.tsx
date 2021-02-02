@@ -243,7 +243,8 @@ export const NavbarComponent: React.FC = () => {
       } catch {
         alert('Couldnt retrieve points')
       }
-      setPoints(localStorage.getItem("points"));
+      if(localStorage.getItem("points") != undefined)
+        setPoints(localStorage.getItem("points"));
     }
   };
 
