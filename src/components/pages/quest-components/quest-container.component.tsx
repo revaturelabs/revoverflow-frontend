@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Checkbox, InputLabel } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import QuestBoxComponent from './quest-box.component';
-import {createMuiTheme, makeStyles, Container, Box, ThemeProvider} from '@material-ui/core';
+import { createMuiTheme, makeStyles, Container, Box, ThemeProvider } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import BusinessIcon from '@material-ui/icons/Business';
 import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
@@ -43,17 +43,17 @@ const useStyles = makeStyles({
     containerInternal: {
         paddingTop: 10,
     },
-    unchecked:{
+    unchecked: {
         color: '#f26925',
         marginTop: 20,
         marginLeft: 20,
         marginRight: 20,
 
     },
-    checked:{
+    checked: {
         color: '#f26925',
         backgroundColor: '#fad6c3',
-        marginTop: 20, 
+        marginTop: 20,
         marginLeft: 20,
         marginRight: 20,
     }
@@ -66,62 +66,164 @@ export interface QuestContainerComponentProps {
     storePageCount: number;
     storePage: number;
 }
- 
-export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
+
+export const QuestContainerComponent: React.FC<QuestContainerComponentProps> = (props) => {
     const classes = useStyles();
     const [revatureBasedQuestion, setRevatureBasedQuestion] = useState(false);
     const [locationBasedQuestion, setLocationBasedQuestion] = useState(false);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const size = 10;
 
-    const toggleQuestion = (e:any) => {
-        if(e.target.name === 'revatureChk'){
+    const toggleQuestion = (e: any) => {
+        if (e.target.name === 'revatureChk') {
             load(e.target.checked, locationBasedQuestion, 0)
             setRevatureBasedQuestion(e.target.checked)
-        }else{
-            load(revatureBasedQuestion,e.target.checked, 0)
+        } else {
+            load(revatureBasedQuestion, e.target.checked, 0)
             setLocationBasedQuestion(e.target.checked)
         }
     };
 
+    const handleBreadcrumbChange = (locationID: number) => {
+
+        load(revatureBasedQuestion, locationBasedQuestion, 0, locationID);
+
+    }
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        load(revatureBasedQuestion,locationBasedQuestion, value - 1);
+        load(revatureBasedQuestion, locationBasedQuestion, value - 1);
     };
 
-    const load = async (revature:boolean, location:boolean, page: number) => {
+    const load = async (revature: boolean, location: boolean, page: number, locationID?: number) => {
         let retrievedPageable: any;
         let tab: any;
         console.log("revature: " + revature)
         console.log("location: " + location)
+
+        // if (location) {
+
+        //     if (locationID === 1) {
+        //         retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 2) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 2);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 3) {
+        //         // retrievedPageable = null;
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 3);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //alert("There are no Toronto specific questions")
+        //         }
+        //     } else if (locationID === 4) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 4);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 5) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 5);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 6) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 6);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 7) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 7);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else if (locationID === 8) {
+        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 8);
+        //         if (retrievedPageable.numberOfElements === 0) {
+        //             //return;
+        //         }
+        //     } else {
+        //         return;
+        //     }
+
+        // } 
+
+
+
+
         if (revature) {
-            if(!location){
+            if (!location) {
                 retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
                 //tab = 0; 
                 if (retrievedPageable.numberOfElements === 0) {
-                     return;
-                 }
-            }else{
+                    return;
+                }
+            } else {
+
+
                 retrievedPageable = await questionRemote.getAllQuestions(userId, page);
                 if (retrievedPageable.numberOfElements === 0) {
                     return;
                 }
             }
         } else {
-            if(location){
-                retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
-                if (retrievedPageable.numberOfElements === 0) {
+            if (location) {
+
+                if (locationID === 1) {
+                    retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
+                    if (retrievedPageable.numberOfElements === 0) {
+                    //return;
+                    }
+                } else if (locationID === 2){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 2);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else if (locationID === 3){
+                    // retrievedPageable = null;
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 3);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //alert("There are no Toronto specific questions")
+                    }
+                } else if (locationID === 4){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 4);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else if (locationID === 5){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 5);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else if (locationID === 6){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 6);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else if (locationID === 7){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 7);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else if (locationID === 8){
+                    retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 8);
+                    if (retrievedPageable.numberOfElements === 0) {
+                        //return;
+                    }
+                } else {
                     return;
                 }
-                //tab = 1;
-            }else{
+
+            } else {
                 return;
             }
         }
         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    if (props.storeQuestions.length === 0 ) {
-         load(revatureBasedQuestion,locationBasedQuestion,0);
+    if (props.storeQuestions.length === 0) {
+        load(revatureBasedQuestion, locationBasedQuestion, 0);
     }
 
     const renderQuestBoxComponents = () => {
@@ -137,16 +239,16 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
             <BreadcrumbBarComponent />
             <Container className={classes.containerInternal}>
                 <ThemeProvider theme={theme} >
-                    <Box justifyContent="center" display="flex"  className={classes.boxExternal}>
+                    <Box justifyContent="center" display="flex" className={classes.boxExternal}>
                         <span id="checkbox"></span>
                         <FormControlLabel
                             className={classes.boxInternal}
                             labelPlacement='bottom'
                             control={
-                                <Checkbox name="revatureChk" 
-                                    icon={<BusinessIcon style={{ fontSize: 42 }} className={classes.unchecked}/>}  
+                                <Checkbox name="revatureChk"
+                                    icon={<BusinessIcon style={{ fontSize: 42 }} className={classes.unchecked} />}
                                     checkedIcon={<BusinessIcon style={{ fontSize: 42 }} className={classes.checked} />}
-                                    checked={revatureBasedQuestion} 
+                                    checked={revatureBasedQuestion}
                                     onChange={toggleQuestion} />
                             }
                             label="REVATURE"
@@ -156,10 +258,10 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
                             labelPlacement='bottom'
                             control={
                                 <Checkbox name="locationChk" //label="LOCATION"
-                                  icon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.unchecked}/>} 
-                                  checkedIcon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.checked} />}
-                                  checked={locationBasedQuestion} 
-                                  onChange={toggleQuestion} />
+                                    icon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.unchecked} />}
+                                    checkedIcon={<LocationOnIcon style={{ fontSize: 42 }} className={classes.checked} />}
+                                    checked={locationBasedQuestion}
+                                    onChange={toggleQuestion} />
                             }
                             label="LOCATION"
                         />
@@ -170,8 +272,8 @@ export const  QuestContainerComponent: React.FC<QuestContainerComponentProps> = 
                     <div style={{ width: '100%' }}>
                         <Box display="flex" flexDirection="column" justifyContent="center" >
                             {/*renderQuestBoxComponents()*/}
-                            { locationBasedQuestion ? <CustomizedBreadcrumbs />  : ''}
-                            { (locationBasedQuestion || revatureBasedQuestion) ? renderQuestBoxComponents() : ''}
+                            {locationBasedQuestion ? <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} /> : ''}
+                            {(locationBasedQuestion || revatureBasedQuestion) ? renderQuestBoxComponents() : ''}
                         </Box>
                     </div>
                     <Box display="flex" justifyContent="center" padding={5}>

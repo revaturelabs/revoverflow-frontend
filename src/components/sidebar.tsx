@@ -210,7 +210,7 @@ const Sidebar: React.FC<any> = (props) => {
             <ListItem
               id="allQuestionsTab"
               onClick={() => {
-                history.push("/revatureQuestion");
+                history.push("/all-questions");
               }}
               style={{ color: "#F26925" }}
               button
@@ -219,7 +219,7 @@ const Sidebar: React.FC<any> = (props) => {
               <ListItemIcon className={classes.listItem}>
                 <HelpOutlineIcon
                   onClick={() => {
-                    history.push("/revatureQuestion");
+                    history.push("/all-questions");
                   }}
                   style={{ color: "#F26925" }}
                 />

@@ -33,7 +33,7 @@ export const MainComponent: React.FC = () => {
                         <Route exact path="/faq">
                             <FaqContainerComponent />
                         </Route>
-                        <Route exact path="/revatureQuestion">
+                        <Route exact path="/all-questions">
                             <QuestContainerComponent />
                         </Route>
                     </Fragment>
