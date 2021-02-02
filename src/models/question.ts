@@ -11,6 +11,6 @@ export interface Question {
   creationDate: Date;
   status: boolean;
   userID: number;
-  revatureQuestion: boolean;
-  locationID: number;
+  revatureQuestion?: boolean;
+  locationID?: number;
 }

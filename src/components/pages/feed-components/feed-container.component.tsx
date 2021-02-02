@@ -69,78 +69,104 @@ export interface FeedContainerComponentProps {
   storePage: number;
 }
 
-export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (
-  props
-) => {
-  const classes = useStyles();
-  const history = useHistory();
-  const [view, setView] = useState<
-    "question" | "answer" | "confirm" | "recent"
-  >("recent");
-  const [value, setValue] = React.useState(props.storeTab);
-  const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
-  const admin = localStorage.getItem("admin");
-  const size = 10;
-  let filteredQuestions: Question[] = [];
+export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
+    const classes = useStyles();
+    const history = useHistory();
+    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
+    const [value, setValue] = React.useState(props.storeTab);
+    const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+    const admin = (localStorage.getItem("admin"));
+    const size = 10;
+    let filteredQuestions: Question[] = [];
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    load(view, value - 1);
-  };
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        load(view, value - 1);
+    };
 
-  /**
-   * Populates the feed with answers or questions according to the particular view and page input.
-   * @param view string variable that dictates what is displayed in the rendered feed box components
-   * @param page number variable that describes which page to display form the paginated information recieved from the server
-   */
-  const load = async (view: string, page: number) => {
-    let retrievedPageable: any;
-    let tab: any;
-    if (view === "recent") {
-      retrievedPageable = await questionRemote.getAllQuestions(size, page);
-      tab = 0;
-      setView(view);
-      if (retrievedPageable.numberOfElements === 0) {
-        return;
-      }
-    } else if (view === "question") {
-      retrievedPageable = await questionRemote.getQuestionsByUserId(
-        userId,
-        size,
-        page
-      );
-      tab = 1;
-      setView(view);
-    } else if (view === "answer") {
-      retrievedPageable = await answerRemote.getAnswersByUserId(
-        userId,
-        size,
-        page
-      );
-      tab = 2;
-      setView(view);
-    } else if (view === "confirm") {
-      retrievedPageable = await questionRemote.getUnconfirmedQuestions(
-        size,
-        page
-      );
-      tab = 3;
-      setView(view);
+    /**
+     * Populates the feed with answers or questions according to the particular view and page input. 
+     * @param view string variable that dictates what is displayed in the rendered feed box components
+     * @param page number variable that describes which page to display form the paginated information recieved from the server
+     */
+    const load = async (view: string, page: number) => {
+        let retrievedPageable: any;
+        let tab: any;
+        if (view === 'recent') {
+            retrievedPageable = await questionRemote.getAllQuestions(size, page);
+            tab = 0;
+            setView(view);
+            if (retrievedPageable.numberOfElements === 0) {
+                return;
+            }
+        } else if (view === 'question') {
+            retrievedPageable = await questionRemote.getQuestionsByUserId(userId, size, page);
+            tab = 1;
+            setView(view)
+        } else if (view === 'answer') {
+            retrievedPageable = await answerRemote.getAnswersByUserId(userId, size, page);
+            tab = 2;
+            setView(view)
+        } else if (view === 'confirm') {
+            retrievedPageable = await questionRemote.getUnconfirmedQuestions(size, page);
+            tab = 3;
+            setView(view)
+        }
+
+         props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
 
-    props.clickTab(
-      retrievedPageable.content,
-      tab,
-      retrievedPageable.totalPages,
-      retrievedPageable.number
-    );
-  };
+
+  // /**
+  //  * Populates the feed with answers or questions according to the particular view and page input.
+  //  * @param view string variable that dictates what is displayed in the rendered feed box components
+  //  * @param page number variable that describes which page to display form the paginated information recieved from the server
+  //  */
+  // const load = async (view: string, page: number) => {
+  //   let retrievedPageable: any;
+  //   let tab: any;
+  //   if (view === "recent") {
+  //     retrievedPageable = await questionRemote.getAllQuestions(size, page);
+  //     tab = 0;
+  //     setView(view);
+  //     if (retrievedPageable.numberOfElements === 0) {
+  //       return;
+  //     }
+  //   } else if (view === "question") {
+  //     retrievedPageable = await questionRemote.getQuestionsByUserId(
+  //       userId,
+  //       size,
+  //       page
+  //     );
+  //     tab = 1;
+  //     setView(view);
+  //   } else if (view === "answer") {
+  //     retrievedPageable = await answerRemote.getAnswersByUserId(
+  //       userId,
+  //       size,
+  //       page
+  //     );
+  //     tab = 2;
+  //     setView(view);
+  //   } else if (view === "confirm") {
+  //     retrievedPageable = await questionRemote.getUnconfirmedQuestions(
+  //       size,
+  //       page
+  //     );
+  //     tab = 3;
+  //     setView(view);
+  //   }
+
+  //   props.clickTab(
+  //     retrievedPageable.content,
+  //     tab,
+  //     retrievedPageable.totalPages,
+  //     retrievedPageable.number
+  //   );
+  // };
 
   if (props.storeQuestions.length === 0 && view === "recent") {
     load("recent", 0);

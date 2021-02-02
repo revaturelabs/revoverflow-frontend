@@ -11,13 +11,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import clsx from "clsx";
-import { createStyles,makeStyles,useTheme,Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles, useTheme, Theme } from "@material-ui/core/styles";
 import { Drawer, AppBar, Toolbar, List } from "@material-ui/core";
-import { CssBaseline, Typography, Divider, IconButton}  from "@material-ui/core";
-import { ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Box} from "@material-ui/core";
+import { CssBaseline, Typography, Divider, IconButton } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Box } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
@@ -295,8 +296,8 @@ export const NavbarComponent: React.FC<any> = (props) => {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
@@ -340,31 +341,57 @@ export const NavbarComponent: React.FC<any> = (props) => {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-          {["Question"].map((text, index) => (
+          <Divider />
+          {["FAQ"].map((text, index) => (
             <ListItem
-              id="allQuestionsTab"
               onClick={() => {
-                history.push("/revatureQuestion");
+                history.push("/faq")
               }}
               style={{ color: "#F26925" }}
               button
               key={text}
-            >
+              >
+                
+
               <ListItemIcon>
-                <HelpOutlineIcon
+                <RecordVoiceOverIcon
                   onClick={() => {
-                    history.push("/revatureQuestion");
-                  }}
-                  style={{ color: "#F26925" }}
-                />
+                    history.push("/faq")}} style={{ color: "#F26925" }}>
+                      
+                </RecordVoiceOverIcon>
+               
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          ))}
+            ))}
+            <Divider />
+              {["Question"].map((text, index) => (
+                <ListItem
+                  id="allQuestionsTab"
+                  onClick={() => {
+                    history.push("/revatureQuestion");
+
+                  }}
+                  style={{ color: "#F26925" }}
+                  button
+                  key={text}
+
+                >
+                  <ListItemIcon>
+                  <HelpOutlineIcon
+                    onClick={() => {
+                      history.push("/revatureQuestion");
+                    }}
+                    style={{ color: "#F26925" }}
+                  />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
         </List>
       </Drawer>
-      {renderMobileMenu}
-      {renderMenu}
+        {renderMobileMenu}
+        {renderMenu}
     </div>
   );
 };
