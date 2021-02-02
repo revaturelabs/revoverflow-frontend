@@ -25,7 +25,7 @@ export interface AnswerState {
     accepted: boolean;
 }
 
-export const state = combineReducers ({
+export const state = combineReducers({
     questionState: questionReducer,
     answerState: answerReducer
 })

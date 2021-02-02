@@ -10,10 +10,11 @@ import { connect } from 'react-redux';
 import { acceptAnswer } from '../../../actions/answer.actions';
 import { clickQuestion } from '../../../actions/question.actions';
 import { EditorState, convertFromRaw, Editor } from 'draft-js';
+import { useHistory } from 'react-router';
 
 /**
  * @file Displays general answers belonging to question of interest within forum
- * @author Keith Salzman 
+ * @author Keith Salzman
  */
 
 const useStyles = makeStyles({
@@ -72,8 +73,11 @@ export interface ForumAnswerComponentProps {
 
 export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props) => {
     const classes = useStyles();
-    const [color, setColor] = useState(false)
+    const [color, setColor] = useState(false);
     const [open, setOpen] = React.useState(false);
+    const splitURL = window.location.href.split("/");
+    const userId = parseInt(splitURL[splitURL.length - 1]);
+    const history = useHistory();
 
     const selectAnswer = async () => {
         if (props.storeQuestion.acceptedId) {
@@ -98,8 +102,12 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             setOpen(true);
         }
     };
-
+    /**
+     * WHen you click the check icon thsi si the submit button
+     */
     const handleCloseSubmit = async () => {
+        //page resets here
+        console.log("hello")
         let questionInfo: Question;
         try {
             questionInfo = await questionRemote.getQuestionByQuestionId(+JSON.parse(JSON.stringify(localStorage.getItem('questionId'))))
@@ -108,7 +116,7 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             return;
         }
 
-        const payload = {
+        const payload: Question = {
             id: questionInfo.id,
             acceptedId: props.answer.id,
             title: questionInfo.title,
@@ -116,7 +124,10 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
             creationDate: questionInfo.creationDate,
             editDate: null,
             status: false,
-            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId')))
+            userID: +JSON.parse(JSON.stringify(localStorage.getItem('userId'))),
+            location: null,
+            questionType: "",
+            isFaq: questionInfo.isFaq
         };
 
         try {
@@ -143,12 +154,19 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
     const questionContent = EditorState.createWithContent(convertFromRaw(JSON.parse(props.answer.content)));
     const onChange = () => { }
 
+    const profileView = () => {
+        let answerUserId = props.answer.userId;
+        history.push('/user/'+answerUserId);
+    }
+
+
     if ((props.storeQuestion.acceptedId === props.answer.id)) {
         return <div />;
     } else {
         return (
             <ThemeProvider theme={theme}>
                 <Container>
+                <div>
                     <Box justifyContent="flex-start" display="flex" flexDirection="row" className={classes.boxInternal}>
                         {(props.storeQuestion.acceptedId === null) ?
                             <Box justifyContent="flex-start" display="flex">
@@ -167,7 +185,12 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
                                     <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                     <footer>{props.answer.userId} <br />{props.answer.creationDate}</footer>
                                 </Box>
+                            <Box>
+                            
+                           
                             </Box>
+                            </Box>
+                        
                             :
                             <Box justifyContent="flex-start" display="flex">
                                 <Box justifyContent="flex-start" display="flex">
@@ -181,7 +204,14 @@ export const ForumAnswerComponent: React.FC<ForumAnswerComponentProps> = (props)
                                 </Box>
                             </Box>
                         }
+                        
                     </Box>
+                    <Box mr="58rem">
+                    <Button className={classes.buttonInternal} size="large" variant="contained" color="secondary" onClick={() => profileView()}>
+                                    View Profile
+                    </Button>
+                    </Box>
+                    </div>
                     <Modal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"

@@ -1,6 +1,5 @@
 /**
  * @file Manage the login component for the web application
- * @author Michel Charles <mcharl05@nyit.edu>
  */
 
 import React, { useEffect } from "react";
@@ -11,6 +10,9 @@ import * as loginRemote from '../../../remotes/login.remote'
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { authAxios } from "../../../remotes/internal.axios";
+import firebase from '../../../firebase/config';
+import { Alert } from '@material-ui/lab';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,12 +31,15 @@ export const LoginComponent: React.FC = () => {
   const history = useHistory();
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [badLogin, setBadLogin] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => { }, []);
 
+  //Below code will set the User Object fields retreieved from the backend to the localStorage.
   let response: any;
   const setInformation = async () => {
-    authAxios.defaults.headers["Authorization"]= response.headers.authorization
+    authAxios.defaults.headers["Authorization"] = response.headers.authorization
     setInputEmail('');
     setInputPassword('');
     localStorage.setItem('accessToken', response.headers.authorization);
@@ -49,8 +54,34 @@ export const LoginComponent: React.FC = () => {
     history.push('/feed')
   }
 
-  const addLoginCredentials = async (e: any) => {
+  // Check firebase up here for authentication 
+  /// If credentials are bad do not send anything to the back end 
+  // If they are good send the credentials to the back end 
+  // firebase keyword imported in with firebase app from config 
+  //Allows user to use firebase as the veryfying authentication ensuring 
+  //That any call to the database will be a legitemate call that will bring 
+  // back either a user or admin
+  const CheckFireBase = async (e: any) => {
+    setBadLogin(false)
+    setLoading(true)
     e.preventDefault()
+    try {
+      response = await firebase.auth().signInWithEmailAndPassword(inputEmail, inputPassword)
+      await console.log(firebase.auth().currentUser)
+      await console.log(response)
+      addLoginCredentials(e)
+
+    } catch {
+      setBadLogin(true)
+      setLoading(false)
+    }
+
+  }
+
+
+  //Triggers the checkLoginCredentials() function which send the "correct" credentials to the backend
+  //to request the User Object
+  const addLoginCredentials = async (e: any) => {
     const payload = {
       email: inputEmail,
       password: inputPassword
@@ -59,14 +90,14 @@ export const LoginComponent: React.FC = () => {
       response = await loginRemote.checkLoginCredentials(payload);
       await setInformation();
     } catch {
-      alert('Incorrect username and/or password')
+      console.log("Wrong credentials");
     }
-
   }
 
 
 
   return (
+
     <div>
       <img alt="logo" id="logo" src={require("../../../logo/image.png")} />
 
@@ -74,6 +105,7 @@ export const LoginComponent: React.FC = () => {
         <div className="form-wrapper">
           <h3 className="h3">Login</h3>
           <form className={classes.root} noValidate autoComplete="off">
+            {badLogin && <Alert className="alerts" severity="error">Invalid Credentials</Alert>}
             <TextField
               id="outlined-basic"
               label="Email"
@@ -91,7 +123,7 @@ export const LoginComponent: React.FC = () => {
               onChange={(e) => setInputPassword(e.target.value)}
             />
             <div className="logIn">
-              <button type="submit" onClick={(e) => addLoginCredentials(e)}>Log In</button>
+              <button disabled={loading} type="submit" onClick={(e) => CheckFireBase(e)}>Log In</button>
             </div>
           </form>
         </div>
