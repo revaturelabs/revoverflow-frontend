@@ -29,7 +29,11 @@ const useStyles = makeStyles((theme) => ({
         width: `calc(100% - ${drawerWidth}px)`
     },
     divInternal: {
-        paddingTop: 20
+        paddingTop: 20,
+        width: '100%'
+    },
+    boxEvenMoreInternal: {
+        width: '100%'
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
@@ -111,23 +115,23 @@ export const FeedBoxComponent: React.FC<FeedBoxComponentProps> = (props) => {
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>
                 {props.question.questionId ?
-                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}>
-                        <Box paddingLeft={2} paddingRight={2} >
+                    <Box display="flex" justifyContent="left" onClick={() => handleRedirectA()}>
+                        <Box paddingLeft={2} paddingRight={2} className={classes.boxEvenMoreInternal} >
                             <div className={classes.divInternal}><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                             <h3>{props.question.userId}</h3>
-                            <p>{props.question.creationDate}</p>
+                            <p>{new Date(props.question.creationDate).toLocaleString()}</p>
                             <AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>
 
                         </Box>
                     </Box>
                     :
                     <Box>
-                        <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()}>
-                            <Box paddingLeft={2} paddingRight={2}>
+                        <Box display="flex" justifyContent="left" onClick={() => handleRedirectQ()}>
+                            <Box paddingLeft={2} paddingRight={2} className={classes.boxEvenMoreInternal}>
                                 <h2>{props.question.title}</h2>
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
-                                <p>{props.question.creationDate}</p>
+                                <p>{new Date(props.question.creationDate).toLocaleString()}</p>
                                  <AddCircleIcon onClick={handleRedirectFAQ} id="addQuestionFAQButton"/>
 
                             </Box>

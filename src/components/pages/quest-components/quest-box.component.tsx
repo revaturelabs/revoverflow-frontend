@@ -27,7 +27,10 @@ const useStyles = makeStyles({
     },
     divInternal: {
         paddingTop: 20
-    }
+    },
+    boxText: {
+        justifyContent: "left"
+    },
 });
 
 export interface QuestBoxComponentProps {
@@ -75,21 +78,21 @@ export const QuestBoxComponent: React.FC<QuestBoxComponentProps> = (props) => {
         <Box display="flex" justifyContent="center" >
             <Card className={classes.boxInternal}>
                 {props.question.questionId ?
-                    <Box display="flex" justifyContent="center" onClick={() => handleRedirectA()}  >
+                    <Box display="flex" justifyContent="left" onClick={() => handleRedirectA()}  >
                         <Box paddingLeft={2} paddingRight={2} >
                             <div className={classes.divInternal}><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                             <h3>{props.question.userId}</h3>
-                            <p>{props.question.creationDate}</p>
+                            <p>{new Date(props.question.creationDate).toLocaleString()}</p>
                         </Box>
                     </Box>
                     :
                     <Box>
-                        <Box display="flex" justifyContent="center" onClick={() => handleRedirectQ()} >
-                            <Box paddingLeft={2} paddingRight={2}>
-                                <h2>{props.question.title}</h2>
+                        <Box display="block" style={{width:'100%'}} justifyContent="left" onClick={() => handleRedirectQ()} >
+                            <Box display="block" style={{width:'100%'}} paddingLeft={2} paddingRight={2}>
+                                <h2 style={{justifyContent:"left"}}>{props.question.title}</h2>
                                 <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
-                                <p>{props.question.creationDate}</p>
+                                <p>{new Date(props.question.creationDate).toLocaleString()}</p>
                             </Box>
                         </Box>
                     </Box>}
