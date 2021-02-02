@@ -32,7 +32,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
-import { getAllFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { getRevatureBasedFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
 import { Faq } from "../../../models/faquestion";
 import { FaqBoxComponent } from "./faq-box.component";
 
@@ -124,7 +124,11 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
   useEffect(() => {
     load(view, 1);
-  }, [view]);
+  }, [view, open]);
+
+  // useEffect(() => {
+  //   load(view, 1);
+  // }, [open]);
 
 
   /**
@@ -137,7 +141,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     let tab: any;
     
     if (currentView === "revature") {
-      retrievedPageable = await getAllFAQ();
+      retrievedPageable = await getRevatureBasedFAQ();
       console.log(retrievedPageable)
       tab = 0;
       if (retrievedPageable.numberOfElements === 0) {
@@ -145,7 +149,6 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
         return;
       }
     } else if (currentView === "location") {
-      // retrievedPageable =  ["Please Select Location"];
       tab = 1;
     }
     setFAQs(retrievedPageable)

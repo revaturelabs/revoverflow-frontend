@@ -24,9 +24,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 5,
         marginTop: 10,
         borderStyle: "solid",
-        borderColor: "#f26925",
+        border: "2px solid #f26925",
         maxWidth: 1000,
-        width: `calc(100% - ${drawerWidth}px)`
+        borderRadius: "18px",
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: "1rem"
     },
     divInternal: {
         paddingTop: 20
@@ -34,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
-    }
+    },
+    textCenter:{
+        textAlign: "center",
+    },
 }));
 
 export interface FaqBoxComponentProps {
@@ -81,10 +86,12 @@ export const FaqBoxComponent: React.FC<FaqBoxComponentProps> = (props) => {
                     <Box>
                         <Box display="flex" justifyContent="center">
                             <Box paddingLeft={2} paddingRight={2}>
-                                <h2>{props.question.title}</h2>
-                                <div><Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
+                                <h2>Title: {props.question.title}</h2>
+                                <h4>Question</h4>
+                                <div style={{display:"flex", justifyContent:"center"}}>   <Editor editorState={questionContent} readOnly={true} onChange={onChange} /></div>
                                 <h3>{props.question.userId}</h3>
-                            <div className={classes.divInternal}><Editor editorState={answerContent} readOnly={true} onChange={onChange} /></div>
+                                <h4>Answer</h4>
+                                <div  style={{display:"flex", justifyContent:"center"}} className={classes.divInternal}> <Editor editorState={answerContent} readOnly={true} onChange={onChange} /></div>
                             </Box>
                         </Box>
                     </Box>}

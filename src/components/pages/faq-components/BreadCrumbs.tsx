@@ -105,7 +105,7 @@ export const CustomizedBreadcrumbs:React.FC<IBreadCrumbComponentProps> = (props)
         
         <StyledBreadcrumb
         className={classes.babyCrumb}
-          label="Morgan"
+          label="Morgantown"
           deleteIcon={<ExpandMoreIcon />}
           icon={<Morgan />}
           onClick={handleClick}

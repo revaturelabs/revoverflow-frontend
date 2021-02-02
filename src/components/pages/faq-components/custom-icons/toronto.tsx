@@ -26,7 +26,7 @@ export const Dallas = ()=>{
 export const Morgan = ()=>{
 
     return(
-            <img style={style.icons} alt="Morgan" src="./icons/mt.png"/>
+            <img style={style.icons} alt="Morgantown" src="./icons/mt.png"/>
     )   
 }
 export const Ny = ()=>{

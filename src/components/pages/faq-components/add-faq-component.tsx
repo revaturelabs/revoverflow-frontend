@@ -11,9 +11,10 @@ import { RichTextBoxComponent } from "../../rich-text-box-component";
 const style = {
   card: {
     width: "60vw",
-    height: "80vh",
+    height: "auto",
     padding: "2rem",
     boxSizing: "border-box" as "border-box",
+    
     // textAlign: "left"
   },
   cardBoxes1: {
@@ -50,10 +51,19 @@ const style = {
   },
   submit: {
     backgroundColor: "#3498db",
-    margin: "3.5rem 1rem",
+    margin: "1rem",
     width: "100%",
     borderRadius: "8px",
   },
+  btn:{
+    width: "100%",
+    color:"#000"
+  },
+  checkbox:{
+    margin: "1.5rem",
+    width: "100%",
+    textAlign: "center" as "center"
+  }
 };
 
 //pass in if there is no default question
@@ -88,6 +98,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
     }
     fetchData();
   }, []);
+
+  
   
   const handleQuestionTitleChange = (e: string) => {
     setQuestionTitle(convertFromRaw(JSON.parse(e)).getPlainText());
@@ -155,12 +167,18 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         questionId: 0,
         userId: JSON.parse(localStorage.getItem("userId")!),
       };
-      let submitToFAQ = await addToFAQ(q, a);
-      console.log(submitToFAQ);
+
+      if(q.title && convertFromRaw(JSON.parse(q.content)).getPlainText() && convertFromRaw(JSON.parse(a.content)).getPlainText()) {
+        let submitToFAQ = await addToFAQ(q, a);
+        console.log(submitToFAQ);
+        props.onSubmit()        
+      }
+     
     } catch (e) {
       console.log(e);
-    }
-    props.onSubmit()
+    } 
+
+    
   };
 
   return (
@@ -195,7 +213,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           />
         </div>
           
-        <FormControlLabel
+        <div style={style.checkbox}>
+          <FormControlLabel
             control={
               <Checkbox
                 checked={revatureBasedQuestion}
@@ -208,7 +227,9 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
             }
             label="This question is specific to Revature"
           />
-          <Box justifyContent="flex-start" display="flex" flexWrap="wrap">
+
+           
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -255,11 +276,14 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
             ) : (
               ""
             )}
-          </Box>
+        </div>
+
+        
+
 
         <div style={style.submit} className="submitParent">
           <Button
-            style={{ color: "black" }}
+            style={style.btn}
             type="submit"
             id="submitFAQButton"
             disabled={false}
