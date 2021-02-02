@@ -19,6 +19,7 @@ const config = {
   measurementId: "G-DP6XDH9DTW"
 };
 
+
 ReactDOM.render(
   <FirebaseAuthProvider {...config} firebase={firebase}>
   <React.StrictMode>
