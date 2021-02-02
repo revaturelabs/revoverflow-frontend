@@ -28,6 +28,7 @@ import { IState } from "../../../reducers";
 import { connect } from "react-redux";
 import { clickTab } from "../../../actions/question.actions";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import { QuestContainerComponent } from "../quest-components/quest-container.component";
 
 const theme = createMuiTheme({
   palette: {
@@ -72,7 +73,7 @@ export interface FeedContainerComponentProps {
 export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
-    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent'>('recent');
+    const [view, setView] = useState<'question' | 'answer' | 'confirm' | 'recent' | 'allQuestions'>('recent');
     const [value, setValue] = React.useState(props.storeTab);
     const userId = (+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
     const admin = (localStorage.getItem("admin"));
@@ -115,6 +116,10 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             tab = 3;
             setView(view)
         }
+        // else if (view === 'allQuestions') {
+        //   tab = 4;
+        //   setView(view)
+        // }
 
          props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
@@ -255,6 +260,14 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                 className={classes.boxInternal}
                 onClick={(e) => load("answer", 0)}
               />
+              {/* <Tab
+                icon={<QuestionAnswerIcon fontSize="large" />}
+                label="ALL QUESTIONS"
+                className={classes.boxInternal}
+                onClick={(e) => load("allQuestions", 0)}
+              /> */}
+                {/* <QuestContainerComponent/>
+              </Tab> */}
               {admin === "true" ? (
                 <Tab
                   icon={

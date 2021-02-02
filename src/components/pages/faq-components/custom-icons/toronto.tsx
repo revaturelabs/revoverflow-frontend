@@ -8,6 +8,14 @@ const style = {
     }
 }
 
+export const AllLocationsIcon = ()=>{
+
+
+    return(
+            <img style={style.icons} alt="AllLocations"  src="./icons/to.png"/>
+    )   
+}
+
 const TorontoIcon = ()=>{
 
 
