@@ -32,7 +32,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
-import { getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { getAllFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { Faq } from "../../../models/faquestion";
 
 const theme = createMuiTheme({
   palette: {
@@ -92,8 +93,8 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
   const history = useHistory();
   const [view, setView] = useState("");
   const [value, setValue] = useState(props.storeTab);
-  const [location, setLocation] = useState("");
   const [open, setOpen] = useState<boolean>(false);
+  const [faqTodisplay, setFAQs] = useState<Array<Faq>>([]);
   const userId = +JSON.parse(JSON.stringify(localStorage.getItem("userId")));
   const admin = localStorage.getItem("admin");
   const size = 10;
@@ -104,9 +105,10 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     
   };
 
-  const handleBreadcrumbChange = (name:any) => {
-    console.log(name)
-    getFAQByLocation(name)
+  const handleBreadcrumbChange = async (name:any) => {
+    let faq = await getFAQByLocation(name)
+    console.log(faq)
+    setFAQs(faq || [])
 
   }
 
@@ -134,14 +136,18 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     let retrievedPageable: any;
     let tab: any;
     if (currentView === "revature") {
-      retrievedPageable = await questionRemote.getAllQuestions(size, page);
+      retrievedPageable = await getAllFAQ();
+      console.log(retrievedPageable)
       tab = 0;
       if (retrievedPageable.numberOfElements === 0) {
+        setFAQs(retrievedPageable)
         return;
       }
+      setFAQs(retrievedPageable)
     } else if (currentView === "location") {
-      retrievedPageable = await questionRemote.getAllQuestions(size, page);
+      retrievedPageable = await getAllFAQ();
       tab = 1;
+      setFAQs(retrievedPageable)
     }
   };
 
@@ -223,6 +229,23 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
                 console.log("")
               )}
               {/* {renderFeedBoxComponents()} */}
+              <label>asldkfjlsajfdk</label>
+
+                {faqTodisplay && faqTodisplay.map(faquestion => {
+                return (
+                    <FeedBoxComponent key={faquestion.userId} question={faquestion.question} questionContent={faquestion.question.content} view={view} />
+                )})}
+
+
+
+
+
+
+
+
+
+
+
             </Box>
           </div>
           <Box display="flex" justifyContent="center" padding={5}>
