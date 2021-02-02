@@ -3,32 +3,25 @@
  * @author Keith Salzman
  */
 
-import React, { useState } from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import {
-  Container,
-  createMuiTheme,
-  ThemeProvider,
-  Box,
-  Button,
-  makeStyles,
-} from "@material-ui/core";
-import FeedBoxComponent from "./feed-box.component";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import DynamicFeedOutlinedIcon from "@material-ui/icons/DynamicFeedOutlined";
-import ConfirmationNumberOutlinedIcon from "@material-ui/icons/ConfirmationNumberOutlined";
-import Pagination from "@material-ui/lab/Pagination";
-import { BreadcrumbBarComponent } from "../breadcrumb-bar.component";
-import { useHistory } from "react-router";
-import * as answerRemote from "../../../remotes/answer.remote";
-import * as questionRemote from "../../../remotes/question.remote";
-import { Question } from "../../../models/question";
-import { IState } from "../../../reducers";
-import { connect } from "react-redux";
-import { clickTab } from "../../../actions/question.actions";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import { QuestContainerComponent } from "../quest-components/quest-container.component";
+import React, { useState } from 'react';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { Container, createMuiTheme, ThemeProvider, Box, Button, makeStyles } from '@material-ui/core';
+import FeedBoxComponent from './feed-box.component';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import DynamicFeedOutlinedIcon from '@material-ui/icons/DynamicFeedOutlined';
+import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined';
+import Pagination from '@material-ui/lab/Pagination';
+import { BreadcrumbBarComponent } from '../breadcrumb-bar.component';
+import { useHistory } from 'react-router';
+import * as answerRemote from '../../../remotes/answer.remote';
+import * as questionRemote from '../../../remotes/question.remote';
+import { Question } from '../../../models/question';
+import { IState } from '../../../reducers';
+import { connect } from 'react-redux';
+import { clickTab } from '../../../actions/question.actions';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import protectComponent from '../../protected-route/UserAuthRoute'
 
 const theme = createMuiTheme({
   palette: {
@@ -116,62 +109,9 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
             tab = 3;
             setView(view)
         }
-        // else if (view === 'allQuestions') {
-        //   tab = 4;
-        //   setView(view)
-        // }
 
          props.clickTab(retrievedPageable.content, tab, retrievedPageable.totalPages, retrievedPageable.number);
     }
-
-
-  // /**
-  //  * Populates the feed with answers or questions according to the particular view and page input.
-  //  * @param view string variable that dictates what is displayed in the rendered feed box components
-  //  * @param page number variable that describes which page to display form the paginated information recieved from the server
-  //  */
-  // const load = async (view: string, page: number) => {
-  //   let retrievedPageable: any;
-  //   let tab: any;
-  //   if (view === "recent") {
-  //     retrievedPageable = await questionRemote.getAllQuestions(size, page);
-  //     tab = 0;
-  //     setView(view);
-  //     if (retrievedPageable.numberOfElements === 0) {
-  //       return;
-  //     }
-  //   } else if (view === "question") {
-  //     retrievedPageable = await questionRemote.getQuestionsByUserId(
-  //       userId,
-  //       size,
-  //       page
-  //     );
-  //     tab = 1;
-  //     setView(view);
-  //   } else if (view === "answer") {
-  //     retrievedPageable = await answerRemote.getAnswersByUserId(
-  //       userId,
-  //       size,
-  //       page
-  //     );
-  //     tab = 2;
-  //     setView(view);
-  //   } else if (view === "confirm") {
-  //     retrievedPageable = await questionRemote.getUnconfirmedQuestions(
-  //       size,
-  //       page
-  //     );
-  //     tab = 3;
-  //     setView(view);
-  //   }
-
-  //   props.clickTab(
-  //     retrievedPageable.content,
-  //     tab,
-  //     retrievedPageable.totalPages,
-  //     retrievedPageable.number
-  //   );
-  // };
 
   if (props.storeQuestions.length === 0 && view === "recent") {
     load("recent", 0);
@@ -260,14 +200,6 @@ export const FeedContainerComponent: React.FC<FeedContainerComponentProps> = (pr
                 className={classes.boxInternal}
                 onClick={(e) => load("answer", 0)}
               />
-              {/* <Tab
-                icon={<QuestionAnswerIcon fontSize="large" />}
-                label="ALL QUESTIONS"
-                className={classes.boxInternal}
-                onClick={(e) => load("allQuestions", 0)}
-              /> */}
-                {/* <QuestContainerComponent/>
-              </Tab> */}
               {admin === "true" ? (
                 <Tab
                   icon={
@@ -318,7 +250,4 @@ const mapDispatchToProps = {
   clickTab,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FeedContainerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(protectComponent(FeedContainerComponent));
