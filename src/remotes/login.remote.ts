@@ -4,10 +4,8 @@
  */
 
 import { authAxios, internalAxios } from './internal.axios';
-import { user } from '../models/user';
 
-export const getUserById = async (id: number) => {
-    const response = await authAxios.get<user>(`/user/${id}`);
-    console.log("login Remote")
+export const getUserById = async (email: string | null) => {
+    const response = await authAxios.get(`/user/${email}/points`);
     return response;
 }

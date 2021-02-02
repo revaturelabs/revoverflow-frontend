@@ -36,7 +36,7 @@ import { useHistory } from "react-router";
 import { Menu, MenuItem, Box } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import * as loginRemote from '../remotes/login.remote'
-
+import firebase from "firebase/app";
 
 
 const drawerWidth = 240;
@@ -187,7 +187,13 @@ export const NavbarComponent: React.FC<any> = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    localStorage.removeItem("accessToken");
+    firebase.auth().signOut().then(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("email");
+      localStorage.removeItem("points");
+    }).catch((error) => {
+      alert('Error Occured while trying to logout')
+    })
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -228,7 +234,7 @@ export const NavbarComponent: React.FC<any> = (props) => {
 
     if (gettingPoints) {
       try {
-        const response = await loginRemote.getUserById(+JSON.parse(JSON.stringify(localStorage.getItem('userId'))));
+        const response = await loginRemote.getUserById(localStorage.getItem('email'));
       localStorage.setItem('points', JSON.stringify(response.data.points));
       } catch {
         alert('Couldnt retrieve points')
