@@ -61,7 +61,19 @@ export const getAllLocationQuestions = async (size: number, page: number ) => {
     return response.data;
 }
 
+export const getAllRevatureAndLocationQuestions = async (size: number, page: number ) => {
+    const response = await authAxios.get<Question[]>(`/questions/location/revature?&size=${size}&page=${page}`);
+    return response.data;
+}
+
 export const getQuestionsByLocationId = async (size: number, page: number, id?: number) => {
     const response = await authAxios.get<Question[]>(`/questions/location/${id}?size=${size}&page=${page}`);
+    return response.data;
+}
+
+export const getQuestionsByRevatureAndLocationId = async (size: number, page: number, revature: boolean, id?: number) => {
+    console.log("this method is being called 2")
+    const response = await authAxios.get<Question[]>(`/questions/location/${id}/${revature}?size=${size}&page=${page}`);
+    console.log(response.data)
     return response.data;
 }

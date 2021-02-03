@@ -100,70 +100,43 @@ export const QuestContainerComponent: React.FC<QuestContainerComponentProps> = (
         console.log("revature: " + revature)
         console.log("location: " + location)
 
-        // if (location) {
-
-        //     if (locationID === 1) {
-        //         retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 2) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 2);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 3) {
-        //         // retrievedPageable = null;
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 3);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //alert("There are no Toronto specific questions")
-        //         }
-        //     } else if (locationID === 4) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 4);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 5) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 5);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 6) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 6);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 7) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 7);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else if (locationID === 8) {
-        //         retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 8);
-        //         if (retrievedPageable.numberOfElements === 0) {
-        //             //return;
-        //         }
-        //     } else {
-        //         return;
-        //     }
-
-        // } 
-
-
-
-
         if (revature) {
+
             if (!location) {
+
                 retrievedPageable = await questionRemote.getAllRevatureQuestions(size, page, true);
-                //tab = 0; 
+
                 if (retrievedPageable.numberOfElements === 0) {
                     return;
                 }
+
             } else {
 
+                if (locationID === 1) {
+                    retrievedPageable = await questionRemote.getAllRevatureAndLocationQuestions(size, page);
 
-                retrievedPageable = await questionRemote.getAllQuestions(userId, page);
-                if (retrievedPageable.numberOfElements === 0) {
+                } else if (locationID === 2) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 2);
+
+                } else if (locationID === 3) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 3);
+
+                } else if (locationID === 4) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 4);
+
+                } else if (locationID === 5) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 5);
+
+                } else if (locationID === 6) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 6);
+
+                } else if (locationID === 7) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 7);
+
+                } else if (locationID === 8) {
+                    retrievedPageable = await questionRemote.getQuestionsByRevatureAndLocationId(size, page, true, 8);
+
+                } else {
                     return;
                 }
             }
@@ -172,45 +145,28 @@ export const QuestContainerComponent: React.FC<QuestContainerComponentProps> = (
 
                 if (locationID === 1) {
                     retrievedPageable = await questionRemote.getAllLocationQuestions(size, page);
-                    if (retrievedPageable.numberOfElements === 0) {
-                    //return;
-                    }
-                } else if (locationID === 2){
+
+                } else if (locationID === 2) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 2);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
-                } else if (locationID === 3){
-                    // retrievedPageable = null;
+
+                } else if (locationID === 3) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 3);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //alert("There are no Toronto specific questions")
-                    }
-                } else if (locationID === 4){
+
+                } else if (locationID === 4) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 4);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
-                } else if (locationID === 5){
+
+                } else if (locationID === 5) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 5);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
-                } else if (locationID === 6){
+
+                } else if (locationID === 6) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 6);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
-                } else if (locationID === 7){
+
+                } else if (locationID === 7) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 7);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
-                } else if (locationID === 8){
+
+                } else if (locationID === 8) {
                     retrievedPageable = await questionRemote.getQuestionsByLocationId(size, page, 8);
-                    if (retrievedPageable.numberOfElements === 0) {
-                        //return;
-                    }
+
                 } else {
                     return;
                 }
