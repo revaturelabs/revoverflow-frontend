@@ -32,7 +32,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { CustomizedBreadcrumbs } from "./BreadCrumbs";
 import { AddFAQComponent } from "./add-faq-component";
-import { getRevatureBasedFAQ, getFAQByLocation } from "../../../remotes/faquestion.remote";
+import { getRevatureBasedFAQ, getFAQByLocation, getAllFAQ } from "../../../remotes/faquestion.remote";
 import { Faq } from "../../../models/faquestion";
 import { FaqBoxComponent } from "./faq-box.component";
 
@@ -141,7 +141,7 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
     let tab: any;
     
     if (currentView === "revature") {
-      retrievedPageable = await getRevatureBasedFAQ();
+      retrievedPageable = await getAllFAQ();
       console.log(retrievedPageable)
       tab = 0;
       if (retrievedPageable.numberOfElements === 0) {
@@ -225,7 +225,6 @@ export const FaqContainerComponent: React.FC<FeedContainerComponentProps> = (
 
           <div style={{ width: "100%" }}>
             <Box display="flex" flexDirection="column" justifyContent="center">
-              {console.log("")}
               {(getView() === "location" )? (
                 <>
                 <CustomizedBreadcrumbs handleLocationClick={handleBreadcrumbChange} />
