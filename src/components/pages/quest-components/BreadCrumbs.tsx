@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
   babyCrumb: {
     // flexGrow:"1"
-    margin: "1.5rem",
+    margin: "1rem 0.5rem",
 
   },
   crumbIcon: {
