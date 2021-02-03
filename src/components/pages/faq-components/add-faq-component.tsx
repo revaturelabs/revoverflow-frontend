@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, FormControlLabel, Menu, MenuItem } from "@material-ui/core";
+import { Box, Button, Card, Checkbox, FormControlLabel, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { ContentState, convertFromRaw } from "draft-js";
 import React, { useState, useEffect } from "react";
 import { Answer } from "../../../models/answer";
@@ -7,8 +7,9 @@ import {Location} from "../../../models/location"
 import { addToFAQ, getAllFAQ } from "../../../remotes/faquestion.remote";
 import { getLocations } from "../../../remotes/location.remote";
 import { RichTextBoxComponent } from "../../rich-text-box-component";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-const style = {
+const useStyles = makeStyles({
   card: {
     width: "60vw",
     height: "auto",
@@ -63,8 +64,12 @@ const style = {
     margin: "1.5rem",
     width: "100%",
     textAlign: "center" as "center"
+  },
+  locationDropdownButton: {
+    color: "#3498db",
+    borderColor: "#3498db"
   }
-};
+});
 
 //pass in if there is no default question
 export interface AddFAQComponentProps {
@@ -75,6 +80,7 @@ export interface AddFAQComponentProps {
 export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   const [questionTitle, setQuestionTitle] = useState<string>(props.defaultQuestion?props.defaultQuestion.title:'');
   const [questionBody, setQuestionBody] = useState<string>(props.defaultQuestion?props.defaultQuestion.content:'');
+  const classes = useStyles();
   const [answer, setAnswer] = useState<string>("");
   const [defaultQuestionProvided, setDefaultQuestionProvided] = useState<boolean>(false);
   const [locations, setLocations] = useState(new Array<any>());
@@ -189,10 +195,10 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
   };
 
   return (
-    <Card style={style.card} onClick={(e) => e.stopPropagation()}>
+    <Card className={classes.card} onClick={(e) => e.stopPropagation()}>
       <form id="addFAQForm" onSubmit={submitFAQ}>
-        <div className="cardBoxes" style={style.cardBoxes1}>
-          <p style={style.label}>TITLE</p>
+        <div className={classes.cardBoxes1}>
+          <p className={classes.label}>TITLE</p>
           <RichTextBoxComponent
             defaultText={props.defaultQuestion?.title}
             id="questionTitleInput"
@@ -201,8 +207,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           />
         </div>
 
-        <div className="cardBoxes" style={style.cardBoxes2}>
-          <p style={style.label}>BODY</p>
+        <div className={classes.cardBoxes2}>
+          <p className={classes.label}>BODY</p>
           <RichTextBoxComponent
             defaultText={props.defaultQuestion?.content}
             placeholder={"Describe your question here"}
@@ -210,8 +216,8 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
             handleChange={handleQuestionBodyChange}
           />
         </div>
-        <div className="cardBoxes" style={style.cardBoxes3}>
-          <p style={style.label}>ANSWER</p>
+        <div className={classes.cardBoxes3}>
+          <p className={classes.label}>ANSWER</p>
 
           <RichTextBoxComponent
             id="answerInput"
@@ -220,7 +226,7 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
           />
         </div>
           
-        <div style={style.checkbox}>
+        <div className={classes.checkbox}>
           <FormControlLabel
             control={
               <Checkbox
@@ -256,8 +262,10 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
                   id="location-dropdown-button"
                   aria-haspopup="true"
                   onClick={handleClick}
+                  variant="outlined"
+                  className={classes.locationDropdownButton}
                 >
-                  {currentLocation.locationName}
+                  {currentLocation.locationName}  <ArrowDropDownIcon />
                 </Button>
 
                 <Menu
@@ -288,9 +296,9 @@ export const AddFAQComponent: React.FC<AddFAQComponentProps> = (props) => {
         
 
 
-        <div style={style.submit} className="submitParent">
+        <div className={classes.submit}>
           <Button
-            style={style.btn}
+            className={classes.btn}
             type="submit"
             id="submitFAQButton"
             disabled={false}
