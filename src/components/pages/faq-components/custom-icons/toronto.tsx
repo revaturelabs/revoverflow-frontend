@@ -12,7 +12,7 @@ export const AllLocationsIcon = ()=>{
 
 
     return(
-            <img style={style.icons} alt="AllLocations"  src="./icons/to.png"/>
+            <img style={style.icons} alt="AllLocations"  src="./icons/all.png"/>
     )   
 }
 
